@@ -1,0 +1,167 @@
+import React from "react";
+import type { ProjectItem } from "../data/projects";
+import { Modal } from "../components/ui/Modal";
+import { MagneticButton } from "../components/ui/MagneticButton";
+import { CheckCircle2, Sparkles, ArrowRight, ShieldCheck, Layers, ExternalLink } from "lucide-react";
+
+interface ProjectModalProps {
+  project: ProjectItem | null;
+  isOpen: boolean;
+  onClose: () => void;
+  onDiscussProject: (projectTitle: string) => void;
+}
+
+export const ProjectModal: React.FC<ProjectModalProps> = ({
+  project,
+  isOpen,
+  onClose,
+  onDiscussProject
+}) => {
+  if (!project) return null;
+
+  const handleDiscuss = () => {
+    onDiscussProject(`Inquiry regarding project architecture similar to: ${project.title}`);
+    onClose();
+    const bookSection = document.getElementById("book-call");
+    if (bookSection) {
+      bookSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} title={project.title} maxWidth="max-w-3xl">
+      <div className="space-y-6">
+        {/* Subtitle & Badge */}
+        <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800 text-xs">
+          <span className="text-slate-300 font-medium">{project.subtitle}</span>
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-mono">
+              {project.badge}
+            </span>
+            <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono uppercase">
+              {project.category}
+            </span>
+          </div>
+        </div>
+
+        {/* Visual Showcase with Real Project Mockup */}
+        <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden bg-slate-950 border border-slate-700/80 shadow-2xl group">
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-black/30 pointer-events-none" />
+
+          {/* Floating badge & External full preview button */}
+          <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
+            <div className="bg-slate-950/85 backdrop-blur-md px-4 py-2.5 rounded-lg border border-amber-500/20 shadow-lg">
+              <span className="font-mono text-[10px] text-amber-300 uppercase tracking-widest block mb-0.5">
+                {project.category} &bull; {project.badge}
+              </span>
+              <h3 className="text-lg sm:text-xl font-black font-heading text-white">
+                {project.title}
+              </h3>
+            </div>
+
+            <a
+              href={project.image}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-2 rounded-lg bg-black/80 hover:bg-amber-500/20 text-xs font-mono text-amber-300 border border-amber-500/40 backdrop-blur-md inline-flex items-center gap-1.5 transition-colors shadow-lg cursor-pointer"
+            >
+              <span>Full View</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        </div>
+
+        {/* Overview */}
+        <div>
+          <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-1">
+            Project Overview
+          </h4>
+          <p className="text-sm text-slate-300 leading-relaxed">
+            {project.overview}
+          </p>
+        </div>
+
+        {/* Challenge & Solution Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+            <h5 className="text-xs font-mono uppercase tracking-wider text-rose-400 mb-1.5 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+              The Business Challenge
+            </h5>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              {project.challenge}
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+            <h5 className="text-xs font-mono uppercase tracking-wider text-amber-400 mb-1.5 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]" />
+              Engineered Solution
+            </h5>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              {project.solution}
+            </p>
+          </div>
+        </div>
+
+        {/* Key Features */}
+        <div>
+          <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2.5 flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-amber-400" />
+            <span>Key Functional Highlights</span>
+          </h4>
+          <ul className="space-y-2">
+            {project.keyFeatures.map((feat, idx) => (
+              <li key={idx} className="flex items-start gap-2.5 p-2 rounded-lg bg-slate-900/40 border border-slate-800/60 text-xs text-slate-300">
+                <span className="w-1 h-1 rounded-full bg-amber-400 mt-1.5 shrink-0 shadow-[0_0_4px_#f59e0b]" />
+                <span>{feat}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Technology Stack Tags */}
+        <div>
+          <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-2 flex items-center gap-1.5">
+            <Layers className="w-3.5 h-3.5 text-yellow-400" />
+            <span>Technologies Employed</span>
+          </h4>
+          <div className="flex flex-wrap gap-1.5">
+            {project.technologies.map((t) => (
+              <span
+                key={t}
+                className="px-2.5 py-1 rounded text-xs font-mono bg-slate-800/80 text-slate-300 border border-slate-700/60"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Footer Action */}
+        <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-xs text-slate-400">
+            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <span>Fully customizable codebase with complete IP transfer</span>
+          </div>
+
+          <MagneticButton
+            variant="gold"
+            onClick={handleDiscuss}
+            className="w-full sm:w-auto !py-2.5 !px-6 text-xs font-bold"
+            cursorLabel="DISCUSS"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-slate-950" />
+            <span>Discuss Similar Project</span>
+            <ArrowRight className="w-3.5 h-3.5 text-slate-950" />
+          </MagneticButton>
+        </div>
+      </div>
+    </Modal>
+  );
+};

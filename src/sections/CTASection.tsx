@@ -1,0 +1,75 @@
+import React from "react";
+import { MagneticButton } from "../components/ui/MagneticButton";
+import { Badge } from "../components/ui/Badge";
+import { TypewriterText } from "../components/ui/TypewriterText";
+import { ArrowRight, ShieldCheck, Calendar, Sparkles } from "lucide-react";
+
+export const CTASection: React.FC = () => {
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <section className="py-24 sm:py-32 relative z-10 bg-transparent border-t border-amber-500/10 overflow-hidden">
+      {/* Background ambient lighting */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-amber-600/15 via-yellow-600/10 to-amber-600/15 rounded-full blur-[140px] pointer-events-none" />
+
+      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="mb-6 flex justify-center">
+          <Badge variant="gold">INITIALIZE YOUR ARCHITECTURE</Badge>
+        </div>
+
+        <h2 className="text-4xl sm:text-5xl md:text-6xl font-black font-heading text-white tracking-tight mb-6 leading-tight">
+          LET&apos;S BUILD SOMETHING{" "}
+          <TypewriterText
+            text="EXTRAORDINARY."
+            className="bg-gradient-to-r from-[#F4E4BC] via-[#D4AF37] to-[#E6C364] bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(212,175,55,0.25)]"
+          />
+        </h2>
+
+        <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+          Have an ambitious idea, legacy system to modernize, or high-volume business dataset to untangle? Let&apos;s engineer a scalable, durable digital solution.
+        </p>
+
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <MagneticButton
+            variant="gold"
+            onClick={() => scrollToSection("book-call")}
+            className="!px-8 !py-4 text-sm font-bold shadow-[0_0_30px_rgba(245,158,11,0.35)]"
+            cursorLabel="CALL"
+          >
+            <Calendar className="w-4 h-4 text-slate-950" />
+            <span>Book a Discovery Call</span>
+          </MagneticButton>
+
+          <MagneticButton
+            variant="secondary"
+            onClick={() => scrollToSection("contact")}
+            className="!px-8 !py-4 text-sm font-semibold !border-amber-500/30 hover:!border-amber-400/80 hover:!text-amber-200"
+            cursorLabel="INQUIRE"
+          >
+            <span>Send Direct Enquiry</span>
+            <ArrowRight className="w-4 h-4 text-amber-400" />
+          </MagneticButton>
+        </div>
+
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400 font-mono">
+          <span className="flex items-center gap-1.5">
+            <ShieldCheck className="w-4 h-4 text-amber-400" />
+            100% Client IP Ownership
+          </span>
+          <span>&bull;</span>
+          <span className="flex items-center gap-1.5">
+            <Sparkles className="w-4 h-4 text-yellow-400" />
+            Guaranteed 12h Response
+          </span>
+          <span>&bull;</span>
+          <span className="text-slate-300">
+            Founded by Amit Halder
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+};
