@@ -2,6 +2,7 @@ import React from "react";
 import type { ProjectItem } from "../data/projects";
 import { Modal } from "../components/ui/Modal";
 import { MagneticButton } from "../components/ui/MagneticButton";
+import { PortfolioImage } from "../components/ui/PortfolioImage";
 import { CheckCircle2, Sparkles, ArrowRight, ShieldCheck, Layers, ExternalLink } from "lucide-react";
 
 interface ProjectModalProps {
@@ -46,9 +47,15 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
 
         {/* Visual Showcase with Real Project Mockup */}
         <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden bg-[#07080f] border border-slate-700/80 shadow-2xl group">
-          <img
+          <PortfolioImage
             src={project.image}
             alt={project.title}
+            isPriority={true}
+            platform={project.platform}
+            fallbackTitle={project.title}
+            fallbackBadge={project.badge}
+            width={1200}
+            height={750}
             className={`w-full h-full ${
               project.platform ? "object-contain bg-[#07080f]" : "object-cover object-top"
             } transition-transform duration-700 group-hover:scale-[1.02]`}

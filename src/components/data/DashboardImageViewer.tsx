@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 import type { DashboardItem } from "../../data/dashboards";
+import { PortfolioImage } from "../ui/PortfolioImage";
 import { useCursor } from "../../context/useCursor";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -110,9 +111,14 @@ export const DashboardImageViewer: React.FC<DashboardImageViewerProps> = ({
 
         {/* Dashboard Image Display */}
         <div className="relative max-w-full max-h-[80vh] flex items-center justify-center">
-          <img
+          <PortfolioImage
             src={currentItem.image}
             alt={currentItem.title}
+            isPriority={true}
+            fallbackTitle={currentItem.title}
+            fallbackBadge={currentItem.category === "excel" ? "Excel" : "Power BI"}
+            width={1200}
+            height={800}
             className="max-w-full max-h-[78vh] object-contain rounded-xl border border-amber-500/25 shadow-[0_0_50px_rgba(0,0,0,0.9),0_0_30px_rgba(245,158,11,0.15)]"
           />
         </div>

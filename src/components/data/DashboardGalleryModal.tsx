@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { DashboardItem } from "../../data/dashboards";
 import { DashboardImageViewer } from "./DashboardImageViewer";
+import { PortfolioImage } from "../ui/PortfolioImage";
 import { useCursor } from "../../context/useCursor";
 import { X, Sparkles, Eye, ArrowUpRight, BarChart3, FileSpreadsheet } from "lucide-react";
 
@@ -138,10 +139,12 @@ export const DashboardGalleryModal: React.FC<DashboardGalleryModalProps> = ({
                 >
                   {/* Image Frame */}
                   <div className="relative aspect-[16/10] overflow-hidden bg-black/40">
-                    <img
+                    <PortfolioImage
                       src={item.image}
                       alt={item.title}
-                      loading="lazy"
+                      isPriority={index < 3}
+                      fallbackTitle={item.title}
+                      fallbackBadge={item.category === "excel" ? "Excel" : "Power BI"}
                       className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     />
 

@@ -5,6 +5,7 @@ import { excelDashboards, powerBIDashboards } from "../data/dashboards";
 import { DashboardGalleryModal } from "../components/data/DashboardGalleryModal";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { ProjectModal } from "./ProjectModal";
+import { PortfolioImage } from "../components/ui/PortfolioImage";
 import { useCursor } from "../context/useCursor";
 import {
   ArrowUpRight,
@@ -104,11 +105,13 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
       <div>
         {/* Visual Header Representation */}
         <div className="w-full h-36 sm:h-40 relative overflow-hidden bg-slate-950 border-b border-slate-800/80 group-hover:border-emerald-400/40 transition-colors">
-          <img
+          <PortfolioImage
             src={excelDashboards[0]?.image || "/images/dashboards/excel/excel-dashboard-1.webp"}
             alt="Advanced Excel Dashboards & Analytics"
-            loading="lazy"
+            isPriority={true}
             className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+            fallbackTitle="Excel Solutions"
+            fallbackBadge="Data & BI"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#06070d] via-[#06070d]/30 to-transparent pointer-events-none" />
 
@@ -194,11 +197,13 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
       <div>
         {/* Visual Header Representation */}
         <div className="w-full h-36 sm:h-40 relative overflow-hidden bg-slate-950 border-b border-slate-800/80 group-hover:border-amber-400/40 transition-colors">
-          <img
+          <PortfolioImage
             src={powerBIDashboards[0]?.image || "/images/dashboards/powerbi/powerbi-dashboard-1.webp"}
             alt="Business Intelligence & Data Visualization"
-            loading="lazy"
+            isPriority={true}
             className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+            fallbackTitle="Power BI Intelligence"
+            fallbackBadge="Data & BI"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#06070d] via-[#06070d]/30 to-transparent pointer-events-none" />
 
@@ -270,7 +275,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
   // ============================================================
   // CARD 3: PROJECT & MOBILE APP CARD (Compact Medium Card)
   // ============================================================
-  const renderProjectCard = (project: ProjectItem) => (
+  const renderProjectCard = (project: ProjectItem, index: number) => (
     <div
       key={project.id}
       onClick={() => setSelectedProject(project)}
@@ -287,10 +292,13 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
       <div>
         {/* Visual Header Representation with Real Project / App Mockup */}
         <div className="w-full h-36 sm:h-40 relative overflow-hidden bg-slate-950 border-b border-slate-800/80 group-hover:border-amber-400/40 transition-colors">
-          <img
+          <PortfolioImage
             src={project.image}
             alt={`${project.title} - ${project.subtitle}`}
-            loading="lazy"
+            isPriority={index < 4}
+            platform={project.platform}
+            fallbackTitle={project.title}
+            fallbackBadge={project.badge}
             className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
           />
 
@@ -411,14 +419,14 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
 
         {/* Unified 4-Column Responsive Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-4.5 xl:gap-5 animate-in fade-in duration-300">
-          {workItems.map((item) => {
+          {workItems.map((item, index) => {
             if (item.type === "excel") {
               return renderExcelCard();
             }
             if (item.type === "powerbi") {
               return renderPowerBICard();
             }
-            return renderProjectCard(item.data);
+            return renderProjectCard(item.data, index);
           })}
         </div>
       </div>
