@@ -20,6 +20,7 @@ export const Navbar: React.FC = () => {
     "about",
     "process",
     "why-zynova",
+    "gives-back",
     "contact"
   ];
 
@@ -32,6 +33,7 @@ export const Navbar: React.FC = () => {
     { name: "Projects", href: "#projects", id: "projects" },
     { name: "About", href: "#about", id: "about" },
     { name: "Process", href: "#process", id: "process" },
+    { name: "Give Back", href: "#gives-back", id: "gives-back" },
     { name: "Contact", href: "#contact", id: "contact" }
   ];
 

@@ -5,6 +5,7 @@ import { ENV } from "./config/env.js";
 import healthRouter from "./routes/health.js";
 import contactRouter from "./routes/contact.js";
 import bookingsRouter from "./routes/bookings.js";
+import donationsRouter from "./routes/donations.js";
 import adminRouter from "./routes/admin.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
@@ -36,6 +37,8 @@ app.get("/", (_req, res) => {
       health: "/api/health",
       contact: "POST /api/contact",
       bookings: "POST /api/bookings",
+      donations: "POST /api/donations",
+      transparency: "GET /api/donations/transparency",
       admin: "/api/admin (Protected)"
     }
   });
@@ -45,6 +48,7 @@ app.get("/", (_req, res) => {
 app.use("/api/health", healthRouter);
 app.use("/api/contact", contactRouter);
 app.use("/api/bookings", bookingsRouter);
+app.use("/api/donations", donationsRouter);
 app.use("/api/admin", adminRouter);
 
 // Centralized error handler

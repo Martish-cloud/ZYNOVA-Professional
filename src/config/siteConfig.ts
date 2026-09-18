@@ -111,6 +111,7 @@ export const siteConfig: SiteConfig = {
     { name: "About", href: "#about" },
     { name: "Process", href: "#process" },
     { name: "Why Us", href: "#why-zynova" },
+    { name: "Give Back", href: "#gives-back" },
     { name: "Contact", href: "#contact" }
   ]
 };

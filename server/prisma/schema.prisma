@@ -34,3 +34,35 @@ model DiscoveryBooking {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
+
+model Donation {
+  id                   String   @id @default(uuid())
+  donorName            String?  @default("Anonymous")
+  donorEmail           String?
+  amount               Float
+  currency             String   @default("INR")
+  transactionReference String
+  paymentMethod        String   @default("UPI")
+  paymentStatus        String   @default("pending")
+  anonymous            Boolean  @default(false)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model MonthlyDistribution {
+  id                         String    @id @default(uuid())
+  month                      String
+  totalVerifiedContributions Float     @default(0)
+  processingFees             Float     @default(0)
+  refunds                    Float     @default(0)
+  amountAvailable            Float     @default(0)
+  amountDistributed          Float     @default(0)
+  recipientName              String?
+  recipientDetails           String?
+  cause                      String?
+  distributionDate           DateTime?
+  documentationURL           String?
+  published                  Boolean   @default(false)
+  createdAt                  DateTime  @default(now())
+  updatedAt                  DateTime  @updatedAt
+}

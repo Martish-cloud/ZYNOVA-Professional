@@ -15,6 +15,7 @@ import { Process } from "./sections/Process";
 import { Platforms } from "./sections/Platforms";
 import { CTASection } from "./sections/CTASection";
 import { BookCall } from "./sections/BookCall";
+import { ZynovaGivesBack } from "./sections/ZynovaGivesBack";
 import { Contact } from "./sections/Contact";
 import { Footer } from "./components/layout/Footer";
 import { FloatingWhatsApp } from "./components/ui/FloatingWhatsApp";
@@ -107,6 +108,9 @@ export const App: React.FC = () => {
             prefilledBrief={prefilledBrief}
             onSuccess={(title, desc) => showToast(title, desc, "success")}
           />
+
+          {/* ZYNOVA GIVES BACK Charity & Community Section */}
+          <ZynovaGivesBack />
 
           {/* Direct Contact Form */}
           <Contact

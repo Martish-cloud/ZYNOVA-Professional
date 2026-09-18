@@ -22,3 +22,35 @@ export const discoveryBookingSchema = z.object({
 
 export type ContactInquiryInput = z.infer<typeof contactInquirySchema>;
 export type DiscoveryBookingInput = z.infer<typeof discoveryBookingSchema>;
+
+export const donationSchema = z.object({
+  donorName: z.string().trim().max(100, "Name is too long").optional().default("Anonymous"),
+  donorEmail: z.string().trim().email("Invalid email address").optional().or(z.literal("")),
+  amount: z.coerce.number().min(5, "Minimum contribution is ₹5"),
+  currency: z.string().trim().default("INR"),
+  transactionReference: z.string().trim().min(3, "Transaction / UTR reference ID is required").max(100, "Reference is too long"),
+  paymentMethod: z.string().trim().default("UPI"),
+  anonymous: z.boolean().optional().default(false)
+});
+
+export const updateDonationStatusSchema = z.object({
+  paymentStatus: z.enum(["pending", "verified", "failed", "refunded"])
+});
+
+export const monthlyDistributionSchema = z.object({
+  month: z.string().trim().min(1, "Month identifier is required"),
+  totalVerifiedContributions: z.coerce.number().min(0).default(0),
+  processingFees: z.coerce.number().min(0).default(0),
+  refunds: z.coerce.number().min(0).default(0),
+  amountAvailable: z.coerce.number().min(0).default(0),
+  amountDistributed: z.coerce.number().min(0).default(0),
+  recipientName: z.string().trim().optional(),
+  recipientDetails: z.string().trim().optional(),
+  cause: z.string().trim().optional(),
+  distributionDate: z.string().datetime().optional().nullable(),
+  documentationURL: z.string().trim().url("Invalid documentation URL").optional().or(z.literal("")),
+  published: z.boolean().default(false)
+});
+
+export type DonationInput = z.infer<typeof donationSchema>;
+export type MonthlyDistributionInput = z.infer<typeof monthlyDistributionSchema>;
