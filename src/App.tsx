@@ -17,6 +17,7 @@ import { CTASection } from "./sections/CTASection";
 import { BookCall } from "./sections/BookCall";
 import { Contact } from "./sections/Contact";
 import { Footer } from "./components/layout/Footer";
+import { FloatingWhatsApp } from "./components/ui/FloatingWhatsApp";
 import { GlobalVideoBackground } from "./components/layout/GlobalVideoBackground";
 import { Toast } from "./components/ui/Toast";
 import type { ToastMessage } from "./components/ui/Toast";
@@ -115,6 +116,9 @@ export const App: React.FC = () => {
 
         {/* Agency Dark Footer */}
         <Footer />
+
+        {/* Floating WhatsApp Quick Action Button */}
+        <FloatingWhatsApp />
 
         {/* Feedback Toast */}
         <Toast toast={activeToast} onDismiss={() => setActiveToast(null)} />

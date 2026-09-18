@@ -7,13 +7,18 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "npm --prefix server run dev",
+    "server:build": "npm --prefix server run build",
+    "server:start": "npm --prefix server run start",
+    "server:studio": "npm --prefix server run prisma:studio"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "canvas-confetti": "^1.9.4",
     "framer-motion": "^13.4.0",
     "lucide-react": "^1.47.0",
+    "qrcode.react": "^4.2.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },

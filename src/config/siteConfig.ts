@@ -2,6 +2,11 @@ export interface SiteConfig {
   brandName: string;
   tagline: string;
   positioning: string;
+  email: string;
+  phone: string;
+  phoneTel: string;
+  location: string;
+  whatsappGroupURL: string;
   founder: {
     name: string;
     role: string;
@@ -17,11 +22,20 @@ export interface SiteConfig {
   contact: {
     email: string;
     phone: string;
+    phoneTel: string;
     location: string;
     responseGuarantee: string;
+    whatsappGroupURL: string;
     formSubmitEndpoint: string;
+    contactApi: string;
+    bookingApi: string;
   };
   bookingURL: string;
+  fiverrURL: string;
+  freelancerURL: string;
+  truelancerURL: string;
+  peoplePerHourURL: string;
+  upworkURL: string;
   freelancePlatforms: {
     fiverr: string;
     freelancer: string;
@@ -42,6 +56,11 @@ export const siteConfig: SiteConfig = {
   brandName: "ZYNOVA",
   tagline: "BUILD. AUTOMATE. SCALE.",
   positioning: "Premium Digital Solutions & Software Development",
+  email: "team.zynova@gmail.com",
+  phone: "+91 70036 60883",
+  phoneTel: "+917003660883",
+  location: "West Bengal, India",
+  whatsappGroupURL: "https://chat.whatsapp.com/invite/zynova",
   founder: {
     name: "Amit Halder",
     role: "Founder & Technology Specialist",
@@ -49,19 +68,28 @@ export const siteConfig: SiteConfig = {
     bio: "Engineering high-performance digital products, intelligent automation workflows, and actionable business intelligence for forward-thinking enterprises."
   },
   metrics: {
-    responseTime: "12 Hours",
+    responseTime: "Within 12 Hours",
     industriesServed: "8+",
     projectsServed: "35+",
     clientOwnership: "100%"
   },
   contact: {
     email: "team.zynova@gmail.com",
-    phone: "+91 (Connect via Discovery Call)",
+    phone: "+91 70036 60883",
+    phoneTel: "+917003660883",
     location: "West Bengal, India",
-    responseGuarantee: "Response within 12 Hours",
-    formSubmitEndpoint: "https://formsubmit.co/ajax/team.zynova@gmail.com"
+    responseGuarantee: "Within 12 Hours",
+    whatsappGroupURL: "https://chat.whatsapp.com/invite/zynova",
+    formSubmitEndpoint: "https://formsubmit.co/ajax/team.zynova@gmail.com",
+    contactApi: "/api/contact",
+    bookingApi: "/api/bookings"
   },
   bookingURL: "#",
+  fiverrURL: "#",
+  freelancerURL: "#",
+  truelancerURL: "#",
+  peoplePerHourURL: "#",
+  upworkURL: "#",
   freelancePlatforms: {
     fiverr: "#",
     freelancer: "#",

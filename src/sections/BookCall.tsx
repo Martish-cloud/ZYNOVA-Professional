@@ -91,30 +91,55 @@ export const BookCall: React.FC<BookCallProps> = ({
     setIsSubmitting(true);
 
     try {
-      const payload = {
-        _subject: `New Discovery Call Booking: ${formData.name} (${formData.preferredDate || "Immediate"} @ ${formData.preferredTime || "Flexible"}) - ZYNOVA`,
-        _replyto: formData.email,
-        _template: "table",
-        "Client Name": formData.name,
-        "Work Email": formData.email,
-        "Company / Brand": formData.company || "Not provided",
-        "Service Domain": formData.service,
-        "Requested Date": formData.preferredDate || "Earliest Available",
-        "Preferred Time": formData.preferredTime || "Flexible",
-        "Project Scope / Brief": formData.message,
-        "Booking Timestamp": new Date().toLocaleString()
-      };
-
-      await fetch(siteConfig.contact.formSubmitEndpoint, {
+      // 1. Primary: Post to ZYNOVA Backend API
+      const response = await fetch(siteConfig.contact.bookingApi, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json"
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          service: formData.service,
+          preferredDate: formData.preferredDate,
+          preferredTime: formData.preferredTime,
+          message: formData.message
+        })
       });
-    } catch (err) {
-      console.error("Booking dispatch notice:", err);
+
+      if (!response.ok) {
+        throw new Error(`API responded with ${response.status}`);
+      }
+    } catch (apiErr) {
+      console.warn("Backend API unavailable or error, falling back to backup relay:", apiErr);
+      try {
+        const payload = {
+          _subject: `New Discovery Call Booking: ${formData.name} (${formData.preferredDate || "Immediate"} @ ${formData.preferredTime || "Flexible"}) - ZYNOVA`,
+          _replyto: formData.email,
+          _template: "table",
+          "Client Name": formData.name,
+          "Work Email": formData.email,
+          "Company / Brand": formData.company || "Not provided",
+          "Service Domain": formData.service,
+          "Requested Date": formData.preferredDate || "Earliest Available",
+          "Preferred Time": formData.preferredTime || "Flexible",
+          "Project Scope / Brief": formData.message,
+          "Booking Timestamp": new Date().toLocaleString()
+        };
+
+        await fetch(siteConfig.contact.formSubmitEndpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+      } catch (fallbackErr) {
+        console.error("Booking dispatch notice:", fallbackErr);
+      }
     } finally {
       setIsSubmitting(false);
       setIsSubmitted(true);

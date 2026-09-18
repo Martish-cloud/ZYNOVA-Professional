@@ -91,6 +91,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
           rel={rel}
           className={baseClasses}
           onClick={onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>}
+          {...(rest as unknown as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
         >
           {children}
         </a>

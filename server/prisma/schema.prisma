@@ -1,0 +1,36 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model ContactInquiry {
+  id              String   @id @default(uuid())
+  name            String
+  email           String
+  phone           String?
+  company         String?
+  serviceRequired String
+  budgetRange     String?
+  message         String
+  status          String   @default("NEW")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model DiscoveryBooking {
+  id            String   @id @default(uuid())
+  name          String
+  email         String
+  company       String?
+  service       String
+  preferredDate String?
+  preferredTime String?
+  message       String
+  status        String   @default("PENDING")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

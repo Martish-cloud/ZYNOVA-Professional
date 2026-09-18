@@ -95,8 +95,8 @@ export const CustomCursor: React.FC = () => {
 
   // Determine ring styling and size based on active cursor state
   let ringClasses = "border border-amber-400/40 bg-amber-500/5";
-  let ringSize = "w-10 h-10";
-  let showLabel = false;
+  let ringSize = "w-9 h-9";
+  let showLabel = Boolean(cursorText);
 
   switch (cursorType) {
     case "project":
@@ -106,11 +106,11 @@ export const CustomCursor: React.FC = () => {
       showLabel = true;
       break;
     case "button":
-      ringSize = "w-14 h-14";
+      ringSize = cursorText ? "w-20 h-20" : "w-14 h-14";
       ringClasses = "border-2 border-yellow-400/80 bg-amber-500/15 shadow-[0_0_20px_rgba(245,158,11,0.4)] scale-110";
       break;
     case "link":
-      ringSize = "w-12 h-12";
+      ringSize = cursorText ? "w-18 h-18" : "w-12 h-12";
       ringClasses = "border border-amber-300/70 bg-amber-400/15 scale-105";
       break;
     case "input":

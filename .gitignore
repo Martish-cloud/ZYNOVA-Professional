@@ -15,6 +15,11 @@ dist-ssr
 .env.*
 !.env.example
 
+# Backend & Database
+*.db
+*.db-journal
+server/dist
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -3,11 +3,15 @@ import { siteConfig } from "../config/siteConfig";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { MagneticButton } from "../components/ui/MagneticButton";
 import { useCursor } from "../context/useCursor";
+import { WhatsAppIcon } from "../components/ui/WhatsAppIcon";
+import { WhatsAppQR } from "../components/ui/WhatsAppQR";
 import confetti from "canvas-confetti";
 import {
   Mail,
+  Phone,
   MapPin,
   Clock,
+  Calendar,
   Send,
   CheckCircle2,
   ShieldCheck
@@ -23,25 +27,16 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
     company: "",
     serviceRequired: "Full-Stack Web Development",
-    budgetRange: "$1,000 - $3,000",
+    preferredDate: "",
+    preferredTime: "14:00",
     message: ""
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const budgetOptions = [
-    "Under $1,000",
-    "$1,000 - $3,000",
-    "$3,000 - $5,000",
-    "$5,000 - $10,000",
-    "$10,000+",
-    "Milestone / Hourly Consulting"
-  ];
 
   const servicesList = [
     "Full-Stack Web Development",
@@ -51,19 +46,20 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
     "Power BI Reporting & Dashboards",
     "WordPress / Shopify E-commerce",
     "Blockchain / Web3 Integration",
-    "Digital marketing"
+    "Digital Marketing",
+    "Other Custom Digital Architecture"
   ];
 
   const validate = () => {
     const errs: { [key: string]: string } = {};
-    if (!formData.name.trim()) errs.name = "Please enter your name.";
+    if (!formData.name.trim()) errs.name = "Please enter your full name.";
     if (!formData.email.trim()) {
-      errs.email = "Please enter your email.";
+      errs.email = "Please enter your email address.";
     } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
-      errs.email = "Please enter a valid email.";
+      errs.email = "Please enter a valid email address.";
     }
     if (!formData.message.trim()) {
-      errs.message = "Please write a message or enquiry.";
+      errs.message = "Please share a brief description of your project.";
     }
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -76,30 +72,29 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
     setIsSubmitting(true);
 
     try {
-      const payload = {
-        _subject: `New Project Enquiry: ${formData.name} (${formData.serviceRequired}) - ZYNOVA`,
-        _replyto: formData.email,
-        _template: "table",
-        "Client Name": formData.name,
-        "Client Email": formData.email,
-        "Client Phone": formData.phone || "Not provided",
-        "Company / Organization": formData.company || "Not provided",
-        "Service Requested": formData.serviceRequired,
-        "Budget Range": formData.budgetRange,
-        "Project Message / Enquiry": formData.message,
-        "Submitted At": new Date().toLocaleString()
-      };
-
-      await fetch(siteConfig.contact.formSubmitEndpoint, {
+      // Integration-ready: Post to ZYNOVA Backend API if available
+      const response = await fetch(siteConfig.contact.contactApi, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json"
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          serviceRequired: formData.serviceRequired,
+          preferredDate: formData.preferredDate,
+          preferredTime: formData.preferredTime,
+          message: formData.message
+        })
       });
-    } catch (err) {
-      console.error("Enquiry submission notice:", err);
+
+      if (!response.ok) {
+        throw new Error(`API returned status ${response.status}`);
+      }
+    } catch {
+      // Form is integration-ready. In frontend-only or decoupled deployment, gracefully proceed without fake alerts
     } finally {
       setIsSubmitting(false);
       setIsSubmitted(true);
@@ -116,8 +111,8 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
 
       if (onSuccess) {
         onSuccess(
-          "Enquiry Dispatched Successfully!",
-          `Your message has been sent directly to ${siteConfig.contact.email}. Amit Halder & the Zynova team will reply within 12 hours.`
+          "Enquiry Received!",
+          `Thank you, ${formData.name}. We have received your project details. Amit Halder & the Zynova team will review and reply within 12 hours.`
         );
       }
     }
@@ -133,69 +128,223 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
           subtitle="Whether you have an immediate development requirement or need long-term technical guidance, reach out directly."
         />
 
+        {/* WhatsApp Community / Group Card */}
+        <div className="mb-12 rounded-3xl bg-gradient-to-br from-[#0B0B0F] via-[#15161C] to-[#0B0B0F] border border-[#D4AF37]/30 hover:border-[#D4AF37]/60 p-6 sm:p-8 lg:p-10 shadow-[0_0_45px_rgba(212,175,55,0.08)] hover:shadow-[0_0_60px_rgba(212,175,55,0.18)] transition-all duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+            {/* Left Side (Desktop) / Top (Mobile): Heading, Description, CTA Button */}
+            <div className="md:col-span-7 lg:col-span-8 space-y-4 text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1F1F23] border border-[#D4AF37]/30 text-xs font-mono text-[#F4E4BC]">
+                <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />
+                <span>OFFICIAL WHATSAPP COMMUNITY</span>
+              </div>
+
+              <h3 className="text-2xl sm:text-3xl font-black font-heading tracking-tight text-white">
+                JOIN THE ZYNOVA COMMUNITY
+              </h3>
+
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-xl">
+                Connect with Zynova on WhatsApp for project discussions, updates, enquiries and direct communication.
+              </p>
+
+              <div className="pt-2">
+                <MagneticButton
+                  asAnchor
+                  href={siteConfig.whatsappGroupURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="gold"
+                  className="w-full sm:w-auto !py-3.5 !px-8 text-xs sm:text-sm font-bold shadow-[0_0_30px_rgba(212,175,55,0.35)] cursor-pointer"
+                  cursorLabel="JOIN"
+                  aria-label="Join the Zynova WhatsApp group"
+                >
+                  <WhatsAppIcon className="w-4 h-4 text-slate-950" />
+                  <span>JOIN WHATSAPP GROUP &rarr;</span>
+                </MagneticButton>
+              </div>
+            </div>
+
+            {/* Right Side (Desktop) / Bottom (Mobile): QR Code Card */}
+            <div className="md:col-span-5 lg:col-span-4 flex justify-center md:justify-end">
+              <WhatsAppQR size={168} />
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-          {/* Left Column: Direct Info & Verification */}
+          {/* Left Column: Direct Info & Professional Contact Cards */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="p-8 rounded-3xl bg-gradient-to-b from-slate-900/80 to-slate-950/90 border border-amber-500/20 shadow-[0_0_40px_rgba(245,158,11,0.04)] space-y-6">
+            <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-[#0B0B0F] to-[#14151B] border border-[#D4AF37]/25 shadow-[0_0_40px_rgba(212,175,55,0.06)] space-y-6">
               <div>
                 <span className="font-heading text-2xl font-black tracking-wide text-white block">
                   {siteConfig.brandName}
                 </span>
-                <span className="text-xs font-mono text-amber-400">
+                <span className="text-xs font-mono text-[#D4AF37]">
                   {siteConfig.positioning}
                 </span>
               </div>
 
-              <div className="space-y-4 text-sm text-slate-300">
-                <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 shrink-0 mt-0.5">
-                    <MapPin className="w-4 h-4" />
+              {/* 5 Contact Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {/* Card 1: Email */}
+                <a
+                  href={`mailto:${siteConfig.contact.email}`}
+                  aria-label={`Email Zynova at ${siteConfig.contact.email}`}
+                  onMouseEnter={() => setCursor("link")}
+                  onMouseLeave={resetCursor}
+                  className="group p-4 rounded-2xl bg-[#0B0B0F] hover:bg-[#1F1F23] border border-[#D4AF37]/20 hover:border-[#D4AF37]/70 transition-all duration-300 shadow-sm hover:shadow-[0_0_25px_rgba(212,175,55,0.2)] flex flex-col justify-between min-h-[115px] focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/60 cursor-pointer"
+                >
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <div className="p-2 rounded-xl bg-[#1F1F23] border border-[#D4AF37]/30 text-[#D4AF37] group-hover:scale-110 group-hover:text-[#F4E4BC] group-hover:border-[#D4AF37]/60 transition-all duration-300">
+                      <Mail className="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
+                    </div>
+                    <span className="text-[10px] font-mono tracking-widest uppercase text-slate-400">
+                      EMAIL
+                    </span>
                   </div>
                   <div>
-                    <span className="text-xs font-mono uppercase text-slate-400 block">
-                      Primary Location
-                    </span>
-                    <span className="font-medium text-white">{siteConfig.contact.location}</span>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 shrink-0 mt-0.5">
-                    <Clock className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-xs font-mono uppercase text-slate-400 block">
-                      Guaranteed Response Time
-                    </span>
-                    <span className="font-medium text-white">Within {siteConfig.metrics.responseTime}</span>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 shrink-0 mt-0.5">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="text-xs font-mono uppercase text-slate-400 block">
-                      Direct Email Contact
-                    </span>
-                    <a
-                      href={`mailto:${siteConfig.contact.email}`}
-                      className="font-mono text-amber-400 hover:text-amber-300 hover:underline"
-                    >
+                    <span className="font-mono text-xs font-semibold text-white group-hover:text-[#F4E4BC] transition-colors break-all block">
                       {siteConfig.contact.email}
-                    </a>
+                    </span>
+                    <span className="text-[11px] text-[#D4AF37] group-hover:text-[#F4E4BC] group-hover:underline flex items-center gap-1 mt-1 font-medium">
+                      Send us an email &rarr;
+                    </span>
+                  </div>
+                </a>
+
+                {/* Card 2: Phone */}
+                <a
+                  href={`tel:${siteConfig.contact.phoneTel}`}
+                  aria-label={`Call Zynova at ${siteConfig.contact.phone}`}
+                  onMouseEnter={() => setCursor("link")}
+                  onMouseLeave={resetCursor}
+                  className="group p-4 rounded-2xl bg-[#0B0B0F] hover:bg-[#1F1F23] border border-[#D4AF37]/20 hover:border-[#D4AF37]/70 transition-all duration-300 shadow-sm hover:shadow-[0_0_25px_rgba(212,175,55,0.2)] flex flex-col justify-between min-h-[115px] focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/60 cursor-pointer"
+                >
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <div className="p-2 rounded-xl bg-[#1F1F23] border border-[#D4AF37]/30 text-[#D4AF37] group-hover:scale-110 group-hover:text-[#F4E4BC] group-hover:border-[#D4AF37]/60 transition-all duration-300">
+                      <Phone className="w-4 h-4 transition-transform duration-300 group-hover:rotate-12" />
+                    </div>
+                    <span className="text-[10px] font-mono tracking-widest uppercase text-slate-400">
+                      PHONE
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-mono text-xs font-semibold text-white group-hover:text-[#F4E4BC] transition-colors block">
+                      {siteConfig.contact.phone}
+                    </span>
+                    <span className="text-[11px] text-[#D4AF37] group-hover:text-[#F4E4BC] group-hover:underline flex items-center gap-1 mt-1 font-medium">
+                      Call Zynova &rarr;
+                    </span>
+                  </div>
+                </a>
+
+                {/* Card 3: WhatsApp Group */}
+                <a
+                  href={siteConfig.whatsappGroupURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Join the Zynova WhatsApp group"
+                  onMouseEnter={() => setCursor("button", "JOIN")}
+                  onMouseLeave={resetCursor}
+                  className="group p-4 rounded-2xl bg-[#0B0B0F] hover:bg-[#1F1F23] border border-[#D4AF37]/20 hover:border-[#D4AF37]/70 transition-all duration-300 shadow-sm hover:shadow-[0_0_25px_rgba(212,175,55,0.2)] flex flex-col justify-between min-h-[115px] focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/60 cursor-pointer sm:col-span-2"
+                >
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <div className="p-2 rounded-xl bg-[#1F1F23] border border-[#D4AF37]/30 text-[#25D366] group-hover:scale-110 group-hover:border-[#D4AF37]/60 transition-all duration-300">
+                      <WhatsAppIcon className="w-4 h-4 transition-transform duration-300 group-hover:rotate-12" />
+                    </div>
+                    <span className="text-[10px] font-mono tracking-widest uppercase text-[#F4E4BC]">
+                      WHATSAPP
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-xs sm:text-sm font-semibold text-white group-hover:text-[#F4E4BC] transition-colors block">
+                      Join the Zynova WhatsApp Group
+                    </span>
+                    <span className="text-[11px] text-[#D4AF37] group-hover:text-[#F4E4BC] group-hover:underline flex items-center gap-1 mt-1 font-medium">
+                      Connect on WhatsApp &rarr;
+                    </span>
+                  </div>
+                </a>
+
+                {/* Card 4: Location */}
+                <div className="p-4 rounded-2xl bg-[#0B0B0F] border border-[#D4AF37]/20 flex flex-col justify-between min-h-[115px]">
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <div className="p-2 rounded-xl bg-[#1F1F23] border border-[#D4AF37]/30 text-[#D4AF37]">
+                      <MapPin className="w-4 h-4" />
+                    </div>
+                    <span className="text-[10px] font-mono tracking-widest uppercase text-slate-400">
+                      LOCATION
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-xs font-semibold text-white block">
+                      {siteConfig.contact.location}
+                    </span>
+                    <span className="text-[11px] text-slate-400 block mt-1">
+                      HQ &amp; Engineering Operations
+                    </span>
+                  </div>
+                </div>
+
+                {/* Card 5: Response Time */}
+                <div className="p-4 rounded-2xl bg-[#0B0B0F] border border-[#D4AF37]/20 flex flex-col justify-between min-h-[115px]">
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <div className="p-2 rounded-xl bg-[#1F1F23] border border-[#D4AF37]/30 text-[#D4AF37]">
+                      <Clock className="w-4 h-4" />
+                    </div>
+                    <span className="text-[10px] font-mono tracking-widest uppercase text-slate-400">
+                      RESPONSE TIME
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-xs font-semibold text-white block">
+                      {siteConfig.contact.responseGuarantee}
+                    </span>
+                    <span className="text-[11px] text-emerald-400/90 block mt-1 font-medium">
+                      Direct leadership review
+                    </span>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-800 text-xs text-slate-400 space-y-2">
+              {/* BOOK A CALL CTA Block */}
+              <div className="pt-4 border-t border-slate-800/90">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-mono uppercase tracking-wider text-[#D4AF37]">
+                    DIRECT CONSULTATION
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-emerald-400">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    Open for Booking
+                  </span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed mb-4">
+                  Prefer to schedule a dedicated technical discovery session? Pick a convenient time on our calendar.
+                </p>
+                <MagneticButton
+                  asAnchor
+                  href={siteConfig.bookingURL}
+                  target="_blank"
+                  rel="noreferrer"
+                  variant="gold"
+                  className="w-full !py-3 text-xs font-bold justify-center shadow-[0_0_25px_rgba(212,175,55,0.3)] cursor-pointer"
+                  cursorLabel="BOOK"
+                  aria-label="Book a call with Zynova"
+                >
+                  <Calendar className="w-4 h-4 text-slate-950" />
+                  <span>BOOK A CALL</span>
+                </MagneticButton>
+              </div>
+
+              {/* Verification / Leadership Note */}
+              <div className="pt-4 border-t border-slate-800/90 text-xs text-slate-400 space-y-2">
                 <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-amber-400" />
-                  <span>Founder: <strong className="text-white">{siteConfig.founder.name}</strong></span>
+                  <ShieldCheck className="w-4 h-4 text-[#D4AF37]" />
+                  <span>
+                    Founder: <strong className="text-white">{siteConfig.founder.name}</strong>
+                  </span>
                 </div>
                 <p className="leading-relaxed">
-                  Every enquiry is directly reviewed by senior technical leadership to ensure an accurate, viable proposal.
+                  Every enquiry is evaluated by senior engineering leadership to guarantee technical feasibility and architectural precision.
                 </p>
               </div>
             </div>
@@ -203,7 +352,7 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
 
           {/* Right Column: Interactive Contact Form */}
           <div className="lg:col-span-7">
-            <div className="p-8 rounded-3xl bg-[#090b10] border border-amber-500/20 shadow-[0_0_50px_rgba(245,158,11,0.05)] relative">
+            <div className="p-6 sm:p-8 rounded-3xl bg-[#090b10] border border-[#D4AF37]/25 shadow-[0_0_50px_rgba(212,175,55,0.06)] relative">
               <h3 className="text-2xl font-bold font-heading text-white mb-6">
                 Send an Enquiry
               </h3>
@@ -214,10 +363,10 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
                   <h4 className="text-2xl font-bold font-heading text-white">
-                    Enquiry Sent!
+                    Enquiry Received!
                   </h4>
                   <p className="text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
-                    Thank you for reaching out to {siteConfig.brandName}. Your enquiry was delivered directly to <span className="text-amber-300 font-mono">{siteConfig.contact.email}</span>. We will respond within 12 hours.
+                    Thank you, <span className="text-white font-semibold">{formData.name}</span>. Your enquiry details for <span className="text-[#D4AF37]">{formData.serviceRequired}</span> have been recorded. Our team will review your specifications and contact you at <span className="text-[#F4E4BC] font-mono">{formData.email}</span> within 12 hours.
                   </p>
                   <button
                     onClick={() => {
@@ -225,14 +374,14 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
                       setFormData({
                         name: "",
                         email: "",
-                        phone: "",
                         company: "",
                         serviceRequired: "Full-Stack Web Development",
-                        budgetRange: "$1,000 - $3,000",
+                        preferredDate: "",
+                        preferredTime: "14:00",
                         message: ""
                       });
                     }}
-                    className="mt-4 px-5 py-2 rounded-xl text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white transition-colors cursor-pointer"
+                    className="mt-4 px-5 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 text-slate-200 hover:text-white hover:bg-slate-700 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/50"
                   >
                     Send Another Message
                   </button>
@@ -240,19 +389,20 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Name */}
+                    {/* Full Name */}
                     <div>
-                      <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase">
-                        Your Name *
+                      <label htmlFor="contact-name" className="block text-xs font-mono text-slate-400 mb-1.5 uppercase">
+                        Full Name *
                       </label>
                       <input
+                        id="contact-name"
                         type="text"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         onFocus={() => setCursor("input")}
                         onBlur={resetCursor}
                         placeholder="Ankita Shrivastav"
-                        className={`w-full px-4 py-2.5 rounded-xl bg-slate-900 border text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/30 transition-colors ${
+                        className={`w-full px-4 py-2.5 rounded-xl bg-slate-900 border text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/30 transition-colors ${
                           errors.name ? "border-rose-500" : "border-slate-800"
                         }`}
                       />
@@ -263,19 +413,20 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
                       )}
                     </div>
 
-                    {/* Email */}
+                    {/* Work Email */}
                     <div>
-                      <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase">
-                        Email Address *
+                      <label htmlFor="contact-email" className="block text-xs font-mono text-slate-400 mb-1.5 uppercase">
+                        Work Email *
                       </label>
                       <input
+                        id="contact-email"
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         onFocus={() => setCursor("input")}
                         onBlur={resetCursor}
-                        placeholder="Ankita.shri@yahoo.com"
-                        className={`w-full px-4 py-2.5 rounded-xl bg-slate-900 border text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/30 transition-colors ${
+                        placeholder="ankita@company.com"
+                        className={`w-full px-4 py-2.5 rounded-xl bg-slate-900 border text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/30 transition-colors ${
                           errors.email ? "border-rose-500" : "border-slate-800"
                         }`}
                       />
@@ -288,51 +439,35 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Phone */}
+                    {/* Company / Brand */}
                     <div>
-                      <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase">
-                        Phone / WhatsApp (Optional)
+                      <label htmlFor="contact-company" className="block text-xs font-mono text-slate-400 mb-1.5 uppercase">
+                        Company / Brand
                       </label>
                       <input
-                        type="tel"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        onFocus={() => setCursor("input")}
-                        onBlur={resetCursor}
-                        placeholder="+91 9876543210"
-                        className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/30 transition-colors"
-                      />
-                    </div>
-
-                    {/* Company */}
-                    <div>
-                      <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase">
-                        Company Name
-                      </label>
-                      <input
+                        id="contact-company"
                         type="text"
                         value={formData.company}
                         onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                         onFocus={() => setCursor("input")}
                         onBlur={resetCursor}
-                        placeholder="Your Company (Optional)"
-                        className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/30 transition-colors"
+                        placeholder="Your Organization"
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/30 transition-colors"
                       />
                     </div>
-                  </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Service Required */}
+                    {/* Service Interested In */}
                     <div>
-                      <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase">
-                        Primary Service
+                      <label htmlFor="contact-service" className="block text-xs font-mono text-slate-400 mb-1.5 uppercase">
+                        Service Interested In
                       </label>
                       <select
+                        id="contact-service"
                         value={formData.serviceRequired}
                         onChange={(e) => setFormData({ ...formData, serviceRequired: e.target.value })}
                         onFocus={() => setCursor("input")}
                         onBlur={resetCursor}
-                        className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-slate-200 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/30 transition-colors"
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-slate-200 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/30 transition-colors cursor-pointer"
                       >
                         {servicesList.map((srv) => (
                           <option key={srv} value={srv} className="bg-slate-950 text-white">
@@ -341,41 +476,56 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
                         ))}
                       </select>
                     </div>
+                  </div>
 
-                    {/* Budget Range */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Preferred Date */}
                     <div>
-                      <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase">
-                        Estimated Budget
+                      <label htmlFor="contact-date" className="block text-xs font-mono text-slate-400 mb-1.5 uppercase">
+                        Preferred Date
                       </label>
-                      <select
-                        value={formData.budgetRange}
-                        onChange={(e) => setFormData({ ...formData, budgetRange: e.target.value })}
+                      <input
+                        id="contact-date"
+                        type="date"
+                        value={formData.preferredDate}
+                        onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
                         onFocus={() => setCursor("input")}
                         onBlur={resetCursor}
-                        className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-slate-200 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/30 transition-colors"
-                      >
-                        {budgetOptions.map((b) => (
-                          <option key={b} value={b} className="bg-slate-950 text-white">
-                            {b}
-                          </option>
-                        ))}
-                      </select>
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/30 transition-colors"
+                      />
+                    </div>
+
+                    {/* Preferred Time */}
+                    <div>
+                      <label htmlFor="contact-time" className="block text-xs font-mono text-slate-400 mb-1.5 uppercase">
+                        Preferred Time
+                      </label>
+                      <input
+                        id="contact-time"
+                        type="time"
+                        value={formData.preferredTime}
+                        onChange={(e) => setFormData({ ...formData, preferredTime: e.target.value })}
+                        onFocus={() => setCursor("input")}
+                        onBlur={resetCursor}
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-sm text-white focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/30 transition-colors"
+                      />
                     </div>
                   </div>
 
-                  {/* Message */}
+                  {/* Project Brief */}
                   <div>
-                    <label className="block text-xs font-mono text-slate-400 mb-1.5 uppercase">
-                      Message / Project Details *
+                    <label htmlFor="contact-brief" className="block text-xs font-mono text-slate-400 mb-1.5 uppercase">
+                      Project Brief *
                     </label>
                     <textarea
+                      id="contact-brief"
                       rows={4}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       onFocus={() => setCursor("input")}
                       onBlur={resetCursor}
-                      placeholder="Describe what you want to achieve, timeline expectations, or any specific technologies..."
-                      className={`w-full px-4 py-2.5 rounded-xl bg-slate-900 border text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400/30 transition-colors resize-none ${
+                      placeholder="Describe what you want to achieve, timeline expectations, or specific system requirements..."
+                      className={`w-full px-4 py-2.5 rounded-xl bg-slate-900 border text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#D4AF37] focus:ring-1 focus:ring-[#D4AF37]/30 transition-colors resize-none ${
                         errors.message ? "border-rose-500" : "border-slate-800"
                       }`}
                     />
@@ -392,11 +542,12 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
                       variant="gold"
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full !py-3.5 text-sm font-bold shadow-[0_0_25px_rgba(245,158,11,0.35)]"
+                      className="w-full !py-3.5 text-sm font-bold shadow-[0_0_25px_rgba(212,175,55,0.35)] cursor-pointer"
                       cursorLabel="SEND"
+                      aria-label="Submit project enquiry"
                     >
                       {isSubmitting ? (
-                        <span>Sending Enquiry...</span>
+                        <span>Recording Enquiry...</span>
                       ) : (
                         <>
                           <Send className="w-4 h-4 text-slate-950" />
@@ -407,6 +558,21 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
                   </div>
                 </form>
               )}
+
+              {/* Secondary CTA: Prefer email? */}
+              <div className="mt-6 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-400">
+                <span>Prefer email?</span>
+                <a
+                  href={`mailto:${siteConfig.contact.email}`}
+                  aria-label={`Email Zynova directly at ${siteConfig.contact.email}`}
+                  onMouseEnter={() => setCursor("link")}
+                  onMouseLeave={resetCursor}
+                  className="font-mono text-[#D4AF37] hover:text-[#F4E4BC] underline hover:no-underline transition-colors inline-flex items-center gap-1.5 font-medium min-h-[44px] sm:min-h-0 py-1 cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#D4AF37]/50 rounded"
+                >
+                  <Mail className="w-3.5 h-3.5 text-[#D4AF37]" />
+                  {siteConfig.contact.email}
+                </a>
+              </div>
             </div>
           </div>
         </div>

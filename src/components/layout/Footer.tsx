@@ -1,7 +1,8 @@
 import React from "react";
 import { siteConfig } from "../../config/siteConfig";
 import { useCursor } from "../../context/useCursor";
-import { ArrowUp, Sparkles, MapPin, Clock } from "lucide-react";
+import { ArrowUp, Sparkles, MapPin, Clock, Mail, Phone } from "lucide-react";
+import { WhatsAppIcon } from "../ui/WhatsAppIcon";
 
 export const Footer: React.FC = () => {
   const { setCursor, resetCursor } = useCursor();
@@ -46,7 +47,7 @@ export const Footer: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
-          {/* Column 1: Brand Info */}
+          {/* Column 1: Brand Info & Contact */}
           <div className="lg:col-span-2 space-y-4">
             <a
               href="#hero"
@@ -72,13 +73,60 @@ export const Footer: React.FC = () => {
             </p>
 
             <div className="pt-2 space-y-2 text-xs font-mono drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
-              <div className="flex items-center gap-2 text-slate-200">
-                <MapPin className="w-3.5 h-3.5 text-cyan-400" />
-                <span>{siteConfig.founder.location}</span>
+              {/* Email */}
+              <div className="flex items-center gap-2">
+                <Mail className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                <a
+                  href={`mailto:${siteConfig.contact.email}`}
+                  aria-label={`Email Zynova at ${siteConfig.contact.email}`}
+                  onMouseEnter={() => setCursor("link")}
+                  onMouseLeave={resetCursor}
+                  className="text-slate-200 hover:text-cyan-300 transition-colors hover:underline focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded py-1 inline-flex items-center min-h-[44px] sm:min-h-0"
+                >
+                  {siteConfig.contact.email}
+                </a>
               </div>
-              <div className="flex items-center gap-2 text-slate-200">
-                <Clock className="w-3.5 h-3.5 text-purple-400" />
-                <span>Response Guarantee: {siteConfig.metrics.responseTime}</span>
+
+              {/* Phone */}
+              <div className="flex items-center gap-2">
+                <Phone className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                <a
+                  href={`tel:${siteConfig.contact.phoneTel}`}
+                  aria-label={`Call Zynova at ${siteConfig.contact.phone}`}
+                  onMouseEnter={() => setCursor("link")}
+                  onMouseLeave={resetCursor}
+                  className="text-slate-200 hover:text-cyan-300 transition-colors hover:underline focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded py-1 inline-flex items-center min-h-[44px] sm:min-h-0"
+                >
+                  {siteConfig.contact.phone}
+                </a>
+              </div>
+
+              {/* WhatsApp Community */}
+              <div className="flex items-center gap-2">
+                <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366] shrink-0" />
+                <a
+                  href={siteConfig.whatsappGroupURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Join the Zynova WhatsApp group"
+                  onMouseEnter={() => setCursor("button", "JOIN")}
+                  onMouseLeave={resetCursor}
+                  className="text-slate-200 hover:text-cyan-300 transition-colors hover:underline focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded py-1 inline-flex items-center min-h-[44px] sm:min-h-0"
+                >
+                  Join our WhatsApp Group &rarr;
+                </a>
+              </div>
+
+              {/* Location */}
+              <div className="flex items-center gap-2 text-slate-200 py-0.5">
+                <MapPin className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                <span>{siteConfig.contact.location}</span>
+              </div>
+
+              {/* Response Time */}
+              <div className="flex items-center gap-2 text-slate-200 py-0.5">
+                <Clock className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+                <span>Response Guarantee: {siteConfig.contact.responseGuarantee}</span>
               </div>
             </div>
           </div>
@@ -154,16 +202,55 @@ export const Footer: React.FC = () => {
                 );
               })}
             </div>
-            <div className="mt-6 pt-4 border-t border-slate-800/80">
+            <div className="mt-6 pt-4 border-t border-slate-800/80 space-y-3">
               <span className="text-[11px] text-slate-400 block drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
                 Direct Inquiries:
               </span>
-              <a
-                href={`mailto:${siteConfig.contact.email}`}
-                className="text-xs text-cyan-400 hover:underline font-mono drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]"
-              >
-                {siteConfig.contact.email}
-              </a>
+              <div className="space-y-1.5 font-mono text-xs">
+                <div className="flex items-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                  <a
+                    href={`mailto:${siteConfig.contact.email}`}
+                    aria-label={`Email Zynova at ${siteConfig.contact.email}`}
+                    onMouseEnter={() => setCursor("link")}
+                    onMouseLeave={resetCursor}
+                    className="text-cyan-400 hover:text-cyan-300 hover:underline drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] inline-flex items-center min-h-[44px] sm:min-h-0 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded"
+                  >
+                    {siteConfig.contact.email}
+                  </a>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Phone className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                  <a
+                    href={`tel:${siteConfig.contact.phoneTel}`}
+                    aria-label={`Call Zynova at ${siteConfig.contact.phone}`}
+                    onMouseEnter={() => setCursor("link")}
+                    onMouseLeave={resetCursor}
+                    className="text-slate-300 hover:text-cyan-300 hover:underline drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] inline-flex items-center min-h-[44px] sm:min-h-0 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded"
+                  >
+                    {siteConfig.contact.phone}
+                  </a>
+                </div>
+              </div>
+
+              {/* WhatsApp Community */}
+              <div className="pt-2 border-t border-slate-800/80">
+                <span className="text-[11px] text-slate-400 block drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] mb-1">
+                  WhatsApp Community
+                </span>
+                <a
+                  href={siteConfig.whatsappGroupURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Join the Zynova WhatsApp group"
+                  onMouseEnter={() => setCursor("button", "JOIN")}
+                  onMouseLeave={resetCursor}
+                  className="text-xs text-[#D4AF37] hover:text-[#F4E4BC] hover:underline font-mono drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] inline-flex items-center gap-1.5 py-1 min-h-[44px] sm:min-h-0 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]/50 rounded cursor-pointer"
+                >
+                  <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />
+                  <span>Join our WhatsApp Group &rarr;</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
