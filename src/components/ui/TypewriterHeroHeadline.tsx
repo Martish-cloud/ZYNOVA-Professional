@@ -28,6 +28,17 @@ export const TypewriterHeroHeadline: React.FC<TypewriterHeroHeadlineProps> = ({ 
       return;
     }
 
+    if (typeof document !== "undefined" && document.hidden) {
+      const handleVisible = () => {
+        if (!document.hidden) {
+          document.removeEventListener("visibilitychange", handleVisible);
+          setPhase((p) => p);
+        }
+      };
+      document.addEventListener("visibilitychange", handleVisible);
+      return () => document.removeEventListener("visibilitychange", handleVisible);
+    }
+
     let timeout: ReturnType<typeof setTimeout>;
 
     switch (phase) {

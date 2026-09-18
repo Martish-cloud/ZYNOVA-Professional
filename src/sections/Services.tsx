@@ -171,14 +171,16 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
       </div>
 
       {/* Service Details Modal */}
-      <ServiceModal
-        service={selectedService}
-        isOpen={!!selectedService}
-        onClose={() => setSelectedService(null)}
-        onSelectServiceForBooking={(title) => {
-          if (onSelectServiceForBooking) onSelectServiceForBooking(title);
-        }}
-      />
+      {selectedService && (
+        <ServiceModal
+          service={selectedService}
+          isOpen={!!selectedService}
+          onClose={() => setSelectedService(null)}
+          onSelectServiceForBooking={(title) => {
+            if (onSelectServiceForBooking) onSelectServiceForBooking(title);
+          }}
+        />
+      )}
     </section>
   );
 };

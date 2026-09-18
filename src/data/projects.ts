@@ -36,7 +36,7 @@ export const projectsData: ProjectItem[] = [
     ],
     gradientTheme: "from-amber-950/40 via-orange-950/40 to-slate-900/50",
     badge: "Book Platform",
-    image: "/projects/BookVerse.png"
+    image: "/projects/BookVerse.webp"
   },
   {
     id: "travelaya",
@@ -58,7 +58,7 @@ export const projectsData: ProjectItem[] = [
     ],
     gradientTheme: "from-sky-950/40 via-blue-950/40 to-slate-900/50",
     badge: "Travel Platform",
-    image: "/projects/TraveLaya.png"
+    image: "/projects/TraveLaya.webp"
   },
   {
     id: "bizgrow",
@@ -80,7 +80,7 @@ export const projectsData: ProjectItem[] = [
     ],
     gradientTheme: "from-zinc-900 via-slate-950 to-neutral-900",
     badge: "Business Advisory",
-    image: "/projects/BizGrow.png"
+    image: "/projects/BizGrow.webp"
   },
   {
     id: "fitlife",
@@ -102,7 +102,7 @@ export const projectsData: ProjectItem[] = [
     ],
     gradientTheme: "from-rose-950/40 via-red-950/40 to-slate-900/50",
     badge: "Fitness Portal",
-    image: "/projects/FitLife.png"
+    image: "/projects/FitLife.webp"
   },
   {
     id: "bloom-beauty",
@@ -124,7 +124,7 @@ export const projectsData: ProjectItem[] = [
     ],
     gradientTheme: "from-pink-950/40 via-rose-950/30 to-slate-900/50",
     badge: "Cosmetics E-Commerce",
-    image: "/projects/bloom-beauty.png"
+    image: "/projects/bloom-beauty.webp"
   },
   {
     id: "tastybites",
@@ -146,7 +146,7 @@ export const projectsData: ProjectItem[] = [
     ],
     gradientTheme: "from-orange-950/40 via-red-950/30 to-slate-900/50",
     badge: "Food Ordering",
-    image: "/projects/tastybites.png"
+    image: "/projects/tastybites.webp"
   },
   {
     id: "mediwell",
@@ -168,7 +168,7 @@ export const projectsData: ProjectItem[] = [
     ],
     gradientTheme: "from-teal-950/40 via-cyan-950/40 to-slate-900/50",
     badge: "Healthcare Platform",
-    image: "/projects/MediWell.png"
+    image: "/projects/MediWell.webp"
   },
   {
     id: "homex",
@@ -190,7 +190,7 @@ export const projectsData: ProjectItem[] = [
     ],
     gradientTheme: "from-stone-900 via-neutral-950 to-slate-950",
     badge: "Real Estate Portal",
-    image: "/projects/HomeX.png"
+    image: "/projects/HomeX.webp"
   },
   {
     id: "petcare",
@@ -212,7 +212,7 @@ export const projectsData: ProjectItem[] = [
     ],
     gradientTheme: "from-yellow-950/30 via-amber-950/30 to-slate-900/50",
     badge: "Pet Care Platform",
-    image: "/projects/PetCare.png"
+    image: "/projects/PetCare.webp"
   },
   {
     id: "trendzo",
@@ -234,7 +234,7 @@ export const projectsData: ProjectItem[] = [
     ],
     gradientTheme: "from-purple-900/40 via-indigo-950/40 to-slate-900/50",
     badge: "E-Commerce Concept",
-    image: "/projects/Trendzo.png"
+    image: "/projects/Trendzo.webp"
   },
   {
     id: "freshmart",
@@ -256,7 +256,7 @@ export const projectsData: ProjectItem[] = [
     ],
     gradientTheme: "from-emerald-950/40 via-teal-950/40 to-slate-900/50",
     badge: "Grocery Platform",
-    image: "/projects/FreshMart.png"
+    image: "/projects/FreshMart.webp"
   },
   {
     id: "techzone",
@@ -278,7 +278,7 @@ export const projectsData: ProjectItem[] = [
     ],
     gradientTheme: "from-blue-950/40 via-cyan-950/40 to-slate-900/50",
     badge: "Electronics Store",
-    image: "/projects/TechZone.png"
+    image: "/projects/TechZone.webp"
   },
   {
     id: "learnhub",
@@ -300,7 +300,7 @@ export const projectsData: ProjectItem[] = [
     ],
     gradientTheme: "from-violet-950/40 via-purple-950/40 to-slate-900/50",
     badge: "E-Learning Academy",
-    image: "/projects/LearnHub.png"
+    image: "/projects/LearnHub.webp"
   },
   {
     id: "amit-halder-portfolio",
@@ -322,6 +322,6 @@ export const projectsData: ProjectItem[] = [
     ],
     gradientTheme: "from-indigo-950/40 via-slate-900 to-slate-950",
     badge: "Founder Portfolio",
-    image: "/projects/amit-halder-portfolio.png"
+    image: "/projects/amit-halder-portfolio.webp"
   }
 ];

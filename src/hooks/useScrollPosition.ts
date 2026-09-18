@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export function useScrollPosition() {
-  const [scrollY, setScrollY] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  const isScrolledRef = useRef(false);
 
   useEffect(() => {
     let ticking = false;
@@ -10,9 +10,11 @@ export function useScrollPosition() {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const currentY = window.scrollY;
-          setScrollY(currentY);
-          setIsScrolled(currentY > 25);
+          const nextScrolled = window.scrollY > 25;
+          if (isScrolledRef.current !== nextScrolled) {
+            isScrolledRef.current = nextScrolled;
+            setIsScrolled(nextScrolled);
+          }
           ticking = false;
         });
         ticking = true;
@@ -25,5 +27,5 @@ export function useScrollPosition() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  return { scrollY, isScrolled };
+  return { isScrolled };
 }

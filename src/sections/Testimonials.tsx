@@ -4,6 +4,75 @@ import { testimonialsData } from "../data/testimonials";
 import { useCursor } from "../context/useCursor";
 import { Star, CheckCircle2, Globe2, Sparkles } from "lucide-react";
 
+const ClientAvatar: React.FC<{ name: string; avatar: string; image?: string }> = ({
+  name,
+  avatar,
+  image
+}) => {
+  const [imgError, setImgError] = React.useState(false);
+
+  return (
+    <div className="relative w-12 h-12 rounded-full bg-gradient-to-tr from-amber-400 via-yellow-400 to-amber-600 p-[1.5px] shadow-[0_0_15px_rgba(245,158,11,0.25)] shrink-0">
+      <div className="w-full h-full rounded-full bg-[#080a12] flex items-center justify-center overflow-hidden">
+        {image && !imgError ? (
+          <img
+            src={image}
+            alt={name}
+            onError={() => setImgError(true)}
+            className="w-full h-full rounded-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <span className="font-heading font-extrabold text-sm text-transparent bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-400 bg-clip-text">
+            {avatar}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const RatingStars: React.FC<{ rating: number }> = ({ rating }) => {
+  return (
+    <div className="flex items-center gap-1.5 shrink-0 pt-0.5">
+      <div className="flex items-center gap-0.5 text-amber-400">
+        {[1, 2, 3, 4, 5].map((starNum) => {
+          const isFull = rating >= starNum;
+          const isHalf = !isFull && rating >= starNum - 0.5;
+
+          if (isFull) {
+            return (
+              <Star
+                key={starNum}
+                className="w-3.5 h-3.5 fill-amber-400 text-amber-400 drop-shadow-[0_0_4px_rgba(245,158,11,0.4)]"
+              />
+            );
+          }
+          if (isHalf) {
+            return (
+              <span key={starNum} className="relative inline-block w-3.5 h-3.5 overflow-hidden">
+                <Star className="w-3.5 h-3.5 text-amber-400/25" />
+                <span className="absolute inset-0 overflow-hidden w-[50%]">
+                  <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400 drop-shadow-[0_0_4px_rgba(245,158,11,0.4)]" />
+                </span>
+              </span>
+            );
+          }
+          return (
+            <Star
+              key={starNum}
+              className="w-3.5 h-3.5 text-amber-400/25"
+            />
+          );
+        })}
+      </div>
+      <span className="text-[11px] font-mono font-bold text-amber-300/90 ml-0.5">
+        {rating.toFixed(1)}
+      </span>
+    </div>
+  );
+};
+
 export const Testimonials: React.FC = () => {
   const { setCursor, resetCursor } = useCursor();
 
@@ -56,12 +125,12 @@ export const Testimonials: React.FC = () => {
                 {/* Client Profile Header & Rating */}
                 <div className="flex items-start justify-between gap-3 border-b border-slate-800/80 pb-4">
                   <div className="flex items-center gap-3">
-                    {/* Neutral Avatar with Initials */}
-                    <div className="relative w-12 h-12 rounded-full bg-gradient-to-tr from-amber-400 via-yellow-400 to-amber-600 p-[1.5px] shadow-[0_0_15px_rgba(245,158,11,0.25)] shrink-0">
-                      <div className="w-full h-full rounded-full bg-[#080a12] flex items-center justify-center font-heading font-extrabold text-sm text-transparent bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-400 bg-clip-text">
-                        {item.avatar}
-                      </div>
-                    </div>
+                    {/* Avatar with Image and Initials Fallback */}
+                    <ClientAvatar
+                      name={item.name}
+                      avatar={item.avatar}
+                      image={item.image}
+                    />
 
                     {/* Client Name & Designation */}
                     <div>
@@ -87,15 +156,8 @@ export const Testimonials: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* 5-Star Rating */}
-                  <div className="flex items-center gap-0.5 text-amber-400 shrink-0 pt-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="w-3.5 h-3.5 fill-amber-400 text-amber-400 drop-shadow-[0_0_4px_rgba(245,158,11,0.4)]"
-                      />
-                    ))}
-                  </div>
+                  {/* Rating Stars & Numeric Value */}
+                  <RatingStars rating={item.rating} />
                 </div>
 
                 {/* Review Narrative Quote */}

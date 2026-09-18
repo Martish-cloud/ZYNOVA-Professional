@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useCursor } from "../../context/useCursor";
 
 interface MagneticButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -28,7 +28,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
 }) => {
   const { setCursor, resetCursor } = useCursor();
   const buttonRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const rafId = useRef<number | null>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!buttonRef.current) return;
@@ -39,7 +39,13 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
     const deltaX = (e.clientX - centerX) * pullStrength;
     const deltaY = (e.clientY - centerY) * pullStrength;
 
-    setPosition({ x: deltaX, y: deltaY });
+    if (rafId.current) cancelAnimationFrame(rafId.current);
+    rafId.current = requestAnimationFrame(() => {
+      if (buttonRef.current) {
+        buttonRef.current.style.transition = "none";
+        buttonRef.current.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0)`;
+      }
+    });
   };
 
   const handleMouseEnter = () => {
@@ -47,7 +53,11 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   };
 
   const handleMouseLeave = () => {
-    setPosition({ x: 0, y: 0 });
+    if (rafId.current) cancelAnimationFrame(rafId.current);
+    if (buttonRef.current) {
+      buttonRef.current.style.transition = "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)";
+      buttonRef.current.style.transform = "translate3d(0px, 0px, 0)";
+    }
     resetCursor();
   };
 
@@ -78,10 +88,6 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{
-        transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
-        transition: position.x === 0 && position.y === 0 ? "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)" : "none"
-      }}
       className="inline-block will-change-transform"
     >
       {asAnchor && href ? (

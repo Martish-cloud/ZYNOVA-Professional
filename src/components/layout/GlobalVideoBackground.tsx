@@ -24,6 +24,19 @@ export const GlobalVideoBackground: React.FC = () => {
         window.addEventListener("touchstart", handleInteraction, { passive: true, once: true });
       });
     }
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        video.pause();
+      } else {
+        video.play().catch(() => {});
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, []);
 
   return (

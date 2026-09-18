@@ -29,20 +29,28 @@ export const CustomCursor: React.FC = () => {
 
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const isVisibleRef = useRef(false);
 
   useEffect(() => {
     if (isTouchDevice) return;
 
+    let animationFrameId: number;
+
     const handleMouseMove = (e: MouseEvent) => {
       mousePos.current = { x: e.clientX, y: e.clientY };
-      if (!isVisible) setIsVisible(true);
+      if (!isVisibleRef.current) {
+        isVisibleRef.current = true;
+        setIsVisible(true);
+      }
     };
 
     const handleMouseLeave = () => {
+      isVisibleRef.current = false;
       setIsVisible(false);
     };
 
     const handleMouseEnter = () => {
+      isVisibleRef.current = true;
       setIsVisible(true);
     };
 
@@ -51,12 +59,20 @@ export const CustomCursor: React.FC = () => {
       setTimeout(() => setClickPos(null), 320);
     };
 
+    const handleVisibility = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animationFrameId);
+      } else {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     document.addEventListener("mouseleave", handleMouseLeave);
     document.addEventListener("mouseenter", handleMouseEnter);
     window.addEventListener("mousedown", handleMouseDown);
-
-    let animationFrameId: number;
+    document.addEventListener("visibilitychange", handleVisibility);
 
     const render = () => {
       // Smooth lerp physics
@@ -87,9 +103,10 @@ export const CustomCursor: React.FC = () => {
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);
       window.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("visibilitychange", handleVisibility);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isVisible, isTouchDevice]);
+  }, [isTouchDevice]);
 
   if (isTouchDevice) return null;
 

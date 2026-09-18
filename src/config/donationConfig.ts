@@ -33,7 +33,7 @@ export const donationConfig: DonationConfig = {
   // The supplied QR code image is the primary payment mechanism.
   upiPaymentURL: "",
   charityRecipient: "To Be Announced",
-  showcaseImage: "/assets/zynova-charity-showcase.png",
+  showcaseImage: "/assets/zynova-charity-showcase.webp",
   qrCodeImage: "/assets/zynova-charity-upi-qr.png",
   presetAmounts: [5, 10, 25, 50, 100, 500, 1000],
   copy: {

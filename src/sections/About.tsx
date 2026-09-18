@@ -132,7 +132,7 @@ export const About: React.FC = () => {
                 <div className="pt-1">
                   <div className="relative rounded-xl overflow-hidden border border-amber-500/30 bg-slate-950 group/img">
                     <img
-                      src="/projects/amit-halder-portfolio.png"
+                      src="/projects/amit-halder-portfolio.webp"
                       alt="Amit Halder Portfolio Showcase"
                       loading="lazy"
                       className="w-full h-36 object-cover object-top opacity-85 group-hover/img:opacity-100 transition-opacity duration-300"
@@ -141,7 +141,7 @@ export const About: React.FC = () => {
                     <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between">
                       <span className="text-[10px] font-mono text-amber-300">Amit Halder &bull; Portfolio Showcase</span>
                       <a
-                        href="/projects/amit-halder-portfolio.png"
+                        href="/projects/amit-halder-portfolio.webp"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-500/20 text-amber-200 border border-amber-400/30 hover:bg-amber-500/30 transition-colors"

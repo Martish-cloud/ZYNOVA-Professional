@@ -107,7 +107,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
               {/* Card Visual: Professional Excel Showcase Thumbnail */}
               <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-6 border border-slate-800/90 bg-[#080a12] shadow-inner group-hover:border-amber-400/40 transition-colors">
                 <img
-                  src={excelDashboards[0]?.image || "/images/dashboards/excel/excel-dashboard-1.png"}
+                  src={excelDashboards[0]?.image || "/images/dashboards/excel/excel-dashboard-1.webp"}
                   alt="Advanced Excel Dashboards & Analytics"
                   loading="lazy"
                   className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
@@ -190,7 +190,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
               {/* Card Visual: Professional Power BI Showcase Thumbnail */}
               <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-6 border border-slate-800/90 bg-[#080a12] shadow-inner group-hover:border-amber-400/40 transition-colors">
                 <img
-                  src={powerBIDashboards[0]?.image || "/images/dashboards/powerbi/powerbi-dashboard-1.png"}
+                  src={powerBIDashboards[0]?.image || "/images/dashboards/powerbi/powerbi-dashboard-1.webp"}
                   alt="Business Intelligence & Data Visualization"
                   loading="lazy"
                   className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
@@ -329,22 +329,26 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
       </div>
 
       {/* Project Detail Modal */}
-      <ProjectModal
-        project={selectedProject}
-        isOpen={!!selectedProject}
-        onClose={() => setSelectedProject(null)}
-        onDiscussProject={(brief) => {
-          if (onDiscussProject) onDiscussProject(brief);
-        }}
-      />
+      {selectedProject && (
+        <ProjectModal
+          project={selectedProject}
+          isOpen={!!selectedProject}
+          onClose={() => setSelectedProject(null)}
+          onDiscussProject={(brief) => {
+            if (onDiscussProject) onDiscussProject(brief);
+          }}
+        />
+      )}
 
       {/* Interactive Dashboard Gallery Modal (Excel & Power BI) */}
-      <DashboardGalleryModal
-        category={activeDashboardModal}
-        dashboards={activeDashboards}
-        isOpen={activeDashboardModal !== null}
-        onClose={() => setActiveDashboardModal(null)}
-      />
+      {activeDashboardModal && (
+        <DashboardGalleryModal
+          category={activeDashboardModal}
+          dashboards={activeDashboards}
+          isOpen={activeDashboardModal !== null}
+          onClose={() => setActiveDashboardModal(null)}
+        />
+      )}
     </section>
   );
 };

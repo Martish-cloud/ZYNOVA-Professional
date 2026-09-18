@@ -150,10 +150,47 @@ export const HeroBackground: React.FC = () => {
     let rotY = 0;
     let targetRotX = 0;
     let targetRotY = 0;
-
     let time = 0;
 
+    let isIntersecting = true;
+    let isHidden = typeof document !== "undefined" ? document.hidden : false;
+    let isLoopRunning = false;
+
+    const startLoop = () => {
+      if (!isLoopRunning && isIntersecting && !isHidden) {
+        isLoopRunning = true;
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+
+    const stopLoop = () => {
+      isLoopRunning = false;
+      cancelAnimationFrame(animationFrameId);
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isIntersecting = entry.isIntersecting;
+      if (isIntersecting) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
+    }, { threshold: 0 });
+
+    observer.observe(canvas);
+
+    const handleVisibilityChange = () => {
+      isHidden = document.hidden;
+      if (isHidden) {
+        stopLoop();
+      } else {
+        startLoop();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     const render = () => {
+      if (!isLoopRunning) return;
       time += 0.015;
 
       // Clear with dark obsidian base (#0B0B0F)
@@ -414,15 +451,19 @@ export const HeroBackground: React.FC = () => {
       ctx.fillStyle = bottomFade;
       ctx.fillRect(0, height - 140, width, 140);
 
-      animationFrameId = requestAnimationFrame(render);
+      if (isLoopRunning) {
+        animationFrameId = requestAnimationFrame(render);
+      }
     };
 
-    render();
+    startLoop();
 
     return () => {
+      stopLoop();
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("resize", setCanvasSize);
       window.removeEventListener("mousemove", handleMouseMove);
-      cancelAnimationFrame(animationFrameId);
     };
   }, []);
 

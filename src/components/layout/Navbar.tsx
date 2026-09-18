@@ -6,36 +6,36 @@ import { useCursor } from "../../context/useCursor";
 import { MagneticButton } from "../ui/MagneticButton";
 import { Menu, X, ArrowUpRight, Phone } from "lucide-react";
 
+// Static Section IDs for scrollspy (stable reference)
+const SECTION_IDS = [
+  "hero",
+  "services",
+  "data-solutions",
+  "projects",
+  "about",
+  "process",
+  "why-zynova",
+  "gives-back",
+  "contact"
+];
+
+const NAV_LINKS = [
+  { name: "Home", href: "#hero", id: "hero" },
+  { name: "Services", href: "#services", id: "services" },
+  { name: "Data & BI", href: "#data-solutions", id: "data-solutions" },
+  { name: "Projects", href: "#projects", id: "projects" },
+  { name: "About", href: "#about", id: "about" },
+  { name: "Process", href: "#process", id: "process" },
+  { name: "Give Back", href: "#gives-back", id: "gives-back" },
+  { name: "Contact", href: "#contact", id: "contact" }
+];
+
 export const Navbar: React.FC = () => {
   const { isScrolled } = useScrollPosition();
   const { setCursor, resetCursor } = useCursor();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Section IDs for scrollspy
-  const sectionIds = [
-    "hero",
-    "services",
-    "data-solutions",
-    "projects",
-    "about",
-    "process",
-    "why-zynova",
-    "gives-back",
-    "contact"
-  ];
-
-  const activeSection = useScrollSpy(sectionIds, 150);
-
-  const navLinks = [
-    { name: "Home", href: "#hero", id: "hero" },
-    { name: "Services", href: "#services", id: "services" },
-    { name: "Data & BI", href: "#data-solutions", id: "data-solutions" },
-    { name: "Projects", href: "#projects", id: "projects" },
-    { name: "About", href: "#about", id: "about" },
-    { name: "Process", href: "#process", id: "process" },
-    { name: "Give Back", href: "#gives-back", id: "gives-back" },
-    { name: "Contact", href: "#contact", id: "contact" }
-  ];
+  const activeSection = useScrollSpy(SECTION_IDS, 150);
 
   const handleLinkClick = (href: string) => {
     setMobileMenuOpen(false);
@@ -86,7 +86,7 @@ export const Navbar: React.FC = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1 bg-slate-900/70 p-1.5 rounded-full border border-amber-500/20 backdrop-blur-md shadow-inner">
-            {navLinks.map((link) => {
+            {NAV_LINKS.map((link) => {
               const isActive = activeSection === link.id;
               return (
                 <a
@@ -153,7 +153,7 @@ export const Navbar: React.FC = () => {
               <span className="text-[10px] uppercase tracking-widest text-slate-400 font-mono mb-2">
                 Navigation
               </span>
-              {navLinks.map((link) => {
+              {NAV_LINKS.map((link) => {
                 const isActive = activeSection === link.id;
                 return (
                   <a
