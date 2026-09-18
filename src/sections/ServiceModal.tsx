@@ -41,6 +41,25 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({
           </span>
         </div>
 
+        {/* Pricing Banner if available */}
+        {service.pricing && (
+          <div className="p-3.5 rounded-xl bg-gradient-to-r from-amber-500/15 via-amber-500/10 to-transparent border border-amber-500/25 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-[0_0_20px_rgba(245,158,11,0.08)]">
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400/80 font-bold block">
+                Standard Investment Range
+              </span>
+              <span className="text-lg sm:text-xl font-bold font-mono text-amber-300">
+                {service.pricing}
+              </span>
+            </div>
+            {service.pricingNote && (
+              <span className="text-xs text-slate-400 font-sans italic sm:text-right">
+                *{service.pricingNote}
+              </span>
+            )}
+          </div>
+        )}
+
         {/* Detailed Description */}
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-wider text-slate-300 font-mono mb-2">

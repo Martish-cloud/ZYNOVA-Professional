@@ -122,9 +122,16 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
               <div>
                 {/* Header with Number and Icon */}
                 <div className="flex items-center justify-between mb-6">
-                  <span className="font-mono text-xs font-bold text-slate-500 group-hover:text-amber-400 transition-colors">
-                    // {service.number}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-xs font-bold text-slate-500 group-hover:text-amber-400 transition-colors">
+                      // {service.number}
+                    </span>
+                    {service.pricing && (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-400/10 text-amber-300 border border-amber-400/25">
+                        {service.pricing}
+                      </span>
+                    )}
+                  </div>
                   <div className="p-2.5 rounded-xl bg-slate-800/70 border border-slate-700/60 group-hover:scale-110 group-hover:border-amber-500/40 transition-all">
                     {getIcon(service.icon)}
                   </div>
@@ -136,9 +143,28 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
                 </h3>
 
                 {/* Short Description */}
-                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6 line-clamp-3">
+                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4 line-clamp-3">
                   {service.shortDesc}
                 </p>
+
+                {/* Pricing Box (if service has pricing) */}
+                {service.pricing && (
+                  <div className="mb-5 px-3 py-2.5 rounded-xl bg-gradient-to-r from-amber-500/10 to-amber-500/5 border border-amber-500/20 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400/80 block font-semibold">
+                        Starting from $200
+                      </span>
+                      <span className="text-sm font-mono font-bold text-amber-300">
+                        {service.pricing}
+                      </span>
+                    </div>
+                    {service.pricingNote && (
+                      <span className="text-[10px] text-slate-400 italic text-right max-w-[125px] leading-tight">
+                        *{service.pricingNote}
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div>

@@ -8,6 +8,8 @@ export interface ServiceItem {
   technologies: string[];
   deliverables: string[];
   icon: string;
+  pricing?: string;
+  pricingNote?: string;
 }
 
 export const servicesData: ServiceItem[] = [
@@ -78,7 +80,9 @@ export const servicesData: ServiceItem[] = [
       "Offline caching & local data storage",
       "Play Store release readiness and asset preparation"
     ],
-    icon: "Smartphone"
+    icon: "Smartphone",
+    pricing: "$200 – $1,790",
+    pricingNote: "Extra services chargeable"
   },
   {
     id: "ios-app-development",
@@ -95,7 +99,9 @@ export const servicesData: ServiceItem[] = [
       "Biometric authentication (Face ID / Touch ID)",
       "App Store submission preparation & compliance audit"
     ],
-    icon: "AppWindow"
+    icon: "AppWindow",
+    pricing: "$200 – $1,790",
+    pricingNote: "Extra services chargeable"
   },
   {
     id: "enterprise-backend-stack",

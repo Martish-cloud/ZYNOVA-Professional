@@ -302,28 +302,6 @@ export const projectsData: ProjectItem[] = [
     gradientTheme: "from-violet-950/40 via-purple-950/40 to-slate-900/50",
     badge: "E-Learning Academy",
     image: "/projects/LearnHub.webp"
-  },
-  {
-    id: "amit-halder-portfolio",
-    title: "Amit Halder",
-    subtitle: "Personal Portfolio & Technology Showcase",
-    category: "Business",
-    filterCategory: "business",
-    shortDesc: "Authoritative personal engineering portfolio highlighting foundational software architectures, GenAI automation, and data analytics leadership.",
-    overview: "The personal portfolio for Amit Halder, Founder of Zynova, presenting technical capabilities, engineering philosophy, and cross-disciplinary expertise across AI, automation, web, and business data platforms.",
-    challenge: "Communicating multifaceted technical competence (full-stack, automation, data engineering) in a clear, cohesive personal narrative.",
-    solution: "Structured a clean developer narrative highlighting verified technical capabilities, architectural principles, and strategic solutions.",
-    technologies: ["React.js", "TypeScript", "Tailwind CSS", "Lucide React", "GenAI"],
-    keyFeatures: [
-      "Executive developer biography and technology expertise breakdown",
-      "Curated engineering project highlights with architectural rationales",
-      "Direct consultation inquiry form and discovery call linkage",
-      "Minimalist dark-mode typography with high readability contrast",
-      "Responsive design optimized for international executive viewing"
-    ],
-    gradientTheme: "from-indigo-950/40 via-slate-900 to-slate-950",
-    badge: "Founder Portfolio",
-    image: "/projects/amit-halder-portfolio.webp"
   }
 ];
 
