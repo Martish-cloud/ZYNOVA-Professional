@@ -2,8 +2,8 @@ export interface ProjectItem {
   id: string;
   title: string;
   subtitle: string;
-  category: "Web" | "E-commerce" | "Business" | "Data" | "UI/UX";
-  filterCategory: "web" | "ecommerce" | "business" | "data" | "ui-ux";
+  category: "Web" | "E-commerce" | "Business" | "Data" | "UI/UX" | "Mobile Apps" | "iOS App" | "Android App" | string;
+  filterCategory: "web" | "ecommerce" | "business" | "data" | "ui-ux" | "mobile" | string;
   shortDesc: string;
   overview: string;
   challenge: string;
@@ -13,6 +13,7 @@ export interface ProjectItem {
   gradientTheme: string;
   badge: string;
   image: string;
+  platform?: "iOS" | "Android";
 }
 
 export const projectsData: ProjectItem[] = [
@@ -325,3 +326,289 @@ export const projectsData: ProjectItem[] = [
     image: "/projects/amit-halder-portfolio.webp"
   }
 ];
+
+export const mobileProjectsData: ProjectItem[] = [
+  // --- iOS Applications (8) ---
+  {
+    id: "eventify-ios",
+    title: "Eventify",
+    subtitle: "Event Discovery, Ticketing & Community Platform",
+    category: "Mobile Apps",
+    filterCategory: "mobile",
+    platform: "iOS",
+    badge: "iOS Application",
+    image: "/images/apps/eventify-ios.webp",
+    shortDesc: "Native iOS event discovery and ticketing platform featuring curated concerts, tech summits, live ticket booking, and community networking.",
+    overview: "Eventify connects users with immersive live experiences, music festivals, tech conferences, and local meetups through fluid iOS gesture navigation, interactive seat maps, and Apple Wallet ticket passes.",
+    challenge: "Engineering an instantaneous ticket booking pipeline capable of handling high-volume drop traffic with Apple Pay checkout and offline-available QR credentials.",
+    solution: "Developed an asynchronous ticket reservation engine built on SwiftUI with optimistic UI state caching, Apple Pay biometric checkout, and PKPass generation for Apple Wallet.",
+    technologies: ["SwiftUI", "Swift", "Apple Pay", "EventKit", "CloudKit", "PassKit"],
+    keyFeatures: [
+      "Location-based real-time event discovery with category filtering",
+      "Instant 1-tap Apple Pay ticket purchasing with encrypted receipts",
+      "Apple Wallet pass integration with offline dynamic QR validation",
+      "Event reminders synchronized with Apple Calendar & Push Notifications",
+      "Social attendee profiles and interest-based networking groups"
+    ],
+    gradientTheme: "from-purple-950/40 via-indigo-950/40 to-slate-900/50"
+  },
+  {
+    id: "medsync-ios",
+    title: "MedSync",
+    subtitle: "Healthcare Management, Appointments & Records",
+    category: "Mobile Apps",
+    filterCategory: "mobile",
+    platform: "iOS",
+    badge: "iOS Application",
+    image: "/images/apps/medsync-ios.webp",
+    shortDesc: "Comprehensive iOS healthcare companion for doctor consultations, digital health records, medicine reminders, and vital telemetry tracking.",
+    overview: "MedSync modernizes personal healthcare by unifying doctor discovery, appointment scheduling, prescription tracking, and encrypted laboratory record storage into a compassionate, HIPAA-compliant iOS application.",
+    challenge: "Designing an ultra-secure, intuitive interface accessible for patients of all ages while integrating bi-directional health telemetry with Apple HealthKit.",
+    solution: "Implemented an end-to-end encrypted HealthKit sync module with high-contrast accessibility typography, slot-based physician calendar booking, and interactive vital trend charts.",
+    technologies: ["SwiftUI", "HealthKit", "CryptoKit", "Combine", "CoreData", "REST APIs"],
+    keyFeatures: [
+      "Direct specialist appointment scheduling with real-time slot availability",
+      "Encrypted diagnostic lab report repository with multi-page PDF viewing",
+      "Smart medication dosage reminder scheduling with critical iOS alerts",
+      "Apple HealthKit synchronization for heart rate, BP, and activity metrics",
+      "Family member profile switching for dependent care management"
+    ],
+    gradientTheme: "from-teal-950/40 via-cyan-950/40 to-slate-900/50"
+  },
+  {
+    id: "mindflow-ios",
+    title: "MindFlow",
+    subtitle: "Mental Wellness, Meditation & Sleep Companion",
+    category: "Mobile Apps",
+    filterCategory: "mobile",
+    platform: "iOS",
+    badge: "iOS Application",
+    image: "/images/apps/mindflow-ios.webp",
+    shortDesc: "Serene mindfulness and meditation app with guided audio journeys, sleep soundscapes, stress reduction exercises, and mood progression logs.",
+    overview: "MindFlow creates a calm digital sanctuary for daily mental wellbeing, offering guided breathwork sessions, binaural soundscapes, habit builders, and mindful reflection tools.",
+    challenge: "Delivering continuous, gapless high-fidelity audio playback while animating soothing visualizers without draining battery during sleep states.",
+    solution: "Built a background-optimized AVFoundation audio engine paired with lightweight Metal particle shaders and offline-capable audio caching.",
+    technologies: ["SwiftUI", "AVFoundation", "Metal Shaders", "CoreMotion", "CoreData"],
+    keyFeatures: [
+      "Curated library of guided meditations, sleep stories, and ambient soundscapes",
+      "Interactive tactile breathing pacing guide with CoreHaptics feedback",
+      "Daily mood check-ins, gratitude journaling, and mental wellness analytics",
+      "Background audio timer with soothing fade-out sleep mode",
+      "Mindful minute tracking synced automatically with Apple Health"
+    ],
+    gradientTheme: "from-indigo-950/40 via-purple-950/40 to-slate-900/50"
+  },
+  {
+    id: "nourish-ios",
+    title: "Nourish",
+    subtitle: "Nutritional Intelligence, Meal Plans & Habit Tracker",
+    category: "Mobile Apps",
+    filterCategory: "mobile",
+    platform: "iOS",
+    badge: "iOS Application",
+    image: "/images/apps/nourish-ios.webp",
+    shortDesc: "Intuitive nutrition tracking app featuring personalized macro targets, healthy recipe exploration, water tracking, and mindful lifestyle coaching.",
+    overview: "Nourish empowers sustainable healthy eating habits through barcode scanning, macro breakdowns, bespoke meal planning, and interactive recipe collections tailored to dietary preferences.",
+    challenge: "Providing instantaneous food logging and macro calculation without tedious manual entry or complex data inputs.",
+    solution: "Engineered a Vision-based barcode and photo scanner integrated with a rapid local food database and animated macro circular progress rings.",
+    technologies: ["SwiftUI", "VisionKit", "CoreData", "Combine", "HealthKit"],
+    keyFeatures: [
+      "Instant calorie and macro ratio (protein, carbs, fats) progress visualization",
+      "Curated wholesome recipe library with step-by-step cooking directions",
+      "Smart water intake logger with animated hydration progress indicators",
+      "Personalized dietary goal configurations (keto, balanced, vegan, athlete)",
+      "Weekly nutritional summaries and long-term metabolic progress trends"
+    ],
+    gradientTheme: "from-emerald-950/40 via-green-950/40 to-slate-900/50"
+  },
+  {
+    id: "petpal-ios",
+    title: "PetPal",
+    subtitle: "All-in-One Pet Care, Health & Activity Tracking",
+    category: "Mobile Apps",
+    filterCategory: "mobile",
+    platform: "iOS",
+    badge: "iOS Application",
+    image: "/images/apps/petpal-ios.webp",
+    shortDesc: "Complete pet wellness app managing vaccination schedules, daily feeding routines, walk tracking, veterinary records, and multi-pet care.",
+    overview: "PetPal gives devoted pet owners total peace of mind by centralizing clinical records, auto-scheduled vaccination reminders, meal routines, and exercise logs in a friendly, heartwarming iOS interface.",
+    challenge: "Accommodating disparate species and breed requirements while maintaining seamless multi-pet profile transitions and recurring care alerts.",
+    solution: "Built a polymorphic pet data model with custom scheduled local notifications, MapKit walk route tracking, and shared household pet profiles.",
+    technologies: ["SwiftUI", "MapKit", "CoreData", "UserNotifications", "CloudKit"],
+    keyFeatures: [
+      "Multi-pet profile management with breed-specific developmental milestones",
+      "Automated immunization, grooming, and vet consultation calendar alerts",
+      "Daily meal logging, medication administration, and weight tracking curves",
+      "GPS walk route and distance tracking with bathroom stop markers",
+      "Expert pet care library with behavioral training guides and dietary advice"
+    ],
+    gradientTheme: "from-amber-950/40 via-orange-950/40 to-slate-900/50"
+  },
+  {
+    id: "taskly-ios",
+    title: "Taskly",
+    subtitle: "Daily Planning, Focus & Task Management System",
+    category: "Mobile Apps",
+    filterCategory: "mobile",
+    platform: "iOS",
+    badge: "iOS Application",
+    image: "/images/apps/taskly-ios.webp",
+    shortDesc: "Streamlined iOS productivity tool with smart day planning, priority matrices, subtask workflows, focus timers, and completion streaks.",
+    overview: "Taskly transforms daily chaos into focused momentum, combining a distraction-free task editor, Eisenhower priority categorization, Pomodoro focus sessions, and motivational streak tracking.",
+    challenge: "Maintaining zero-latency task creation and fluid drag-and-drop prioritization while maintaining bidirectional cloud synchronization.",
+    solution: "Architected a local-first CoreData cache with background CloudKit synchronization and fluid iOS drag-and-drop table reordering.",
+    technologies: ["SwiftUI", "CloudKit", "CoreData", "WidgetKit", "AppIntents"],
+    keyFeatures: [
+      "Natural language task input with automated date, time, and priority parsing",
+      "Customizable priority tags (High, Medium, Low) with smart color coding",
+      "Integrated Pomodoro focus timer with ambient sound and Do-Not-Disturb sync",
+      "Interactive iOS Home Screen widgets for instant task completion",
+      "Weekly productivity analytics showing velocity, completion rates, and streaks"
+    ],
+    gradientTheme: "from-blue-950/40 via-sky-950/40 to-slate-900/50"
+  },
+  {
+    id: "terratrack-ios",
+    title: "TerraTrack",
+    subtitle: "Outdoor Exploration, Trail GPS & Expedition Companion",
+    category: "Mobile Apps",
+    filterCategory: "mobile",
+    platform: "iOS",
+    badge: "iOS Application",
+    image: "/images/apps/terratrack-ios.webp",
+    shortDesc: "High-precision outdoor GPS navigation app featuring topographical offline maps, elevation profiles, waypoint markers, and trail tracking.",
+    overview: "TerraTrack is built for hikers, mountaineers, and trail runners seeking reliable offline GPS navigation, topographic contour overlays, elevation gain metrics, and community route discoveries.",
+    challenge: "Delivering continuous GPS track recording with high elevation accuracy in remote wilderness areas with zero cellular connectivity and low power consumption.",
+    solution: "Implemented an energy-efficient CoreLocation telemetry pipeline coupled with vector-tile offline map caching and Barometer elevation smoothing.",
+    technologies: ["SwiftUI", "CoreLocation", "MapKit", "CoreMotion", "Offline Vector Maps"],
+    keyFeatures: [
+      "Offline topographic and satellite map downloads for cell-free wilderness navigation",
+      "Real-time trail telemetry: distance, duration, elevation profile, and pace",
+      "Custom waypoint tagging with geolocated photos and emergency coordinates",
+      "Hike, cycling, and wildlife trail database with difficulty and terrain ratings",
+      "SOS coordinate broadcasting and return-to-origin breadcrumb navigation"
+    ],
+    gradientTheme: "from-cyan-950/40 via-blue-950/40 to-slate-900/50"
+  },
+  {
+    id: "zenith-ios",
+    title: "Zenith",
+    subtitle: "AI-Powered Productivity Assistant & Habit Engine",
+    category: "Mobile Apps",
+    filterCategory: "mobile",
+    platform: "iOS",
+    badge: "iOS Application",
+    image: "/images/apps/zenith-ios.webp",
+    shortDesc: "Next-generation iOS productivity assistant featuring conversational AI task triage, time blocking, strategic prioritization, and automated retrospectives.",
+    overview: "Zenith acts as an executive AI copilot for knowledge workers, analyzing daily commitments, drafting structured action plans, suggesting deep-work focus blocks, and providing contextual habit guidance.",
+    challenge: "Structuring real-time LLM suggestions into actionable task models and schedule items without cognitive friction or latency.",
+    solution: "Engineered an on-device streaming LLM client interfacing with native calendar and reminder APIs, utilizing structured JSON function calling.",
+    technologies: ["SwiftUI", "OpenAI / Claude APIs", "EventKit", "Combine", "KeychainServices"],
+    keyFeatures: [
+      "Conversational AI assistant for daily planning, prioritization, and debriefing",
+      "Automated smart time-blocking that arranges tasks into optimal calendar gaps",
+      "Voice note capture with instant AI transcript summarization and task extraction",
+      "Habit formation tracking with adaptive AI encouragement and milestone analysis",
+      "Dark-mode executive interface with fluid micro-interactions and haptic feedback"
+    ],
+    gradientTheme: "from-blue-950/40 via-indigo-950/40 to-slate-900/50"
+  },
+
+  // --- Android Applications (4) ---
+  {
+    id: "fitzone-android",
+    title: "FitZone",
+    subtitle: "Personalized Workouts, Nutrition & Habit Progression",
+    category: "Mobile Apps",
+    filterCategory: "mobile",
+    platform: "Android",
+    badge: "Android Application",
+    image: "/images/apps/fitzone-android.webp",
+    shortDesc: "Dynamic Android fitness application with tailored gym and home training regimens, nutrition planning, calorie counters, and milestone trackers.",
+    overview: "FitZone empowers active lifestyles through custom workout generators, macro-balanced nutrition guides, daily hydration logging, and motivating visual achievement milestones designed with Material You guidelines.",
+    challenge: "Delivering real-time rep counting and interval exercise timers across diverse Android device configurations and power management profiles.",
+    solution: "Built a reactive Kotlin architecture with Jetpack Compose, foreground work managers for uninterrupted workout timing, and Room database caching.",
+    technologies: ["Kotlin", "Jetpack Compose", "Room DB", "Health Connect", "Coroutines"],
+    keyFeatures: [
+      "Custom workout routines tailored to individual fitness levels, goals, and equipment",
+      "Nutritional macro tracker with high-protein meal recipes and calorie logs",
+      "Body weight and physical transformation progression charts with trend indicators",
+      "Integrated rest and interval timer with audible and vibration alerts",
+      "Community fitness challenges, streak badges, and social accountability groups"
+    ],
+    gradientTheme: "from-green-950/40 via-emerald-950/40 to-slate-900/50"
+  },
+  {
+    id: "safeher-android",
+    title: "SafeHer",
+    subtitle: "Personal Safety, Live Location & Emergency Response Network",
+    category: "Mobile Apps",
+    filterCategory: "mobile",
+    platform: "Android",
+    badge: "Android Application",
+    image: "/images/apps/safeher-android.webp",
+    shortDesc: "Life-saving Android safety app featuring 1-tap SOS alerts, encrypted live location sharing, emergency helpline routing, and verified community support.",
+    overview: "SafeHer provides women and vulnerable individuals with rapid emergency defense mechanisms, offering instant SOS broadcast notifications, real-time location telemetry to trusted guardians, and regional emergency helpline linkage.",
+    challenge: "Ensuring SOS alert delivery even under extreme low-battery, lock-screen, or weak-cellular connectivity states without failure.",
+    solution: "Implemented hardware power-button trigger listeners, fallback SMS geocoded dispatching, and foreground Android services for uninterrupted live tracking.",
+    technologies: ["Kotlin", "Jetpack Compose", "Google Maps SDK", "FusedLocationProvider", "Firebase Cloud Messaging"],
+    keyFeatures: [
+      "One-tap instantaneous emergency SOS button with audible alarm and silent trigger modes",
+      "Encrypted live GPS location sharing with designated trusted emergency contacts",
+      "Direct emergency helpline speed-dialing (Police, Medical, Women's Helpline)",
+      "Safety awareness resource guides, self-defense tutorials, and legal aid directory",
+      "Offline fallback SMS dispatch with last known GPS coordinates when data drops"
+    ],
+    gradientTheme: "from-pink-950/40 via-rose-950/40 to-slate-900/50"
+  },
+  {
+    id: "skillhub-android",
+    title: "SkillHub",
+    subtitle: "Interactive On-Demand Learning, Certifications & Community",
+    category: "Mobile Apps",
+    filterCategory: "mobile",
+    platform: "Android",
+    badge: "Android Application",
+    image: "/images/apps/skillhub-android.webp",
+    shortDesc: "Modular Android e-learning platform with video masterclasses, coding sandboxes, skill assessments, verified certificates, and peer community.",
+    overview: "SkillHub brings career-accelerating education into the palm of your hand, offering comprehensive courses across design, software development, business, and digital marketing with offline lecture downloads.",
+    challenge: "Delivering adaptive video streaming and interactive code/quiz evaluation across varying network conditions in developing markets.",
+    solution: "Integrated ExoPlayer with dynamic adaptive bitrate streaming, offline encrypted video caching, and local-first progress synchronization.",
+    technologies: ["Kotlin", "Jetpack Compose", "ExoPlayer", "Room DB", "Retrofit", "Coroutines"],
+    keyFeatures: [
+      "Extensive course catalog spanning Web Development, UI/UX Design, and Digital Marketing",
+      "Offline video downloading and playback for uninterrupted on-the-go study",
+      "Interactive module quizzes and real-world project submissions with mentor reviews",
+      "Verifiable digital completion certificates shareable directly to professional networks",
+      "Global peer discussion forums with real-time student Q&A threads"
+    ],
+    gradientTheme: "from-violet-950/40 via-purple-950/40 to-slate-900/50"
+  },
+  {
+    id: "snapstory-android",
+    title: "SnapStory",
+    subtitle: "Creative Photo & Video Story Editor, Filters & Storytelling",
+    category: "Mobile Apps",
+    filterCategory: "mobile",
+    platform: "Android",
+    badge: "Android Application",
+    image: "/images/apps/snapstory-android.webp",
+    shortDesc: "Expressive Android visual storytelling app featuring professional color grading, cinematic LUT filters, animated text overlays, and multi-clip timelines.",
+    overview: "SnapStory enables creators and everyday users to turn photos and video clips into memorable visual stories with professional grading presets, creative typography, stickers, and one-tap social export.",
+    challenge: "Achieving real-time 60fps GPU filter rendering and fast video rendering on diverse mid-range and flagship Android smartphones.",
+    solution: "Built a high-performance OpenGL ES / Vulkan shader pipeline with MediaCodec hardware video acceleration for instantaneous previews and swift exports.",
+    technologies: ["Kotlin", "Jetpack Compose", "OpenGL ES", "CameraX", "MediaCodec", "Vulkan"],
+    keyFeatures: [
+      "Professional photographic and cinematic film LUT filter collection (Vivid, B&W, Sunset, Retro)",
+      "Multi-layer canvas editor with dynamic typography, custom stickers, and frames",
+      "Real-time CameraX capture with live exposure, balance, and filter previewing",
+      "Curated aesthetic story templates categorized by travel, portrait, street, and pets",
+      "Lossless high-resolution image and 4K video export optimized for social platforms"
+    ],
+    gradientTheme: "from-amber-950/40 via-orange-950/40 to-slate-900/50"
+  }
+];
+
+// Append mobile applications into master projectsData
+projectsData.push(...mobileProjectsData);
+

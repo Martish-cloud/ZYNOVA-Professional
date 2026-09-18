@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { projectsData } from "../data/projects";
+import { projectsData, mobileProjectsData } from "../data/projects";
 import type { ProjectItem } from "../data/projects";
 import { excelDashboards, powerBIDashboards } from "../data/dashboards";
 import { DashboardGalleryModal } from "../components/data/DashboardGalleryModal";
@@ -32,8 +32,8 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
 
   const filters = [
     { label: "All Work", value: "All" },
+    { label: "Mobile Apps", value: "mobile" },
     { label: "E-commerce", value: "ecommerce" },
-    { label: "Web Apps", value: "web" },
     { label: "Business Portals", value: "business" },
     { label: "Data & BI", value: "data" },
     { label: "UI / UX", value: "ui-ux" }
@@ -46,27 +46,37 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
       return [{ type: "excel" }, { type: "powerbi" }];
     }
 
+    if (activeFilter === "mobile" || activeFilter === "web") {
+      // "Mobile Apps" tab displays ONLY the 12 iOS & Android mobile applications
+      return mobileProjectsData.map((p) => ({ type: "project", data: p }));
+    }
+
     if (activeFilter === "All") {
-      // "All Work" includes ALL projects + Excel + Power BI unified naturally
-      // Insert Excel & Power BI at index 4 and 5 (Row 2, items 1 and 2 in a 4-col grid)
+      // "All Work" includes ALL existing projects + Excel + Power BI + 12 Mobile Apps
+      // Structured into balanced rows on desktop (4 cards per row, 7 rows total = 28 cards)
       const items: WorkItem[] = [];
-      projectsData.forEach((project, index) => {
+      const baseProjects = projectsData.filter((p) => !p.platform);
+      baseProjects.forEach((project, index) => {
         if (index === 4) {
           items.push({ type: "excel" });
           items.push({ type: "powerbi" });
         }
         items.push({ type: "project", data: project });
       });
-      if (projectsData.length < 4) {
+      if (baseProjects.length < 4) {
         items.push({ type: "excel" });
         items.push({ type: "powerbi" });
       }
+      // Append all 12 mobile applications
+      mobileProjectsData.forEach((app) => {
+        items.push({ type: "project", data: app });
+      });
       return items;
     }
 
-    // Individual category filters
+    // Individual category filters (e.g. ecommerce, business, ui-ux)
     return projectsData
-      .filter((p) => p.filterCategory === activeFilter)
+      .filter((p) => p.filterCategory === activeFilter && !p.platform)
       .map((p) => ({ type: "project", data: p }));
   })();
 
@@ -258,7 +268,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
   );
 
   // ============================================================
-  // CARD 3: REGULAR PROJECT (Compact Medium Card)
+  // CARD 3: PROJECT & MOBILE APP CARD (Compact Medium Card)
   // ============================================================
   const renderProjectCard = (project: ProjectItem) => (
     <div
@@ -266,10 +276,16 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
       onClick={() => setSelectedProject(project)}
       onMouseEnter={() => setCursor("project", "VIEW")}
       onMouseLeave={resetCursor}
-      className="group relative rounded-2xl bg-gradient-to-b from-slate-900/70 via-slate-900/40 to-slate-950/90 border border-slate-800/80 hover:border-amber-400/60 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(245,158,11,0.25)] flex flex-col justify-between cursor-pointer overflow-hidden h-full"
+      className={`group relative rounded-2xl bg-gradient-to-b from-slate-900/70 via-slate-900/40 to-slate-950/90 border ${
+        project.platform === "iOS"
+          ? "border-purple-500/25 hover:border-purple-400/60 hover:shadow-[0_20px_40px_-15px_rgba(168,85,247,0.25)]"
+          : project.platform === "Android"
+          ? "border-emerald-500/25 hover:border-emerald-400/60 hover:shadow-[0_20px_40px_-15px_rgba(16,185,129,0.25)]"
+          : "border-slate-800/80 hover:border-amber-400/60 hover:shadow-[0_20px_40px_-15px_rgba(245,158,11,0.25)]"
+      } transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between cursor-pointer overflow-hidden h-full`}
     >
       <div>
-        {/* Visual Header Representation with Real Project Mockup */}
+        {/* Visual Header Representation with Real Project / App Mockup */}
         <div className="w-full h-44 sm:h-48 relative overflow-hidden bg-slate-950 border-b border-slate-800/80 group-hover:border-amber-400/40 transition-colors">
           <img
             src={project.image}
@@ -283,14 +299,26 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
 
           {/* Top-left category tag */}
           <div className="absolute top-2.5 left-2.5 z-10">
-            <span className="px-2 py-0.5 rounded text-[9px] font-mono uppercase tracking-widest bg-slate-950/85 backdrop-blur-md text-slate-300 border border-white/10 shadow-sm">
-              {project.category}
+            <span className={`px-2 py-0.5 rounded text-[9px] font-mono uppercase tracking-widest backdrop-blur-md shadow-sm border ${
+              project.platform === "iOS"
+                ? "bg-purple-950/90 text-purple-300 border-purple-500/30"
+                : project.platform === "Android"
+                ? "bg-emerald-950/90 text-emerald-300 border-emerald-500/30"
+                : "bg-slate-950/85 text-slate-300 border-white/10"
+            }`}>
+              {project.platform ? `${project.platform} App` : project.category}
             </span>
           </div>
 
           {/* Category Pill on top-right */}
           <div className="absolute top-2.5 right-2.5 z-10">
-            <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-semibold bg-black/80 backdrop-blur-md text-amber-300 border border-amber-400/30 shadow-lg">
+            <span className={`px-2.5 py-1 rounded-full text-[10px] font-mono font-semibold backdrop-blur-md shadow-lg border ${
+              project.platform === "iOS"
+                ? "bg-black/80 text-purple-300 border-purple-400/30"
+                : project.platform === "Android"
+                ? "bg-black/80 text-emerald-300 border-emerald-400/30"
+                : "bg-black/80 text-amber-300 border-amber-400/30"
+            }`}>
               {project.badge}
             </span>
           </div>
@@ -298,9 +326,24 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
 
         {/* Card Content Area */}
         <div className="p-4 sm:p-5">
-          <h3 className="text-base sm:text-lg font-bold font-heading text-white group-hover:text-amber-200 transition-colors mb-1.5 line-clamp-1">
-            {project.title}
-          </h3>
+          <div className="flex items-center justify-between gap-1 mb-1">
+            <h3 className="text-base sm:text-lg font-bold font-heading text-white group-hover:text-amber-200 transition-colors line-clamp-1">
+              {project.title}
+            </h3>
+            {project.platform && (
+              <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded ${
+                project.platform === "iOS"
+                  ? "text-purple-300 bg-purple-950/40 border border-purple-500/20"
+                  : "text-emerald-300 bg-emerald-950/40 border border-emerald-500/20"
+              }`}>
+                {project.platform}
+              </span>
+            )}
+          </div>
+
+          <p className="text-[11px] font-semibold text-slate-400/90 font-mono mb-1.5 line-clamp-1">
+            {project.subtitle}
+          </p>
 
           <p className="text-xs text-slate-400 leading-relaxed line-clamp-2 mb-3">
             {project.shortDesc}
@@ -328,7 +371,9 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
       {/* Bottom Action Line */}
       <div className="px-4 sm:px-5 pb-4 sm:pb-5 pt-1">
         <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-semibold text-amber-400 group-hover:text-amber-300 transition-colors">
-          <span className="font-heading uppercase tracking-wider text-[11px]">View Architecture</span>
+          <span className="font-heading uppercase tracking-wider text-[11px]">
+            {project.platform ? "View App Architecture" : "View Architecture"}
+          </span>
           <ArrowUpRight className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
         </div>
       </div>

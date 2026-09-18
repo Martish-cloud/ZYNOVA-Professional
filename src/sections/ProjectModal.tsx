@@ -45,11 +45,13 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
         </div>
 
         {/* Visual Showcase with Real Project Mockup */}
-        <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden bg-slate-950 border border-slate-700/80 shadow-2xl group">
+        <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden bg-[#07080f] border border-slate-700/80 shadow-2xl group">
           <img
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
+            className={`w-full h-full ${
+              project.platform ? "object-contain bg-[#07080f]" : "object-cover object-top"
+            } transition-transform duration-700 group-hover:scale-[1.02]`}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-black/30 pointer-events-none" />
 
@@ -57,7 +59,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
           <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
             <div className="bg-slate-950/85 backdrop-blur-md px-4 py-2.5 rounded-lg border border-amber-500/20 shadow-lg">
               <span className="font-mono text-[10px] text-amber-300 uppercase tracking-widest block mb-0.5">
-                {project.category} &bull; {project.badge}
+                {project.platform ? `${project.platform} Application • ${project.title}` : `${project.category} • ${project.badge}`}
               </span>
               <h3 className="text-lg sm:text-xl font-black font-heading text-white">
                 {project.title}
