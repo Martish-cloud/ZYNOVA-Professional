@@ -1,251 +1,221 @@
 import React, { useState } from "react";
 import { SectionHeading } from "../components/ui/SectionHeading";
+import { MagneticButton } from "../components/ui/MagneticButton";
 import { useCursor } from "../context/useCursor";
-import { excelDashboards, powerBIDashboards } from "../data/dashboards";
-import { DashboardGalleryModal } from "../components/data/DashboardGalleryModal";
 import {
   FileSpreadsheet,
   BarChart3,
-  ArrowRight,
+  Filter,
+  TrendingUp,
+  ArrowUpRight,
   Sparkles,
-  Database,
-  TrendingUp
+  RefreshCw
 } from "lucide-react";
 
 export const DataSolutions: React.FC = () => {
   const { setCursor, resetCursor } = useCursor();
-  const [activeModal, setActiveModal] = useState<"excel" | "powerbi" | null>(null);
+  const [activeTimeframe, setActiveTimeframe] = useState<"Q1" | "Q2" | "Q3" | "Q4">("Q4");
 
-  const activeDashboards =
-    activeModal === "excel"
-      ? excelDashboards
-      : activeModal === "powerbi"
-      ? powerBIDashboards
-      : [];
+  // Simulated metrics based on timeframe
+  const metricsData = {
+    Q1: { processed: "420,000", speed: "99.4%", latency: "1.2s", accuracy: "99.98%", heightMultiplier: 0.65 },
+    Q2: { processed: "680,000", speed: "99.7%", latency: "1.0s", accuracy: "99.99%", heightMultiplier: 0.78 },
+    Q3: { processed: "890,000", speed: "99.8%", latency: "0.8s", accuracy: "100.0%", heightMultiplier: 0.88 },
+    Q4: { processed: "1,250,000+", speed: "99.9%", latency: "0.4s", accuracy: "100.0%", heightMultiplier: 1.0 }
+  };
+
+  const currentMetric = metricsData[activeTimeframe];
 
   return (
-    <section
-      id="data-solutions"
-      className="py-24 sm:py-32 relative z-10 bg-transparent border-t border-amber-500/10"
-    >
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[650px] h-[400px] bg-gradient-to-b from-amber-500/[0.035] via-yellow-500/[0.025] to-transparent rounded-full blur-[140px] pointer-events-none z-0" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Heading */}
+    <section id="data-solutions" className="py-24 sm:py-32 relative z-10 bg-transparent border-t border-amber-500/10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          badge="DATA & BI"
-          title="Excel & Power BI"
-          highlightedTitle="Solutions."
-          subtitle="Transform chaotic spreadsheets and complex data pipelines into automated executive dashboards, standardized data models, and high-impact business intelligence."
+          badge="DATA &amp; BUSINESS INTELLIGENCE"
+          title="Turn Business Data Into"
+          highlightedTitle="Actionable Decisions."
+          subtitle="Transform chaotic spreadsheets and scattered databases into automated executive dashboards, standardized cleaning pipelines, and high-impact Power BI models."
           badgeVariant="gold"
-          align="center"
         />
 
-        {/* The Two Prominent Category Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 mb-16">
-          {/* ============================================================ */}
-          {/* CARD 1: EXCEL */}
-          {/* ============================================================ */}
-          <div
-            onClick={() => setActiveModal("excel")}
-            onMouseEnter={() => setCursor("project", "VIEW")}
-            onMouseLeave={resetCursor}
-            className="group relative flex flex-col rounded-3xl bg-gradient-to-b from-slate-900/90 via-[#0a0c16] to-[#06070d] border border-amber-500/20 hover:border-amber-400/60 p-6 sm:p-8 lg:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] hover:shadow-[0_0_40px_rgba(245,158,11,0.2)] transition-all duration-300 hover:-translate-y-1.5 cursor-pointer overflow-hidden"
-          >
-            {/* Subtle glow accent inside card */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-amber-400/15 transition-all duration-500" />
-
-            {/* Top Category Badge & Item Count */}
-            <div className="flex items-center justify-between gap-2 mb-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/50 border border-emerald-500/30 text-emerald-300 text-xs font-mono font-bold uppercase tracking-wider">
-                <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
-                <span>EXCEL</span>
-              </div>
-              <span className="text-xs font-mono text-slate-400">
-                {excelDashboards.length} Live Dashboards
-              </span>
+        {/* Top Feature Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          {/* Card 1: Data Cleaning & Merging */}
+          <div className="p-7 rounded-2xl bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-slate-800/80 hover:border-amber-500/40 transition-all group">
+            <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-5 group-hover:scale-110 transition-transform">
+              <Filter className="w-6 h-6" />
             </div>
-
-            {/* Card Visual: Professional Excel Showcase Thumbnail */}
-            <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-6 border border-slate-800/90 bg-[#080a12] shadow-inner group-hover:border-amber-400/40 transition-colors">
-              <img
-                src={excelDashboards[0]?.image || "/images/dashboards/excel/excel-dashboard-1.png"}
-                alt="Advanced Excel Dashboards & Analytics"
-                loading="lazy"
-                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#06070d] via-transparent to-black/20 opacity-70 group-hover:opacity-40 transition-opacity" />
-
-              {/* Floating Tag over Visual */}
-              <div className="absolute bottom-3 left-3 px-3 py-1 rounded-lg bg-black/80 backdrop-blur-md border border-amber-500/25 text-[11px] font-mono text-amber-300 flex items-center gap-1.5">
-                <Sparkles className="w-3 h-3" />
-                <span>Pivot Tables &bull; Formulas &bull; Automation</span>
-              </div>
-            </div>
-
-            {/* Content Details */}
-            <div className="flex-1 flex flex-col justify-between space-y-4">
-              <div>
-                <h3 className="text-2xl sm:text-3xl font-heading font-extrabold text-white group-hover:text-amber-300 transition-colors">
-                  Excel
-                </h3>
-                <p className="text-sm font-semibold text-amber-200/90 font-mono mt-1">
-                  Advanced Excel Dashboards &amp; Analytics
-                </p>
-                <p className="text-xs sm:text-sm text-slate-400 mt-2.5 leading-relaxed">
-                  Interactive Excel dashboards, automated reports, Pivot Tables, formulas, data analysis and business reporting solutions.
-                </p>
-              </div>
-
-              {/* Core Feature Chips */}
-              <div className="flex flex-wrap gap-1.5 pt-2">
-                {[
-                  "Interactive Dashboards",
-                  "Automated Reporting",
-                  "Pivot Tables & Slicers",
-                  "Formulas & Logic",
-                  "Data Cleaning",
-                  "Business Analytics"
-                ].map((chip) => (
-                  <span
-                    key={chip}
-                    className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-slate-900/90 text-slate-300 border border-slate-800"
-                  >
-                    {chip}
-                  </span>
-                ))}
-              </div>
-
-              {/* CTA Action Button */}
-              <div className="pt-4 border-t border-slate-800/80">
-                <div className="w-full py-3 px-5 rounded-xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-heading font-bold text-xs sm:text-sm tracking-wider uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.3)] group-hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] transition-all">
-                  <span>VIEW EXCEL DASHBOARDS</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </div>
-              </div>
-            </div>
+            <h3 className="font-heading text-xl font-bold text-white mb-2">
+              Data Cleaning &amp; Merging
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              Systematic elimination of duplicates, syntax sanitization, date/currency normalization, and multi-file master merging using advanced Excel Power Query.
+            </p>
           </div>
 
-          {/* ============================================================ */}
-          {/* CARD 2: POWER BI */}
-          {/* ============================================================ */}
-          <div
-            onClick={() => setActiveModal("powerbi")}
-            onMouseEnter={() => setCursor("project", "VIEW")}
-            onMouseLeave={resetCursor}
-            className="group relative flex flex-col rounded-3xl bg-gradient-to-b from-slate-900/90 via-[#0a0c16] to-[#06070d] border border-amber-500/20 hover:border-amber-400/60 p-6 sm:p-8 lg:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] hover:shadow-[0_0_40px_rgba(245,158,11,0.2)] transition-all duration-300 hover:-translate-y-1.5 cursor-pointer overflow-hidden"
-          >
-            {/* Subtle glow accent inside card */}
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-yellow-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-amber-400/15 transition-all duration-500" />
-
-            {/* Top Category Badge & Item Count */}
-            <div className="flex items-center justify-between gap-2 mb-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/50 border border-amber-500/30 text-amber-300 text-xs font-mono font-bold uppercase tracking-wider">
-                <BarChart3 className="w-4 h-4 text-amber-400" />
-                <span>POWER BI</span>
-              </div>
-              <span className="text-xs font-mono text-slate-400">
-                {powerBIDashboards.length} Live Dashboards
-              </span>
+          {/* Card 2: Professional Excel Dashboards */}
+          <div className="p-7 rounded-2xl bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-slate-800/80 hover:border-yellow-500/40 transition-all group">
+            <div className="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-yellow-400 mb-5 group-hover:scale-110 transition-transform">
+              <FileSpreadsheet className="w-6 h-6" />
             </div>
+            <h3 className="font-heading text-xl font-bold text-white mb-2">
+              Automated Excel Dashboards
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              Bespoke operational dashboards featuring dynamic timeline slicers, automated KPI variance indicators, scenario toggles, and one-click refresh buttons.
+            </p>
+          </div>
 
-            {/* Card Visual: Professional Power BI Showcase Thumbnail */}
-            <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-6 border border-slate-800/90 bg-[#080a12] shadow-inner group-hover:border-amber-400/40 transition-colors">
-              <img
-                src={powerBIDashboards[0]?.image || "/images/dashboards/powerbi/powerbi-dashboard-1.png"}
-                alt="Business Intelligence & Data Visualization"
-                loading="lazy"
-                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#06070d] via-transparent to-black/20 opacity-70 group-hover:opacity-40 transition-opacity" />
-
-              {/* Floating Tag over Visual */}
-              <div className="absolute bottom-3 left-3 px-3 py-1 rounded-lg bg-black/80 backdrop-blur-md border border-amber-500/25 text-[11px] font-mono text-amber-300 flex items-center gap-1.5">
-                <TrendingUp className="w-3 h-3" />
-                <span>DAX Modeling &bull; Power Query &bull; KPIs</span>
-              </div>
+          {/* Card 3: Advanced Power BI Reporting */}
+          <div className="p-7 rounded-2xl bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-slate-800/80 hover:border-amber-400/50 transition-all group">
+            <div className="w-12 h-12 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-300 mb-5 group-hover:scale-110 transition-transform">
+              <BarChart3 className="w-6 h-6" />
             </div>
-
-            {/* Content Details */}
-            <div className="flex-1 flex flex-col justify-between space-y-4">
-              <div>
-                <h3 className="text-2xl sm:text-3xl font-heading font-extrabold text-white group-hover:text-amber-300 transition-colors">
-                  Power BI
-                </h3>
-                <p className="text-sm font-semibold text-amber-200/90 font-mono mt-1">
-                  Business Intelligence &amp; Data Visualization
-                </p>
-                <p className="text-xs sm:text-sm text-slate-400 mt-2.5 leading-relaxed">
-                  Interactive Power BI dashboards, KPI reporting, data modeling, DAX, Power Query and business intelligence solutions.
-                </p>
-              </div>
-
-              {/* Core Feature Chips */}
-              <div className="flex flex-wrap gap-1.5 pt-2">
-                {[
-                  "Interactive Dashboards",
-                  "KPI Reporting",
-                  "Data Modeling",
-                  "Advanced DAX",
-                  "Power Query ETL",
-                  "Data Visualization"
-                ].map((chip) => (
-                  <span
-                    key={chip}
-                    className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-slate-900/90 text-slate-300 border border-slate-800"
-                  >
-                    {chip}
-                  </span>
-                ))}
-              </div>
-
-              {/* CTA Action Button */}
-              <div className="pt-4 border-t border-slate-800/80">
-                <div className="w-full py-3 px-5 rounded-xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-heading font-bold text-xs sm:text-sm tracking-wider uppercase flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.3)] group-hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] transition-all">
-                  <span>VIEW POWER BI DASHBOARDS</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </div>
-              </div>
-            </div>
+            <h3 className="font-heading text-xl font-bold text-white mb-2">
+              Enterprise Power BI Models
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              Production-grade Star Schema modeling, complex DAX time-intelligence formulas (YoY, MoM, moving averages), drill-through views, and scheduled cloud sync.
+            </p>
           </div>
         </div>
 
-        {/* Bottom Capabilities Banner */}
-        <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-slate-900/80 via-[#0a0c16] to-slate-900/80 border border-slate-800/90 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center shrink-0">
-              <Database className="w-6 h-6 text-amber-400" />
+        {/* Interactive Simulated Dashboard Demonstration */}
+        <div className="relative rounded-3xl bg-[#0a0c16] border border-amber-500/20 p-6 sm:p-8 lg:p-10 shadow-[0_30px_70px_-10px_rgba(0,0,0,0.8),0_0_50px_rgba(245,158,11,0.1)] overflow-hidden">
+          {/* Subtle Demonstration Disclaimer Tag */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-800/80 mb-8">
+            <div className="flex items-center gap-3">
+              <div className="w-3 h-3 rounded-full bg-amber-400 animate-ping" />
+              <div>
+                <h4 className="font-heading font-bold text-lg text-white">
+                  SIMULATED ANALYTICS ENGINE &bull; DEMO INTERFACE
+                </h4>
+                <p className="text-xs text-slate-400">
+                  Interactive architectural demonstration of our reporting modeling &amp; dashboard systems.
+                </p>
+              </div>
             </div>
-            <div>
-              <h4 className="text-sm sm:text-base font-bold text-white font-heading">
-                Custom Analytics Architecture for Your Enterprise
-              </h4>
-              <p className="text-xs text-slate-400 mt-0.5">
-                Whether you need automated spreadsheet cleaning or an enterprise multi-source Power BI model, we deliver clean, actionable data systems.
-              </p>
+
+            {/* Timeframe Filter Buttons */}
+            <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900 border border-slate-800">
+              {(["Q1", "Q2", "Q3", "Q4"] as const).map((q) => (
+                <button
+                  key={q}
+                  onClick={() => setActiveTimeframe(q)}
+                  onMouseEnter={() => setCursor("button")}
+                  onMouseLeave={resetCursor}
+                  className={`px-3 py-1 rounded-lg text-xs font-mono font-semibold transition-colors cursor-pointer ${
+                    activeTimeframe === q
+                      ? "bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 text-slate-950 font-bold shadow-[0_0_12px_rgba(245,158,11,0.4)]"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  {q}
+                </button>
+              ))}
             </div>
           </div>
 
-          <a
-            href="#book-call"
-            onMouseEnter={() => setCursor("button")}
-            onMouseLeave={resetCursor}
-            className="shrink-0 px-5 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-amber-500/30 text-amber-300 hover:text-amber-200 text-xs font-semibold tracking-wider uppercase transition-all flex items-center gap-2 shadow-sm"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>Discuss Data Architecture</span>
-          </a>
+          {/* Metric Scorecards Row */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+              <span className="text-[10px] font-mono uppercase text-slate-400">
+                Automated Records Processed
+              </span>
+              <div className="text-2xl font-black font-heading text-white mt-1">
+                {currentMetric.processed}
+              </div>
+              <span className="text-[11px] text-amber-400 font-mono mt-1 flex items-center gap-1">
+                <TrendingUp className="w-3 h-3" /> +38.4% Efficiency
+              </span>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+              <span className="text-[10px] font-mono uppercase text-slate-400">
+                Pipeline Accuracy Rate
+              </span>
+              <div className="text-2xl font-black font-heading text-white mt-1 text-amber-300">
+                {currentMetric.accuracy}
+              </div>
+              <span className="text-[11px] text-slate-400 font-mono mt-1">
+                Zero formula errors
+              </span>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+              <span className="text-[10px] font-mono uppercase text-slate-400">
+                ETL Refresh Latency
+              </span>
+              <div className="text-2xl font-black font-heading text-white mt-1 text-yellow-300">
+                {currentMetric.latency}
+              </div>
+              <span className="text-[11px] text-amber-400 font-mono mt-1">
+                Automated schedule
+              </span>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+              <span className="text-[10px] font-mono uppercase text-slate-400">
+                Data Consistency Index
+              </span>
+              <div className="text-2xl font-black font-heading text-white mt-1 text-amber-200">
+                {currentMetric.speed}
+              </div>
+              <span className="text-[11px] text-slate-400 font-mono mt-1">
+                Cleaned &amp; consolidated
+              </span>
+            </div>
+          </div>
+
+          {/* Simulated Interactive Bar Visualization */}
+          <div className="p-6 rounded-2xl bg-slate-900/40 border border-slate-800/80">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
+                <BarChart3 className="w-4 h-4 text-amber-400" />
+                <span>MONTHLY CONSOLIDATED OPERATIONAL VOLUME ({activeTimeframe})</span>
+              </div>
+              <span className="text-xs font-mono text-amber-400 flex items-center gap-1">
+                <RefreshCw className="w-3 h-3 animate-spin" /> Live Simulated Feed
+              </span>
+            </div>
+
+            {/* Custom Bar Graphics using SVG & CSS */}
+            <div className="grid grid-cols-6 sm:grid-cols-12 gap-2 h-40 items-end pt-4 border-b border-slate-800 pb-2">
+              {[45, 62, 58, 75, 82, 90, 68, 88, 94, 85, 96, 100].map((val, idx) => {
+                const adjustedVal = Math.round(val * currentMetric.heightMultiplier);
+                return (
+                  <div key={idx} className="flex flex-col items-center gap-2 group h-full justify-end">
+                    <div
+                      style={{ height: `${adjustedVal}%` }}
+                      className="w-full rounded-t-md bg-gradient-to-t from-amber-600 via-yellow-500 to-amber-300 group-hover:from-amber-400 group-hover:to-yellow-200 transition-all duration-500 shadow-[0_0_12px_rgba(245,158,11,0.25)]"
+                    />
+                    <span className="text-[9px] font-mono text-slate-400 group-hover:text-white transition-colors">
+                      M0{idx + 1}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Bottom CTA for Data Consultations */}
+          <div className="mt-8 pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <span className="text-xs text-slate-400 text-center sm:text-left">
+              Need custom Excel cleaning or an enterprise Power BI model for your datasets?
+            </span>
+            <MagneticButton
+              asAnchor
+              href="#book-call"
+              variant="outline"
+              className="!py-2.5 !px-5 text-xs font-semibold"
+              cursorLabel="DISCUSS"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span>Discuss Data Architecture</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </MagneticButton>
+          </div>
         </div>
       </div>
-
-      {/* Interactive Gallery Lightbox Modal */}
-      <DashboardGalleryModal
-        category={activeModal}
-        dashboards={activeDashboards}
-        isOpen={activeModal !== null}
-        onClose={() => setActiveModal(null)}
-      />
     </section>
   );
 };
