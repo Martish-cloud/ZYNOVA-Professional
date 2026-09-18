@@ -63,7 +63,7 @@ export const siteConfig: SiteConfig = {
   whatsappGroupURL: "https://chat.whatsapp.com/invite/zynova",
   founder: {
     name: "Amit Halder",
-    role: "Founder & Technology Specialist",
+    role: "Founder & Managing Director",
     location: "West Bengal, India",
     bio: "Engineering high-performance digital products, intelligent automation workflows, and actionable business intelligence for forward-thinking enterprises."
   },
