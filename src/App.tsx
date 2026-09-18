@@ -13,6 +13,7 @@ import { WhyZynova } from "./sections/WhyZynova";
 import { Industries } from "./sections/Industries";
 import { Process } from "./sections/Process";
 import { Platforms } from "./sections/Platforms";
+import { Testimonials } from "./sections/Testimonials";
 import { CTASection } from "./sections/CTASection";
 import { BookCall } from "./sections/BookCall";
 import { ZynovaGivesBack } from "./sections/ZynovaGivesBack";
@@ -98,6 +99,9 @@ export const App: React.FC = () => {
 
           {/* Freelance & Contract Platforms */}
           <Platforms />
+
+          {/* Customer Reviews & Client Testimonials */}
+          <Testimonials />
 
           {/* Cinematic Agency CTA */}
           <CTASection />
