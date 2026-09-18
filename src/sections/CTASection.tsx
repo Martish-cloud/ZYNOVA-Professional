@@ -11,16 +11,16 @@ export const CTASection: React.FC = () => {
   };
 
   return (
-    <section className="py-24 sm:py-32 relative z-10 bg-transparent border-t border-amber-500/10 overflow-hidden">
+    <section className="py-14 sm:py-18 md:py-20 relative z-10 bg-transparent border-t border-amber-500/10 overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-r from-amber-600/15 via-yellow-600/10 to-amber-600/15 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="mb-6 flex justify-center">
+        <div className="mb-3.5 flex justify-center">
           <Badge variant="gold">INITIALIZE YOUR ARCHITECTURE</Badge>
         </div>
 
-        <h2 className="text-4xl sm:text-5xl md:text-6xl font-black font-heading text-white tracking-tight mb-6 leading-tight">
+        <h2 className="text-2xl sm:text-4xl md:text-5xl font-black font-heading text-white tracking-tight mb-3.5 leading-tight">
           LET&apos;S BUILD SOMETHING{" "}
           <TypewriterText
             text="EXTRAORDINARY."
@@ -28,15 +28,15 @@ export const CTASection: React.FC = () => {
           />
         </h2>
 
-        <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="text-xs sm:text-sm md:text-base text-slate-300 max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed">
           Have an ambitious idea, legacy system to modernize, or high-volume business dataset to untangle? Let&apos;s engineer a scalable, durable digital solution.
         </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           <MagneticButton
             variant="gold"
             onClick={() => scrollToSection("book-call")}
-            className="!px-8 !py-4 text-sm font-bold shadow-[0_0_30px_rgba(245,158,11,0.35)]"
+            className="!px-5 sm:!px-6 !py-2.5 sm:!py-3 text-xs sm:text-sm font-bold shadow-[0_0_30px_rgba(245,158,11,0.35)]"
             cursorLabel="CALL"
           >
             <Calendar className="w-4 h-4 text-slate-950" />
@@ -46,7 +46,7 @@ export const CTASection: React.FC = () => {
           <MagneticButton
             variant="secondary"
             onClick={() => scrollToSection("contact")}
-            className="!px-8 !py-4 text-sm font-semibold !border-amber-500/30 hover:!border-amber-400/80 hover:!text-amber-200"
+            className="!px-5 sm:!px-6 !py-2.5 sm:!py-3 text-xs sm:text-sm font-semibold !border-amber-500/30 hover:!border-amber-400/80 hover:!text-amber-200"
             cursorLabel="INQUIRE"
           >
             <span>Send Direct Enquiry</span>
@@ -54,14 +54,14 @@ export const CTASection: React.FC = () => {
           </MagneticButton>
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400 font-mono">
+        <div className="mt-7 sm:mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-[11px] sm:text-xs text-slate-400 font-mono">
           <span className="flex items-center gap-1.5">
-            <ShieldCheck className="w-4 h-4 text-amber-400" />
+            <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
             100% Client IP Ownership
           </span>
           <span>&bull;</span>
           <span className="flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-yellow-400" />
+            <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
             Guaranteed 12h Response
           </span>
           <span>&bull;</span>

@@ -185,7 +185,7 @@ export const ZynovaGivesBack: React.FC = () => {
   return (
     <section
       id="gives-back"
-      className="relative py-24 md:py-32 bg-[#050609] overflow-hidden text-slate-200 border-t border-amber-500/15"
+      className="relative py-14 sm:py-18 md:py-20 bg-[#050609] overflow-hidden text-slate-200 border-t border-amber-500/15"
     >
       {/* Warm Ambient Atmospheric Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-gradient-to-b from-rose-500/[0.04] via-amber-500/[0.035] to-transparent rounded-full blur-[140px] pointer-events-none z-0" />
@@ -203,21 +203,21 @@ export const ZynovaGivesBack: React.FC = () => {
         />
 
         {/* Supporting Slogan Banner */}
-        <div className="text-center -mt-8 mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/25 shadow-[0_0_20px_rgba(245,158,11,0.1)]">
-            <Heart className="w-4 h-4 text-rose-400 fill-rose-400/30 animate-pulse" />
-            <span className="text-sm font-semibold tracking-wide text-amber-200">
+        <div className="text-center -mt-4 mb-10">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/25 shadow-[0_0_20px_rgba(245,158,11,0.1)]">
+            <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400/30 animate-pulse" />
+            <span className="text-xs sm:text-sm font-semibold tracking-wide text-amber-200">
               {donationConfig.copy.subheadline}
             </span>
           </div>
         </div>
 
         {/* Main Content Layout: Desktop 2-Columns / Mobile Stacked */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start mb-12 sm:mb-14">
           {/* ============================================================ */}
           {/* LEFT COLUMN: Showcase Banner Visual & "HOW IT WORKS" Timeline */}
           {/* ============================================================ */}
-          <div className="lg:col-span-6 space-y-8">
+          <div className="lg:col-span-6 space-y-5 sm:space-y-6">
             {/* Charity Showcase Visual */}
             <div
               className="relative group rounded-2xl sm:rounded-3xl p-1 bg-gradient-to-b from-amber-500/30 via-amber-900/20 to-slate-900/40 border border-amber-500/25 shadow-[0_10px_40px_rgba(0,0,0,0.8),0_0_30px_rgba(245,158,11,0.12)] overflow-hidden transition-all duration-300"
@@ -255,10 +255,10 @@ export const ZynovaGivesBack: React.FC = () => {
             </div>
 
             {/* HOW IT WORKS TIMELINE */}
-            <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-slate-900/70 to-[#07080f]/90 border border-slate-800/90 shadow-xl space-y-6">
-              <div className="flex items-center gap-2.5 pb-3 border-b border-slate-800/80">
+            <div className="p-5 sm:p-6 rounded-xl bg-gradient-to-b from-slate-900/70 to-[#07080f]/90 border border-slate-800/90 shadow-xl space-y-4">
+              <div className="flex items-center gap-2.5 pb-2.5 border-b border-slate-800/80">
                 <Sparkles className="w-4 h-4 text-amber-400" />
-                <h3 className="font-heading text-lg font-bold text-white tracking-wide uppercase">
+                <h3 className="font-heading text-base sm:text-lg font-bold text-white tracking-wide uppercase">
                   How It Works
                 </h3>
               </div>
@@ -312,18 +312,18 @@ export const ZynovaGivesBack: React.FC = () => {
           {/* ============================================================ */}
           {/* RIGHT COLUMN: Amount Selection, QR Code Card & Reconciliation */}
           {/* ============================================================ */}
-          <div className="lg:col-span-6 space-y-8">
-            <div className="p-6 sm:p-8 rounded-2xl sm:rounded-3xl bg-gradient-to-b from-[#0e101b] via-[#090b14] to-[#06070d] border border-amber-500/25 shadow-[0_10px_50px_rgba(0,0,0,0.85)] space-y-6">
+          <div className="lg:col-span-6 space-y-5 sm:space-y-6">
+            <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-b from-[#0e101b] via-[#090b14] to-[#06070d] border border-amber-500/25 shadow-[0_10px_50px_rgba(0,0,0,0.85)] space-y-4">
               {/* Header inside card */}
-              <div className="border-b border-amber-500/20 pb-4">
+              <div className="border-b border-amber-500/20 pb-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Coins className="w-5 h-5 text-amber-400" />
-                    <h3 className="font-heading text-lg font-bold text-white">
+                    <Coins className="w-4 h-4 text-amber-400" />
+                    <h3 className="font-heading text-base sm:text-lg font-bold text-white">
                       Choose Contribution Amount
                     </h3>
                   </div>
-                  <span className="text-[11px] font-mono text-amber-300/80 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">
+                  <span className="text-[10px] sm:text-[11px] font-mono text-amber-300/80 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
                     Min ₹{donationConfig.minimumDonation}
                   </span>
                 </div>
@@ -343,7 +343,7 @@ export const ZynovaGivesBack: React.FC = () => {
                       onClick={() => handlePresetClick(amt)}
                       onMouseEnter={() => setCursor("button", "GIVE")}
                       onMouseLeave={resetCursor}
-                      className={`py-2 px-1 text-center rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                      className={`py-1.5 px-1 text-center rounded-lg text-xs font-semibold transition-all duration-200 cursor-pointer ${
                         isActive
                           ? "bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-bold shadow-[0_0_15px_rgba(245,158,11,0.4)] scale-105"
                           : "bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700/60 hover:border-amber-400/50"
@@ -365,7 +365,7 @@ export const ZynovaGivesBack: React.FC = () => {
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                    <span className="text-amber-400 font-bold text-base">₹</span>
+                    <span className="text-amber-400 font-bold text-sm">₹</span>
                   </div>
                   <input
                     id="customDonationAmount"
@@ -376,7 +376,7 @@ export const ZynovaGivesBack: React.FC = () => {
                     onMouseEnter={() => setCursor("input")}
                     onMouseLeave={resetCursor}
                     placeholder="Enter custom amount (e.g. 250)"
-                    className={`w-full pl-8 pr-4 py-2.5 rounded-xl bg-slate-900/80 border text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 transition-all font-mono ${
+                    className={`w-full pl-7 pr-3.5 py-2 rounded-lg bg-slate-900/80 border text-white placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 transition-all font-mono ${
                       amountError && isCustom
                         ? "border-rose-500 focus:ring-rose-500/40"
                         : "border-slate-700/80 focus:border-amber-400 focus:ring-amber-400/30"
@@ -392,11 +392,11 @@ export const ZynovaGivesBack: React.FC = () => {
               </div>
 
               {/* Active Amount Display */}
-              <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-between">
+              <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/25 flex items-center justify-between">
                 <span className="text-xs font-medium text-slate-300 font-mono">
                   Selected Contribution:
                 </span>
-                <span className="text-base font-bold text-amber-300 font-mono">
+                <span className="text-sm sm:text-base font-bold text-amber-300 font-mono">
                   {effectiveAmount >= donationConfig.minimumDonation
                     ? `Contribution Amount: ₹${effectiveAmount.toLocaleString("en-IN")}`
                     : "Enter valid amount"}
@@ -406,11 +406,11 @@ export const ZynovaGivesBack: React.FC = () => {
               {/* ============================================================ */}
               {/* SCAN TO CONTRIBUTE - UPI QR Image Card */}
               {/* ============================================================ */}
-              <div className="p-5 sm:p-6 rounded-2xl bg-[#06070d] border border-amber-500/30 shadow-inner space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
+              <div className="p-4 sm:p-5 rounded-xl bg-[#06070d] border border-amber-500/30 shadow-inner space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
                   <div className="flex items-center gap-2">
-                    <QrCode className="w-4 h-4 text-amber-400" />
-                    <span className="font-heading text-xs sm:text-sm font-bold tracking-wider text-white uppercase">
+                    <QrCode className="w-3.5 h-3.5 text-amber-400" />
+                    <span className="font-heading text-xs font-bold tracking-wider text-white uppercase">
                       Scan To Contribute
                     </span>
                   </div>
@@ -422,7 +422,7 @@ export const ZynovaGivesBack: React.FC = () => {
 
                 {/* Scannable QR Container - High contrast, uncropped quiet zone */}
                 <div
-                  className="flex flex-col items-center justify-center p-3 sm:p-4 rounded-xl bg-white shadow-xl max-w-[270px] sm:max-w-[290px] mx-auto transition-transform duration-200 hover:scale-[1.01]"
+                  className="flex flex-col items-center justify-center p-2.5 sm:p-3 rounded-lg bg-white shadow-xl max-w-[210px] sm:max-w-[230px] mx-auto transition-transform duration-200 hover:scale-[1.01]"
                   onMouseEnter={() => setCursor("image", "SCAN")}
                   onMouseLeave={resetCursor}
                 >
@@ -643,17 +643,17 @@ export const ZynovaGivesBack: React.FC = () => {
         {/* MONTHLY TRANSPARENCY & RECIPIENT DASHBOARD */}
         {/* ============================================================ */}
         <div
-          className="p-8 sm:p-10 rounded-3xl bg-gradient-to-b from-[#090a12] via-[#07080e] to-[#040508] border border-amber-500/20 shadow-2xl mb-12"
+          className="p-5 sm:p-6 lg:p-7 rounded-2xl bg-gradient-to-b from-[#090a12] via-[#07080e] to-[#040508] border border-amber-500/20 shadow-2xl mb-8 sm:mb-10"
           onMouseEnter={() => setCursor("link", "VIEW")}
           onMouseLeave={resetCursor}
         >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800/80 mb-8">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center">
-                <ShieldCheck className="w-5 h-5 text-amber-400" />
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800/80 mb-5 sm:mb-6">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/25 flex items-center justify-center">
+                <ShieldCheck className="w-4 h-4 text-amber-400" />
               </div>
               <div>
-                <h3 className="font-heading text-xl font-bold text-white tracking-wide">
+                <h3 className="font-heading text-lg sm:text-xl font-bold text-white tracking-wide">
                   Monthly Transparency
                 </h3>
                 <p className="text-xs text-slate-400">
@@ -670,55 +670,55 @@ export const ZynovaGivesBack: React.FC = () => {
           </div>
 
           {/* Transparency Metrics Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-5 sm:mb-6">
             {/* Current Month */}
-            <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800/80">
-              <span className="text-xs text-slate-400 font-mono block mb-1">Current Month</span>
-              <span className="text-2xl font-black font-heading text-white">
+            <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <span className="text-[11px] text-slate-400 font-mono block mb-1">Current Month</span>
+              <span className="text-xl sm:text-2xl font-black font-heading text-white">
                 ₹{transparency.currentMonthVerified.toLocaleString("en-IN")}
               </span>
-              <span className="text-[11px] text-slate-500 block mt-1">Verified Contributions</span>
+              <span className="text-[10.5px] text-slate-500 block mt-1">Verified Contributions</span>
             </div>
 
             {/* Total Verified Contributions */}
-            <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800/80">
-              <span className="text-xs text-slate-400 font-mono block mb-1">Total Verified</span>
-              <span className="text-2xl font-black font-heading text-amber-300">
+            <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <span className="text-[11px] text-slate-400 font-mono block mb-1">Total Verified</span>
+              <span className="text-xl sm:text-2xl font-black font-heading text-amber-300">
                 ₹{transparency.totalVerified.toLocaleString("en-IN")}
               </span>
-              <span className="text-[11px] text-slate-500 block mt-1">All-Time Cumulative Pool</span>
+              <span className="text-[10.5px] text-slate-500 block mt-1">All-Time Cumulative Pool</span>
             </div>
 
             {/* Total Distributed */}
-            <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800/80">
-              <span className="text-xs text-slate-400 font-mono block mb-1">Total Distributed</span>
-              <span className="text-2xl font-black font-heading text-emerald-400">
+            <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <span className="text-[11px] text-slate-400 font-mono block mb-1">Total Distributed</span>
+              <span className="text-xl sm:text-2xl font-black font-heading text-emerald-400">
                 ₹{transparency.totalDistributed.toLocaleString("en-IN")}
               </span>
-              <span className="text-[11px] text-slate-500 block mt-1">Directly Allocated to Causes</span>
+              <span className="text-[10.5px] text-slate-500 block mt-1">Directly Allocated to Causes</span>
             </div>
 
             {/* Latest Distribution */}
-            <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800/80">
-              <span className="text-xs text-slate-400 font-mono block mb-1">Latest Distribution</span>
-              <span className="text-lg font-bold font-heading text-slate-300 block truncate">
+            <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
+              <span className="text-[11px] text-slate-400 font-mono block mb-1">Latest Distribution</span>
+              <span className="text-base sm:text-lg font-bold font-heading text-slate-300 block truncate">
                 {transparency.latestDistribution ? transparency.latestDistribution.month : "Not yet available"}
               </span>
-              <span className="text-[11px] text-slate-500 block mt-1">Pending Next Cycle Review</span>
+              <span className="text-[10.5px] text-slate-500 block mt-1">Pending Next Cycle Review</span>
             </div>
           </div>
 
           {/* Charity Recipient Card */}
-          <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900/90 to-[#0c0e18] border border-amber-500/25 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center shrink-0">
-                <Building className="w-6 h-6 text-amber-400" />
+          <div className="p-4 sm:p-5 rounded-xl bg-gradient-to-r from-slate-900/90 to-[#0c0e18] border border-amber-500/25 flex flex-col md:flex-row items-start md:items-center justify-between gap-3.5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center shrink-0">
+                <Building className="w-5 h-5 text-amber-400" />
               </div>
               <div>
-                <span className="text-[11px] font-mono text-amber-300/80 uppercase tracking-wider block">
+                <span className="text-[10.5px] font-mono text-amber-300/80 uppercase tracking-wider block">
                   Charity Recipient
                 </span>
-                <h4 className="text-base font-bold text-white font-heading">
+                <h4 className="text-sm sm:text-base font-bold text-white font-heading">
                   Status: {transparency.recipientStatus}
                 </h4>
                 <p className="text-xs text-slate-400 mt-0.5">
@@ -728,7 +728,7 @@ export const ZynovaGivesBack: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
-              <span className="text-xs font-mono text-slate-400 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800 flex items-center gap-1.5">
+              <span className="text-[11px] font-mono text-slate-400 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800 flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-amber-400" />
                 Monthly Cycle
               </span>

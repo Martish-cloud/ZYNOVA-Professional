@@ -32,7 +32,7 @@ export const Process: React.FC = () => {
   };
 
   return (
-    <section id="process" className="py-24 sm:py-32 relative z-10 bg-transparent border-t border-amber-500/10">
+    <section id="process" className="py-14 sm:py-18 md:py-20 relative z-10 bg-transparent border-t border-amber-500/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           badge="HOW WE WORK"
@@ -42,7 +42,7 @@ export const Process: React.FC = () => {
         />
 
         {/* Interactive Timeline Stepper on Desktop */}
-        <div className="hidden lg:flex items-center justify-between mb-16 relative">
+        <div className="hidden lg:flex items-center justify-between mb-10 sm:mb-12 relative">
           {/* Connecting line */}
           <div className="absolute top-1/2 left-4 right-4 h-0.5 bg-slate-800 -translate-y-1/2 z-0" />
           
@@ -55,19 +55,19 @@ export const Process: React.FC = () => {
                 onMouseEnter={() => setCursor("button")}
                 onMouseLeave={resetCursor}
                 className={`relative z-10 flex flex-col items-center group cursor-pointer transition-transform ${
-                  isSelected ? "scale-110" : "opacity-70 hover:opacity-100"
+                  isSelected ? "scale-105" : "opacity-70 hover:opacity-100"
                 }`}
               >
                 <div
-                  className={`w-12 h-12 rounded-2xl flex items-center justify-center font-heading font-black text-sm transition-all duration-300 ${
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center font-heading font-black text-xs transition-all duration-300 ${
                     isSelected
-                      ? "bg-gradient-to-tr from-amber-300 via-yellow-400 to-amber-500 text-slate-950 font-bold shadow-[0_0_25px_rgba(245,158,11,0.5)] border border-amber-200/50"
+                      ? "bg-gradient-to-tr from-amber-300 via-yellow-400 to-amber-500 text-slate-950 font-bold shadow-[0_0_20px_rgba(245,158,11,0.5)] border border-amber-200/50"
                       : "bg-slate-900 border border-slate-700 text-slate-400 group-hover:border-amber-400/50"
                   }`}
                 >
                   {step.number}
                 </div>
-                <span className="text-[11px] font-mono mt-2 font-bold tracking-wider text-slate-300 uppercase">
+                <span className="text-[10px] font-mono mt-1.5 font-bold tracking-wider text-slate-300 uppercase">
                   {step.title}
                 </span>
               </button>
@@ -76,49 +76,49 @@ export const Process: React.FC = () => {
         </div>
 
         {/* Selected Step Spotlight Banner */}
-        <div className="hidden lg:block mb-16 p-8 rounded-3xl bg-gradient-to-r from-slate-900/90 via-[#100f0a] to-slate-900/90 border border-amber-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_30px_rgba(245,158,11,0.1)]">
-          <div className="flex items-start justify-between gap-8">
-            <div className="space-y-3 max-w-2xl">
-              <div className="flex items-center gap-3">
-                <span className="text-xs font-mono px-2.5 py-1 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">
+        <div className="hidden lg:block mb-10 sm:mb-12 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-slate-900/90 via-[#100f0a] to-slate-900/90 border border-amber-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_30px_rgba(245,158,11,0.1)]">
+          <div className="flex items-start justify-between gap-6">
+            <div className="space-y-2.5 max-w-2xl">
+              <div className="flex items-center gap-2.5">
+                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">
                   STEP {processData[activeStep].number} OF 07
                 </span>
-                <h3 className="text-3xl font-black font-heading text-white">
+                <h3 className="text-2xl sm:text-3xl font-bold font-heading text-white">
                   {processData[activeStep].title}
                 </h3>
               </div>
-              <p className="text-base text-slate-200 font-medium">
+              <p className="text-sm sm:text-base text-slate-200 font-medium">
                 {processData[activeStep].description}
               </p>
-              <p className="text-sm text-slate-400 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
                 {processData[activeStep].details}
               </p>
             </div>
 
-            <div className="w-20 h-20 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.2)]">
+            <div className="w-14 h-14 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.2)] shrink-0">
               {getIcon(processData[activeStep].icon)}
             </div>
           </div>
         </div>
 
         {/* Vertical Stepper for Mobile & Tablets */}
-        <div className="lg:hidden space-y-4">
+        <div className="lg:hidden space-y-3">
           {processData.map((step) => (
             <div
               key={step.number}
-              className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 flex items-start gap-4"
+              className="p-4 sm:p-4.5 rounded-xl bg-slate-900/60 border border-slate-800 flex items-start gap-3.5"
             >
-              <div className="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 font-heading font-black flex items-center justify-center shrink-0 text-sm">
+              <div className="w-8 h-8 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-300 font-heading font-black flex items-center justify-center shrink-0 text-xs">
                 {step.number}
               </div>
               <div>
-                <h4 className="font-heading font-bold text-lg text-white mb-1">
+                <h4 className="font-heading font-bold text-base text-white mb-1">
                   {step.title}
                 </h4>
                 <p className="text-xs text-slate-300 mb-1">
                   {step.description}
                 </p>
-                <p className="text-xs text-slate-400 leading-relaxed">
+                <p className="text-[11.5px] text-slate-400 leading-relaxed">
                   {step.details}
                 </p>
               </div>

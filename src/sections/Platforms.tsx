@@ -24,7 +24,7 @@ export const Platforms: React.FC = () => {
   const { setCursor, resetCursor } = useCursor();
 
   return (
-    <section id="platforms" className="py-24 sm:py-32 relative z-10 bg-transparent border-t border-amber-500/10">
+    <section id="platforms" className="py-14 sm:py-18 md:py-20 relative z-10 bg-transparent border-t border-amber-500/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           badge="FIND US ONLINE"
@@ -34,7 +34,7 @@ export const Platforms: React.FC = () => {
         />
 
         {/* Icons-Only Platform Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 max-w-5xl mx-auto">
           {platformsData.map((plat) => {
             const url = siteConfig.freelancePlatforms[plat.configKey];
             const IconComponent = platformIconMap[plat.id];
@@ -47,29 +47,29 @@ export const Platforms: React.FC = () => {
                 rel="noreferrer"
                 onMouseEnter={() => setCursor("project", plat.name)}
                 onMouseLeave={resetCursor}
-                className="group relative p-6 sm:p-7 rounded-2xl bg-slate-900/40 border border-slate-800/80 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(245,158,11,0.2)] flex flex-col items-center justify-center text-center cursor-pointer overflow-hidden backdrop-blur-sm"
+                className="group relative p-4 sm:p-5 rounded-xl bg-slate-900/40 border border-slate-800/80 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(245,158,11,0.2)] flex flex-col items-center justify-center text-center cursor-pointer overflow-hidden backdrop-blur-sm"
               >
                 {/* Brand Color Ambient Glow on Hover */}
                 <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-15 transition-opacity duration-300 pointer-events-none rounded-2xl"
+                  className="absolute inset-0 opacity-0 group-hover:opacity-15 transition-opacity duration-300 pointer-events-none rounded-xl"
                   style={{ backgroundColor: plat.brandColor }}
                 />
 
                 {/* External link mini icon in top-right */}
-                <div className="absolute top-3 right-3 text-slate-600 group-hover:text-amber-300 transition-colors">
+                <div className="absolute top-2.5 right-2.5 text-slate-600 group-hover:text-amber-300 transition-colors">
                   <ExternalLink className="w-3.5 h-3.5" />
                 </div>
 
                 {/* Prominent Platform Brand Icon */}
                 <div
-                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-slate-950/90 border border-slate-800/90 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:border-amber-400/40 shadow-inner mb-3.5"
+                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-slate-950/90 border border-slate-800/90 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:border-amber-400/40 shadow-inner mb-2.5"
                   style={{ color: plat.brandColor }}
                 >
-                  {IconComponent ? <IconComponent className="w-9 h-9 sm:w-11 sm:h-11" size={42} /> : null}
+                  {IconComponent ? <IconComponent className="w-6 h-6 sm:w-7 sm:h-7" size={28} /> : null}
                 </div>
 
                 {/* Clean Platform Name */}
-                <span className="font-heading font-bold text-sm sm:text-base text-slate-200 group-hover:text-amber-200 transition-colors tracking-wide">
+                <span className="font-heading font-bold text-xs sm:text-sm text-slate-200 group-hover:text-amber-200 transition-colors tracking-wide">
                   {plat.name}
                 </span>
               </a>

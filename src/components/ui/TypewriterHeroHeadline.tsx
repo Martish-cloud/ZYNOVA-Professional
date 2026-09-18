@@ -122,7 +122,7 @@ export const TypewriterHeroHeadline: React.FC<TypewriterHeroHeadlineProps> = ({ 
 
   return (
     <h1
-      className={`text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-white max-w-5xl leading-[1.06] mb-6 flex flex-col items-center justify-center min-h-[140px] sm:min-h-[185px] md:min-h-[225px] lg:min-h-[255px] ${className}`}
+      className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-white max-w-4xl leading-[1.08] mb-4 flex flex-col items-center justify-center min-h-[105px] sm:min-h-[135px] md:min-h-[165px] lg:min-h-[185px] ${className}`}
       aria-label={`${LINE_1} ${LINE_2}`}
     >
       {/* Line 1: BUILD. AUTOMATE. */}

@@ -64,7 +64,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
   };
 
   return (
-    <section id="services" className="py-24 sm:py-32 relative z-10 bg-transparent">
+    <section id="services" className="py-14 sm:py-18 md:py-20 relative z-10 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           badge="WHAT WE BUILD"
@@ -74,19 +74,19 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
         />
 
         {/* Category Switcher Tabs */}
-        <div className="flex justify-center mb-14">
-          <div className="inline-flex p-1.5 rounded-full bg-slate-900/90 border border-amber-500/20 backdrop-blur-md shadow-lg">
+        <div className="flex justify-center mb-7 sm:mb-8">
+          <div className="inline-flex p-1 rounded-full bg-slate-900/90 border border-amber-500/20 backdrop-blur-md shadow-lg">
             <button
               onClick={() => setActiveCategory("web-software")}
               onMouseEnter={() => setCursor("button")}
               onMouseLeave={resetCursor}
-              className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                 activeCategory === "web-software"
                   ? "bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 text-slate-950 font-bold shadow-[0_0_20px_rgba(245,158,11,0.35)]"
                   : "text-slate-400 hover:text-white"
               }`}
             >
-              <Code className="w-4 h-4" />
+              <Code className="w-3.5 h-3.5" />
               <span>Web &amp; Software Development (10)</span>
             </button>
 
@@ -94,34 +94,34 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
               onClick={() => setActiveCategory("data-business")}
               onMouseEnter={() => setCursor("button")}
               onMouseLeave={resetCursor}
-              className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                 activeCategory === "data-business"
                   ? "bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 text-slate-950 font-bold shadow-[0_0_20px_rgba(245,158,11,0.35)]"
                   : "text-slate-400 hover:text-white"
               }`}
             >
-              <Database className="w-4 h-4" />
+              <Database className="w-3.5 h-3.5" />
               <span>Data &amp; Business Solutions (7)</span>
             </button>
           </div>
         </div>
 
         {/* Service Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {filteredServices.map((service) => (
             <div
               key={service.id}
               onClick={() => setSelectedService(service)}
               onMouseEnter={() => setCursor("project", "EXPAND")}
               onMouseLeave={resetCursor}
-              className="group relative p-7 rounded-2xl bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-slate-800/80 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(245,158,11,0.2)] flex flex-col justify-between cursor-pointer overflow-hidden"
+              className="group relative p-5 sm:p-5.5 rounded-2xl bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-slate-800/80 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(245,158,11,0.2)] flex flex-col justify-between cursor-pointer overflow-hidden"
             >
               {/* Subtle top-corner accent gradient */}
               <div className="absolute top-0 right-0 w-28 h-28 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/15 transition-colors pointer-events-none" />
 
               <div>
                 {/* Header with Number and Icon */}
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <span className="font-mono text-xs font-bold text-slate-500 group-hover:text-amber-400 transition-colors">
                       // {service.number}
@@ -132,34 +132,34 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
                       </span>
                     )}
                   </div>
-                  <div className="p-2.5 rounded-xl bg-slate-800/70 border border-slate-700/60 group-hover:scale-110 group-hover:border-amber-500/40 transition-all">
+                  <div className="p-2 rounded-xl bg-slate-800/70 border border-slate-700/60 group-hover:scale-110 group-hover:border-amber-500/40 transition-all">
                     {getIcon(service.icon)}
                   </div>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-xl font-bold font-heading text-white group-hover:text-amber-200 transition-colors mb-3 leading-snug">
+                <h3 className="text-base sm:text-lg font-bold font-heading text-white group-hover:text-amber-200 transition-colors mb-2 leading-snug">
                   {service.title}
                 </h3>
 
                 {/* Short Description */}
-                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-4 line-clamp-3">
+                <p className="text-xs text-slate-400 leading-relaxed mb-3 line-clamp-3">
                   {service.shortDesc}
                 </p>
 
                 {/* Pricing Box (if service has pricing) */}
                 {service.pricing && (
-                  <div className="mb-5 px-3 py-2.5 rounded-xl bg-gradient-to-r from-amber-500/10 to-amber-500/5 border border-amber-500/20 flex items-center justify-between">
+                  <div className="mb-3.5 px-3 py-2 rounded-xl bg-gradient-to-r from-amber-500/10 to-amber-500/5 border border-amber-500/20 flex items-center justify-between">
                     <div>
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400/80 block font-semibold">
+                      <span className="text-[9.5px] font-mono uppercase tracking-wider text-amber-400/80 block font-semibold">
                         Starting from $200
                       </span>
-                      <span className="text-sm font-mono font-bold text-amber-300">
+                      <span className="text-xs sm:text-sm font-mono font-bold text-amber-300">
                         {service.pricing}
                       </span>
                     </div>
                     {service.pricingNote && (
-                      <span className="text-[10px] text-slate-400 italic text-right max-w-[125px] leading-tight">
+                      <span className="text-[9.5px] text-slate-400 italic text-right max-w-[125px] leading-tight">
                         *{service.pricingNote}
                       </span>
                     )}
@@ -169,26 +169,26 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
 
               <div>
                 {/* Tech Tags */}
-                <div className="flex flex-wrap gap-1.5 mb-6">
+                <div className="flex flex-wrap gap-1 mb-4">
                   {service.technologies.slice(0, 3).map((tech) => (
                     <span
                       key={tech}
-                      className="px-2 py-0.5 rounded text-[11px] font-mono bg-slate-800/60 text-slate-400 border border-slate-700/40"
+                      className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-slate-800/60 text-slate-400 border border-slate-700/40"
                     >
                       {tech}
                     </span>
                   ))}
                   {service.technologies.length > 3 && (
-                    <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-slate-800/30 text-slate-400">
+                    <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-slate-800/30 text-slate-400">
                       +{service.technologies.length - 3}
                     </span>
                   )}
                 </div>
 
                 {/* View Details Link Arrow */}
-                <div className="pt-4 border-t border-slate-800/60 flex items-center justify-between text-xs font-semibold text-slate-400 group-hover:text-amber-300 transition-colors">
+                <div className="pt-3 border-t border-slate-800/60 flex items-center justify-between text-xs font-semibold text-slate-400 group-hover:text-amber-300 transition-colors">
                   <span>Explore Deliverables</span>
-                  <ArrowUpRight className="w-4 h-4 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  <ArrowUpRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </div>
               </div>
             </div>

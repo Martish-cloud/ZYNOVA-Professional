@@ -8,7 +8,7 @@ export const About: React.FC = () => {
   const { setCursor, resetCursor } = useCursor();
 
   return (
-    <section id="about" className="py-24 sm:py-32 relative z-10 bg-transparent">
+    <section id="about" className="py-14 sm:py-18 md:py-20 relative z-10 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           badge="WHO WE ARE"
@@ -17,52 +17,52 @@ export const About: React.FC = () => {
           subtitle="Zynova is a digital technology brand focused on building modern software, websites, applications, automation systems, and data-driven business solutions."
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           {/* Left Column: Mission & Capabilities */}
-          <div className="lg:col-span-7 space-y-6">
-            <h3 className="text-2xl sm:text-3xl font-bold font-heading text-white leading-snug">
+          <div className="lg:col-span-7 space-y-4 sm:space-y-5">
+            <h3 className="text-xl sm:text-2xl font-bold font-heading text-white leading-snug">
               Practical digital engineering for ambitious entrepreneurs &amp; enterprises.
             </h3>
 
-            <p className="text-slate-300 leading-relaxed text-base">
+            <p className="text-slate-300 leading-relaxed text-xs sm:text-sm">
               At Zynova, we believe software must be resilient, beautiful, and directly tied to business results. We combine modern full-stack development, mobile engineering, AI workflows, and precision data analytics to solve tangible challenges.
             </p>
 
-            <p className="text-slate-400 leading-relaxed text-sm">
+            <p className="text-slate-400 leading-relaxed text-xs sm:text-sm">
               Whether building an e-commerce platform from the ground up, engineering enterprise backend APIs, automating error-prone Excel workflows, or delivering high-level Power BI reporting models, our focus is uncompromising quality and long-term scalability.
             </p>
 
             {/* Core Values / Commitments */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-              <div className="p-4 rounded-xl bg-slate-900/50 border border-amber-500/20 flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <div className="p-3.5 rounded-xl bg-slate-900/50 border border-amber-500/20 flex items-start gap-2.5">
+                <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-sm font-semibold text-white">Full IP Transfer</h4>
-                  <p className="text-xs text-slate-400 mt-1">100% client ownership of repositories, code, design assets, and environments.</p>
+                  <h4 className="text-xs sm:text-sm font-semibold text-white">Full IP Transfer</h4>
+                  <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">100% client ownership of repositories, code, design assets, and environments.</p>
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/50 border border-amber-500/20 flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
+              <div className="p-3.5 rounded-xl bg-slate-900/50 border border-amber-500/20 flex items-start gap-2.5">
+                <CheckCircle2 className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-sm font-semibold text-white">Clean Engineering</h4>
-                  <p className="text-xs text-slate-400 mt-1">Modern typed stacks, clean modular architecture, and zero unnecessary bloat.</p>
+                  <h4 className="text-xs sm:text-sm font-semibold text-white">Clean Engineering</h4>
+                  <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">Modern typed stacks, clean modular architecture, and zero unnecessary bloat.</p>
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/50 border border-amber-500/20 flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-amber-300 shrink-0 mt-0.5" />
+              <div className="p-3.5 rounded-xl bg-slate-900/50 border border-amber-500/20 flex items-start gap-2.5">
+                <CheckCircle2 className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-sm font-semibold text-white">Agile Turnaround</h4>
-                  <p className="text-xs text-slate-400 mt-1">Guaranteed responses within 12 hours with transparent development milestones.</p>
+                  <h4 className="text-xs sm:text-sm font-semibold text-white">Agile Turnaround</h4>
+                  <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">Guaranteed responses within 12 hours with transparent development milestones.</p>
                 </div>
               </div>
 
-              <div className="p-4 rounded-xl bg-slate-900/50 border border-amber-500/20 flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-yellow-300 shrink-0 mt-0.5" />
+              <div className="p-3.5 rounded-xl bg-slate-900/50 border border-amber-500/20 flex items-start gap-2.5">
+                <CheckCircle2 className="w-4 h-4 text-yellow-300 shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-sm font-semibold text-white">Actionable Analytics</h4>
-                  <p className="text-xs text-slate-400 mt-1">Deep mastery of Excel automation and Power BI to transform messy data into clarity.</p>
+                  <h4 className="text-xs sm:text-sm font-semibold text-white">Actionable Analytics</h4>
+                  <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">Deep mastery of Excel automation and Power BI to transform messy data into clarity.</p>
                 </div>
               </div>
             </div>
@@ -73,7 +73,7 @@ export const About: React.FC = () => {
             <div
               onMouseEnter={() => setCursor("project", "FOUNDER")}
               onMouseLeave={resetCursor}
-              className="relative p-8 rounded-2xl bg-gradient-to-b from-slate-900/90 via-slate-900/50 to-slate-950 border border-amber-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden group hover:border-amber-400/60 transition-all duration-300"
+              className="relative p-6 sm:p-7 rounded-2xl bg-gradient-to-b from-slate-900/90 via-slate-900/50 to-slate-950 border border-amber-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden group hover:border-amber-400/60 transition-all duration-300"
             >
               {/* Corner decorative light */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none" />

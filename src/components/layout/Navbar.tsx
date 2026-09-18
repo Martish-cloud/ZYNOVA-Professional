@@ -50,8 +50,8 @@ export const Navbar: React.FC = () => {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? "py-3 bg-[#050609]/95 backdrop-blur-xl border-b border-amber-500/25 shadow-[0_4px_30px_rgba(0,0,0,0.8)]"
-            : "py-4 bg-[#050609] border-b border-amber-500/20 shadow-[0_2px_20px_rgba(0,0,0,0.7)]"
+            ? "py-2 sm:py-2.5 bg-[#050609]/95 backdrop-blur-xl border-b border-amber-500/25 shadow-[0_4px_30px_rgba(0,0,0,0.8)]"
+            : "py-2.5 sm:py-3 bg-[#050609] border-b border-amber-500/20 shadow-[0_2px_20px_rgba(0,0,0,0.7)]"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -64,28 +64,28 @@ export const Navbar: React.FC = () => {
             }}
             onMouseEnter={() => setCursor("link")}
             onMouseLeave={resetCursor}
-            className="group flex items-center gap-2.5 cursor-pointer"
+            className="group flex items-center gap-2 cursor-pointer"
           >
-            <div className="relative w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-300 via-yellow-400 to-amber-600 p-[1.5px] transition-transform duration-300 group-hover:scale-105 shadow-[0_0_18px_rgba(245,158,11,0.45)]">
-              <div className="w-full h-full bg-[#080a12] rounded-[10px] flex items-center justify-center">
-                <span className="font-heading font-black text-transparent bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-400 bg-clip-text text-lg">
+            <div className="relative w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-300 via-yellow-400 to-amber-600 p-[1.5px] transition-transform duration-300 group-hover:scale-105 shadow-[0_0_15px_rgba(245,158,11,0.45)]">
+              <div className="w-full h-full bg-[#080a12] rounded-[7px] flex items-center justify-center">
+                <span className="font-heading font-black text-transparent bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-400 bg-clip-text text-base">
                   Z
                 </span>
               </div>
             </div>
             <div className="flex flex-col">
-              <span className="font-heading text-xl font-extrabold tracking-wider text-white flex items-center gap-1">
+              <span className="font-heading text-lg font-extrabold tracking-wider text-white flex items-center gap-1">
                 {siteConfig.brandName}
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block shadow-[0_0_6px_#f59e0b]" />
               </span>
-              <span className="text-[9px] uppercase tracking-widest text-amber-200/60 font-mono hidden sm:block">
+              <span className="text-[8.5px] uppercase tracking-widest text-amber-200/60 font-mono hidden sm:block leading-none">
                 STUDIO &bull; EST. 2026
               </span>
             </div>
           </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1 bg-slate-900/70 p-1.5 rounded-full border border-amber-500/20 backdrop-blur-md shadow-inner">
+          <nav className="hidden lg:flex items-center gap-0.5 bg-slate-900/70 p-1 rounded-full border border-amber-500/20 backdrop-blur-md shadow-inner">
             {NAV_LINKS.map((link) => {
               const isActive = activeSection === link.id;
               return (
@@ -98,7 +98,7 @@ export const Navbar: React.FC = () => {
                   }}
                   onMouseEnter={() => setCursor("link")}
                   onMouseLeave={resetCursor}
-                  className={`relative px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 cursor-pointer ${
+                  className={`relative px-3 sm:px-3.5 py-1 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 cursor-pointer ${
                     isActive
                       ? "text-amber-300 bg-amber-500/15 shadow-[0_0_15px_rgba(245,158,11,0.25)] border border-amber-500/30"
                       : "text-slate-300 hover:text-white hover:bg-white/5 border border-transparent"
@@ -111,16 +111,16 @@ export const Navbar: React.FC = () => {
           </nav>
 
           {/* CTA & Mobile Toggle */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <MagneticButton
               asAnchor
               href={`tel:${siteConfig.phoneTel}`}
               variant="primary"
-              className="group hidden sm:inline-flex !py-2 !px-4 text-xs font-bold shadow-[0_0_20px_rgba(245,158,11,0.35)] hover:shadow-[0_0_30px_rgba(245,158,11,0.55)] cursor-pointer"
+              className="group hidden sm:inline-flex !py-1.5 !px-3.5 text-xs font-bold shadow-[0_0_20px_rgba(245,158,11,0.35)] hover:shadow-[0_0_30px_rgba(245,158,11,0.55)] cursor-pointer"
               cursorLabel="CALL"
               aria-label={`Call Zynova at ${siteConfig.phone}`}
             >
-              <Phone className="w-3.5 h-3.5 text-slate-950 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
+              <Phone className="w-3 h-3 text-slate-950 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
               <span>BOOK A CALL</span>
             </MagneticButton>
 

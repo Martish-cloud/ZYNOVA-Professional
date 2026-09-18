@@ -15,15 +15,15 @@ export const Hero: React.FC = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center pt-28 pb-16 md:py-36 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center pt-24 pb-12 md:py-24 overflow-hidden"
     >
       {/* Dynamic Animated Canvas & Ambient Backing */}
       <HeroBackground />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
         {/* Top Micro Badge */}
-        <div className="animate-in fade-in slide-in-from-top-4 duration-700 mb-6 sm:mb-8">
-          <Badge variant="gold" className="py-1.5 px-4 text-xs font-semibold">
+        <div className="animate-in fade-in slide-in-from-top-4 duration-700 mb-3.5 sm:mb-4">
+          <Badge variant="gold" className="py-1 px-3 text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
             <span>PREMIUM DIGITAL SOLUTIONS &bull; EST. 2026</span>
           </Badge>
@@ -33,12 +33,12 @@ export const Hero: React.FC = () => {
         <TypewriterHeroHeadline />
 
         {/* Supporting Copy */}
-        <p className="text-base sm:text-lg md:text-xl text-slate-300 max-w-3xl leading-relaxed mb-8 font-normal">
+        <p className="text-xs sm:text-sm md:text-base text-slate-300 max-w-2xl leading-relaxed mb-4 sm:mb-5 font-normal">
           {siteConfig.brandName} is a premium technology studio engineering high-performance websites, scalable software, mobile apps, intelligent automation workflows, and actionable business intelligence.
         </p>
 
         {/* Founder Credential Line */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/60 border border-amber-500/20 backdrop-blur-md text-xs text-slate-400 mb-10">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900/60 border border-amber-500/20 backdrop-blur-md text-[11px] sm:text-xs text-slate-400 mb-6 sm:mb-7">
           <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
           <span>
             Founded by <span className="text-amber-100 font-semibold">{siteConfig.founder.name}</span> &bull; {siteConfig.founder.location}
@@ -46,7 +46,7 @@ export const Hero: React.FC = () => {
         </div>
 
         {/* Primary Call To Actions */}
-        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-5 mb-16">
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-10">
           <MagneticButton
             asAnchor
             href="#book-call"
@@ -55,7 +55,7 @@ export const Hero: React.FC = () => {
               scrollToSection("book-call");
             }}
             variant="gold"
-            className="!px-7 !py-4 text-sm font-bold"
+            className="!px-5 sm:!px-6 !py-2.5 sm:!py-3 text-xs sm:text-sm font-bold"
             cursorLabel="BOOK"
           >
             <Sparkles className="w-4 h-4 text-slate-950" />
@@ -70,7 +70,7 @@ export const Hero: React.FC = () => {
               scrollToSection("services");
             }}
             variant="secondary"
-            className="!px-7 !py-4 text-sm font-semibold !border-amber-500/30 hover:!border-amber-400/80 hover:!text-amber-200"
+            className="!px-5 sm:!px-6 !py-2.5 sm:!py-3 text-xs sm:text-sm font-semibold !border-amber-500/30 hover:!border-amber-400/80 hover:!text-amber-200"
             cursorLabel="SERVICES"
           >
             <span>Explore Services</span>
@@ -85,7 +85,7 @@ export const Hero: React.FC = () => {
               scrollToSection("projects");
             }}
             variant="ghost"
-            className="!px-6 !py-4 text-sm font-medium border border-white/10 hover:border-amber-400/40 hover:text-amber-100"
+            className="!px-4 sm:!px-5 !py-2.5 sm:!py-3 text-xs sm:text-sm font-medium border border-white/10 hover:border-amber-400/40 hover:text-amber-100"
             cursorLabel="WORK"
           >
             <Layers className="w-4 h-4 text-slate-400" />

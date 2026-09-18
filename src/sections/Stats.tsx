@@ -67,35 +67,35 @@ export const Stats: React.FC = () => {
     <section
       id="stats"
       ref={containerRef}
-      className="relative z-10 py-16 bg-[#050609]/30 border-y border-amber-500/10 backdrop-blur-md"
+      className="relative z-10 py-10 sm:py-12 bg-[#050609]/30 border-y border-amber-500/10 backdrop-blur-md"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-4.5">
           {stats.map((stat, idx) => {
             const Icon = stat.icon;
             return (
               <div
                 key={idx}
-                className={`group relative p-6 rounded-2xl bg-slate-900/40 border border-slate-800/80 ${stat.borderGlow} transition-all duration-300 hover:bg-slate-900/70 hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)]`}
+                className={`group relative p-4.5 sm:p-5 rounded-2xl bg-slate-900/40 border border-slate-800/80 ${stat.borderGlow} transition-all duration-300 hover:bg-slate-900/70 hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)]`}
               >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-2.5 rounded-xl bg-slate-800/70 border border-slate-700/50 group-hover:scale-110 transition-transform">
-                    <Icon className={`w-5 h-5 ${stat.color}`} />
+                <div className="flex items-center justify-between mb-3">
+                  <div className="p-2 rounded-xl bg-slate-800/70 border border-slate-700/50 group-hover:scale-110 transition-transform">
+                    <Icon className={`w-4.5 h-4.5 ${stat.color}`} />
                   </div>
-                  <span className="font-mono text-[10px] uppercase text-slate-500 tracking-widest">
+                  <span className="font-mono text-[9px] uppercase text-slate-500 tracking-widest">
                     METRIC // 0{idx + 1}
                   </span>
                 </div>
 
-                <div className={`text-3xl sm:text-4xl font-extrabold font-heading text-white tracking-tight mb-1`}>
+                <div className={`text-2xl sm:text-3xl font-extrabold font-heading text-white tracking-tight mb-1`}>
                   {stat.value}
                 </div>
 
-                <div className="text-sm font-semibold text-slate-200 mb-1">
+                <div className="text-xs sm:text-sm font-semibold text-slate-200 mb-0.5">
                   {stat.label}
                 </div>
 
-                <p className="text-xs text-slate-400 leading-relaxed">
+                <p className="text-[11px] sm:text-xs text-slate-400 leading-snug">
                   {stat.subtext}
                 </p>
               </div>
