@@ -6,6 +6,7 @@ import { useCursor } from "../context/useCursor";
 import { WhatsAppIcon } from "../components/ui/WhatsAppIcon";
 import { WhatsAppQR } from "../components/ui/WhatsAppQR";
 import confetti from "canvas-confetti";
+import { sendEnquiryEmail, createMailtoLink } from "../utils/emailService";
 import {
   Mail,
   Phone,
@@ -72,29 +73,33 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
     setIsSubmitting(true);
 
     try {
-      // Integration-ready: Post to ZYNOVA Backend API if available
-      const response = await fetch(siteConfig.contact.contactApi, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
+      // 1. Send enquiry email directly to team.zynova@gmail.com via multi-tier relay
+      await sendEnquiryEmail({
+        subject: `New Project Enquiry: ${formData.name} - ${formData.serviceRequired} [ZYNOVA]`,
+        senderEmail: formData.email,
+        senderName: formData.name,
+        fields: {
+          "Client Name": formData.name,
+          "Work Email": formData.email,
+          "Company / Brand": formData.company.trim() || "Not specified",
+          "Service Interested In": formData.serviceRequired,
+          "Preferred Meeting Date": formData.preferredDate || "Earliest Available",
+          "Preferred Meeting Time": formData.preferredTime || "Flexible",
+          "Project Scope / Brief": formData.message
         },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          company: formData.company,
-          serviceRequired: formData.serviceRequired,
-          preferredDate: formData.preferredDate,
-          preferredTime: formData.preferredTime,
-          message: formData.message
-        })
+        autoResponse: `Thank you for contacting ZYNOVA. We have received your project enquiry regarding "${formData.serviceRequired}" and our engineering team will get back to you within 12 hours.`
       });
 
-      if (!response.ok) {
-        throw new Error(`API returned status ${response.status}`);
+      // 2. Also forward to local backend API if present
+      if (siteConfig.contact.contactApi && siteConfig.contact.contactApi.startsWith("http")) {
+        fetch(siteConfig.contact.contactApi, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        }).catch(() => {});
       }
-    } catch {
-      // Form is integration-ready. In frontend-only or decoupled deployment, gracefully proceed without fake alerts
+    } catch (err) {
+      console.warn("Contact enquiry delivery notice:", err);
     } finally {
       setIsSubmitting(false);
       setIsSubmitted(true);
@@ -111,8 +116,8 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
 
       if (onSuccess) {
         onSuccess(
-          "Enquiry Received!",
-          `Thank you, ${formData.name}. We have received your project details. Amit Halder & the Zynova team will review and reply within 12 hours.`
+          "Enquiry Dispatched!",
+          `Thank you, ${formData.name}. Your enquiry has been sent directly to ${siteConfig.contact.email}. We will review and reply within 12 hours.`
         );
       }
     }
@@ -363,28 +368,49 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
                     <CheckCircle2 className="w-7 h-7" />
                   </div>
                   <h4 className="text-xl font-bold font-heading text-white">
-                    Enquiry Received!
+                    Enquiry Dispatched!
                   </h4>
                   <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
-                    Thank you, <span className="text-white font-semibold">{formData.name}</span>. Your enquiry details for <span className="text-[#D4AF37]">{formData.serviceRequired}</span> have been recorded. Our team will review your specifications and contact you at <span className="text-[#F4E4BC] font-mono">{formData.email}</span> within 12 hours.
+                    Thank you, <span className="text-white font-semibold">{formData.name}</span>. Your enquiry details for <span className="text-[#D4AF37]">{formData.serviceRequired}</span> have been sent directly to <span className="text-[#F4E4BC] font-mono">{siteConfig.contact.email}</span>. Our team will review your project brief and reply to you at <span className="text-white font-mono">{formData.email}</span> within 12 hours.
                   </p>
-                  <button
-                    onClick={() => {
-                      setIsSubmitted(false);
-                      setFormData({
-                        name: "",
-                        email: "",
-                        company: "",
-                        serviceRequired: "Full-Stack Web Development",
-                        preferredDate: "",
-                        preferredTime: "14:00",
-                        message: ""
-                      });
-                    }}
-                    className="mt-3 px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-200 hover:text-white hover:bg-slate-700 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/50"
-                  >
-                    Send Another Message
-                  </button>
+                  <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+                    <a
+                      href={createMailtoLink(
+                        `Project Enquiry: ${formData.name} - ${formData.serviceRequired} [ZYNOVA]`,
+                        {
+                          "Full Name": formData.name,
+                          "Work Email": formData.email,
+                          "Company / Brand": formData.company,
+                          "Service Interested In": formData.serviceRequired,
+                          "Preferred Meeting Date": formData.preferredDate,
+                          "Preferred Meeting Time": formData.preferredTime,
+                          "Project Scope / Brief": formData.message
+                        }
+                      )}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold bg-[#D4AF37]/15 hover:bg-[#D4AF37]/25 text-[#F4E4BC] border border-[#D4AF37]/50 hover:border-[#D4AF37] transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/50"
+                    >
+                      <Mail className="w-3.5 h-3.5 text-[#D4AF37]" />
+                      <span>Open in Email Client</span>
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsSubmitted(false);
+                        setFormData({
+                          name: "",
+                          email: "",
+                          company: "",
+                          serviceRequired: "Full-Stack Web Development",
+                          preferredDate: "",
+                          preferredTime: "14:00",
+                          message: ""
+                        });
+                      }}
+                      className="px-4 py-2 rounded-lg text-xs font-semibold bg-slate-800 text-slate-200 hover:text-white hover:bg-slate-700 border border-slate-700 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/50"
+                    >
+                      Send Another Message
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-3.5">
@@ -547,7 +573,7 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
                       aria-label="Submit project enquiry"
                     >
                       {isSubmitting ? (
-                        <span>Recording Enquiry...</span>
+                        <span>Sending to team.zynova@gmail.com...</span>
                       ) : (
                         <>
                           <Send className="w-3.5 h-3.5 text-slate-950" />

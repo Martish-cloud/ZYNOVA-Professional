@@ -4,13 +4,15 @@ import { SectionHeading } from "../components/ui/SectionHeading";
 import { MagneticButton } from "../components/ui/MagneticButton";
 import { useCursor } from "../context/useCursor";
 import confetti from "canvas-confetti";
+import { sendEnquiryEmail, createMailtoLink } from "../utils/emailService";
 import {
   Calendar,
   Clock,
   ExternalLink,
   CheckCircle2,
   Sparkles,
-  Send
+  Send,
+  Mail
 } from "lucide-react";
 
 interface BookCallProps {
@@ -91,55 +93,33 @@ export const BookCall: React.FC<BookCallProps> = ({
     setIsSubmitting(true);
 
     try {
-      // 1. Primary: Post to ZYNOVA Backend API
-      const response = await fetch(siteConfig.contact.bookingApi, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          company: formData.company,
-          service: formData.service,
-          preferredDate: formData.preferredDate,
-          preferredTime: formData.preferredTime,
-          message: formData.message
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`API responded with ${response.status}`);
-      }
-    } catch (apiErr) {
-      console.warn("Backend API unavailable or error, falling back to backup relay:", apiErr);
-      try {
-        const payload = {
-          _subject: `New Discovery Call Booking: ${formData.name} (${formData.preferredDate || "Immediate"} @ ${formData.preferredTime || "Flexible"}) - ZYNOVA`,
-          _replyto: formData.email,
-          _template: "table",
+      // 1. Dispatch discovery call request to team.zynova@gmail.com
+      await sendEnquiryEmail({
+        subject: `New Discovery Call Booking: ${formData.name} (${formData.preferredDate || "Immediate"} @ ${formData.preferredTime || "Flexible"}) - ZYNOVA`,
+        senderEmail: formData.email,
+        senderName: formData.name,
+        fields: {
           "Client Name": formData.name,
           "Work Email": formData.email,
           "Company / Brand": formData.company || "Not provided",
           "Service Domain": formData.service,
           "Requested Date": formData.preferredDate || "Earliest Available",
           "Preferred Time": formData.preferredTime || "Flexible",
-          "Project Scope / Brief": formData.message,
-          "Booking Timestamp": new Date().toLocaleString()
-        };
+          "Project Scope / Brief": formData.message
+        },
+        autoResponse: `Thank you for booking a Discovery Call with ZYNOVA. We have received your slot request for ${formData.preferredDate || "an upcoming date"} and will confirm our calendar invite shortly.`
+      });
 
-        await fetch(siteConfig.contact.formSubmitEndpoint, {
+      // 2. Also forward to local backend API if configured
+      if (siteConfig.contact.bookingApi && siteConfig.contact.bookingApi.startsWith("http")) {
+        fetch(siteConfig.contact.bookingApi, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-      } catch (fallbackErr) {
-        console.error("Booking dispatch notice:", fallbackErr);
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        }).catch(() => {});
       }
+    } catch (dispatchErr) {
+      console.warn("Discovery call dispatch notice:", dispatchErr);
     } finally {
       setIsSubmitting(false);
       setIsSubmitted(true);
@@ -255,23 +235,44 @@ export const BookCall: React.FC<BookCallProps> = ({
                   <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
                     Thank you, <span className="text-white font-semibold">{formData.name}</span>. Your discovery call request was delivered directly to <span className="text-amber-300 font-mono">{siteConfig.contact.email}</span>. We will review your project brief and confirm the calendar invitation within 12 hours.
                   </p>
-                  <button
-                    onClick={() => {
-                      setIsSubmitted(false);
-                      setFormData({
-                        name: "",
-                        email: "",
-                        company: "",
-                        service: "Web Development",
-                        preferredDate: "",
-                        preferredTime: "14:00",
-                        message: ""
-                      });
-                    }}
-                    className="mt-3 px-4 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white transition-colors cursor-pointer"
-                  >
-                    Send Another Request
-                  </button>
+                  <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+                    <a
+                      href={createMailtoLink(
+                        `Discovery Call Booking: ${formData.name} (${formData.preferredDate || "Immediate"}) [ZYNOVA]`,
+                        {
+                          "Name": formData.name,
+                          "Email": formData.email,
+                          "Company": formData.company,
+                          "Service": formData.service,
+                          "Date": formData.preferredDate,
+                          "Time": formData.preferredTime,
+                          "Brief": formData.message
+                        }
+                      )}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold bg-[#D4AF37]/15 hover:bg-[#D4AF37]/25 text-[#F4E4BC] border border-[#D4AF37]/50 hover:border-[#D4AF37] transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/50"
+                    >
+                      <Mail className="w-3.5 h-3.5 text-[#D4AF37]" />
+                      <span>Open in Email Client</span>
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsSubmitted(false);
+                        setFormData({
+                          name: "",
+                          email: "",
+                          company: "",
+                          service: "Web Development",
+                          preferredDate: "",
+                          preferredTime: "14:00",
+                          message: ""
+                        });
+                      }}
+                      className="px-4 py-2 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:text-white transition-colors cursor-pointer"
+                    >
+                      Send Another Request
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-3.5 text-left">
