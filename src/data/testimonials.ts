@@ -76,7 +76,7 @@ export const testimonialsData: TestimonialItem[] = [
   },
   {
     id: "testimonial-5",
-    name: "Meryem Zahra",
+    name: "Valentina López",
     role: "Marketing Director",
     company: "BrightPath Media",
     country: "United States",
@@ -85,8 +85,8 @@ export const testimonialsData: TestimonialItem[] = [
     review:
       "The automation workflow helped streamline several repetitive tasks in our process. I particularly appreciated the structured approach to understanding our requirements before implementation.",
     rating: 5.0,
-    avatar: "MZ",
-    image: "/images/testimonials/meryem-zahra.jpg",
+    avatar: "VL",
+    image: "/images/testimonials/valentina-lopez.jpg",
     isSample: true
   },
   {
