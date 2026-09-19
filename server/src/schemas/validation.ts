@@ -26,7 +26,7 @@ export type DiscoveryBookingInput = z.infer<typeof discoveryBookingSchema>;
 export const donationSchema = z.object({
   donorName: z.string().trim().max(100, "Name is too long").optional().default("Anonymous"),
   donorEmail: z.string().trim().email("Invalid email address").optional().or(z.literal("")),
-  amount: z.coerce.number().min(1, "Minimum contribution is ₹1"),
+  amount: z.coerce.number().min(5, "Minimum contribution is ₹5").max(500, "Maximum contribution is ₹500"),
   currency: z.string().trim().default("INR"),
   transactionReference: z.string().trim().min(3, "Transaction / UTR reference ID is required").max(100, "Reference is too long"),
   paymentMethod: z.string().trim().default("UPI"),

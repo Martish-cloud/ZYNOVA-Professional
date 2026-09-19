@@ -30,12 +30,12 @@ export const onRequestPost = async (context: { request: Request; env: any }) => 
     }
 
     const numAmount = Number(amount);
-    if (isNaN(numAmount) || numAmount < 1) {
+    if (isNaN(numAmount) || numAmount < 5 || numAmount > 500) {
       return new Response(
         JSON.stringify({
           success: false,
           verified: false,
-          message: "Minimum verified contribution amount is ₹1."
+          message: "Contribution amount must be between ₹5 and ₹500."
         }),
         { status: 400, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } }
       );

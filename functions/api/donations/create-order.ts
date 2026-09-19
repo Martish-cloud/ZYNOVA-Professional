@@ -3,11 +3,11 @@ export const onRequestPost = async (context: { request: Request; env: any }) => 
     const body = (await context.request.json().catch(() => ({}))) as any;
     const amount = Number(body.amount);
 
-    if (isNaN(amount) || amount < 1) {
+    if (isNaN(amount) || amount < 5 || amount > 500) {
       return new Response(
         JSON.stringify({
           success: false,
-          message: "Minimum contribution amount is ₹1"
+          message: "Contribution amount must be between ₹5 and ₹500"
         }),
         { status: 400, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } }
       );

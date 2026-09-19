@@ -1,6 +1,7 @@
 export interface DonationConfig {
   donationEnabled: boolean;
   minimumDonation: number;
+  maximumDonation: number;
   currency: string;
   currencySymbol: string;
   upiPaymentURL: string;
@@ -30,7 +31,8 @@ export interface DonationConfig {
 
 export const donationConfig: DonationConfig = {
   donationEnabled: true,
-  minimumDonation: 1,
+  minimumDonation: 5,
+  maximumDonation: 500,
   currency: "INR",
   currencySymbol: "₹",
   // The supplied QR code image is the primary payment mechanism.
@@ -38,12 +40,12 @@ export const donationConfig: DonationConfig = {
   charityRecipient: "To Be Announced",
   showcaseImage: "/assets/zynova-charity-showcase.webp",
   qrCodeImage: "/assets/zynova-charity-upi-qr.png",
-  presetAmounts: [1, 10, 25, 50, 100, 500, 1000],
+  presetAmounts: [5, 10, 25, 50, 100, 500],
   razorpayKeyId: (import.meta as unknown as { env?: Record<string, string> })?.env?.VITE_RAZORPAY_KEY_ID || "",
   copy: {
     sectionTag: "ZYNOVA GIVES BACK",
     headline: "Small Donation. Big Impact.",
-    subheadline: "Every ₹1 Can Create a Difference.",
+    subheadline: "Every ₹5 Can Create a Difference.",
     description:
       "Every contribution, big or small, can help support charitable initiatives. ZYNOVA DIGITAL PROFESSIONALS Gives Back is our initiative to collect voluntary contributions and allocate the available donation pool toward charitable causes on a monthly cycle.",
     disclaimer:

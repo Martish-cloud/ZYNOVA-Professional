@@ -44,25 +44,23 @@ export const ZynovaGivesBack: React.FC = () => {
   const [selectedPreset, setSelectedPreset] = useState<number>(50);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [isCustom, setIsCustom] = useState<boolean>(false);
-  const [amountError, setAmountError] = useState<string>("");
 
   // Current effective contribution amount
   const effectiveAmount = isCustom
     ? Number(customAmount) || 0
     : selectedPreset;
 
-  // Validate amount whenever custom amount or preset changes
-  useEffect(() => {
-    if (isCustom) {
-      const parsed = Number(customAmount);
-      if (!customAmount || isNaN(parsed) || parsed < donationConfig.minimumDonation) {
-        setAmountError(`Minimum contribution is ${donationConfig.currencySymbol}${donationConfig.minimumDonation}.`);
-      } else {
-        setAmountError("");
-      }
-    } else {
-      setAmountError("");
+  // Derived amount error for min and max bounds
+  const amountError = useMemo(() => {
+    if (!isCustom) return "";
+    const parsed = Number(customAmount);
+    if (!customAmount || isNaN(parsed) || parsed < donationConfig.minimumDonation) {
+      return `Minimum contribution is ${donationConfig.currencySymbol}${donationConfig.minimumDonation}.`;
     }
+    if (parsed > donationConfig.maximumDonation) {
+      return `Maximum contribution is ${donationConfig.currencySymbol}${donationConfig.maximumDonation}.`;
+    }
+    return "";
   }, [customAmount, isCustom]);
 
   // UPI ID copy state
@@ -136,7 +134,6 @@ export const ZynovaGivesBack: React.FC = () => {
     setIsCustom(false);
     setSelectedPreset(amount);
     setCustomAmount("");
-    setAmountError("");
   };
 
   const handleCustomChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -163,10 +160,7 @@ export const ZynovaGivesBack: React.FC = () => {
 
   // Instant Verified Online Payment (Razorpay / UPI / Cards)
   const handleOnlinePayment = async () => {
-    if (effectiveAmount < donationConfig.minimumDonation) {
-      setAmountError(
-        `Contribution amount must be at least ${donationConfig.currencySymbol}${donationConfig.minimumDonation}.`
-      );
+    if (effectiveAmount < donationConfig.minimumDonation || effectiveAmount > donationConfig.maximumDonation) {
       return;
     }
 
@@ -284,8 +278,8 @@ export const ZynovaGivesBack: React.FC = () => {
       return;
     }
 
-    if (effectiveAmount < donationConfig.minimumDonation) {
-      setFormError(`Contribution amount must be at least ${donationConfig.currencySymbol}${donationConfig.minimumDonation}.`);
+    if (effectiveAmount < donationConfig.minimumDonation || effectiveAmount > donationConfig.maximumDonation) {
+      setFormError(`Contribution amount must be between ${donationConfig.currencySymbol}${donationConfig.minimumDonation} and ${donationConfig.currencySymbol}${donationConfig.maximumDonation}.`);
       return;
     }
 
@@ -481,16 +475,16 @@ export const ZynovaGivesBack: React.FC = () => {
                     </h3>
                   </div>
                   <span className="text-[10px] sm:text-[11px] font-mono text-amber-300/80 bg-amber-500/10 px-2.5 py-0.5 rounded-full border border-amber-500/20">
-                    Min ₹{donationConfig.minimumDonation}
+                    Min ₹{donationConfig.minimumDonation} &bull; Max ₹{donationConfig.maximumDonation}
                   </span>
                 </div>
                 <p className="text-xs text-slate-400 mt-1">
-                  Select a preset amount or type any custom contribution (minimum ₹5, no upper limit).
+                  Select a preset amount or type any custom contribution (minimum ₹{donationConfig.minimumDonation}, maximum ₹{donationConfig.maximumDonation}).
                 </p>
               </div>
 
               {/* Preset Buttons Grid */}
-              <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                 {donationConfig.presetAmounts.map((amt) => {
                   const isActive = !isCustom && selectedPreset === amt;
                   return (
@@ -532,7 +526,7 @@ export const ZynovaGivesBack: React.FC = () => {
                     onChange={handleCustomChange}
                     onMouseEnter={() => setCursor("input")}
                     onMouseLeave={resetCursor}
-                    placeholder="Enter custom amount (e.g. 250)"
+                    placeholder={`Enter custom amount (${donationConfig.currencySymbol}${donationConfig.minimumDonation} - ${donationConfig.currencySymbol}${donationConfig.maximumDonation})`}
                     className={`w-full pl-7 pr-3.5 py-2 rounded-lg bg-slate-900/80 border text-white placeholder-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 transition-all font-mono ${
                       amountError && isCustom
                         ? "border-rose-500 focus:ring-rose-500/40"
@@ -554,9 +548,9 @@ export const ZynovaGivesBack: React.FC = () => {
                   Selected Contribution:
                 </span>
                 <span className="text-sm sm:text-base font-bold text-amber-300 font-mono">
-                  {effectiveAmount >= donationConfig.minimumDonation
+                  {effectiveAmount >= donationConfig.minimumDonation && effectiveAmount <= donationConfig.maximumDonation
                     ? `Contribution Amount: ₹${effectiveAmount.toLocaleString("en-IN")}`
-                    : "Enter valid amount"}
+                    : `Enter ₹${donationConfig.minimumDonation} – ₹${donationConfig.maximumDonation}`}
                 </span>
               </div>
 
@@ -628,7 +622,7 @@ export const ZynovaGivesBack: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleOnlinePayment}
-                    disabled={isCheckingOut || effectiveAmount < donationConfig.minimumDonation}
+                    disabled={isCheckingOut || effectiveAmount < donationConfig.minimumDonation || effectiveAmount > donationConfig.maximumDonation}
                     onMouseEnter={() => setCursor("button", "GIVE")}
                     onMouseLeave={resetCursor}
                     className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 font-heading font-bold text-xs sm:text-sm text-center flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(245,158,11,0.4)] hover:scale-[1.01] transition-all cursor-pointer disabled:opacity-50"
