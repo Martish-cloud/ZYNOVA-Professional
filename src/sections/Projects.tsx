@@ -353,12 +353,12 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
             {project.subtitle}
           </p>
 
-          <p className="text-[11px] sm:text-xs text-slate-400 leading-snug line-clamp-2 mb-2.5">
+          <p className="text-[11px] sm:text-xs text-slate-400 leading-snug line-clamp-2 mb-2">
             {project.shortDesc}
           </p>
 
           {/* Technologies Tags */}
-          <div className="flex flex-wrap gap-1 mb-1">
+          <div className="flex flex-wrap gap-1 mb-2.5">
             {project.technologies.slice(0, 3).map((tech) => (
               <span
                 key={tech}
@@ -373,16 +373,93 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
               </span>
             )}
           </div>
+
+          {/* Direct Transparent Pricing Module */}
+          {project.platform ? (
+            <div className="pt-2 border-t border-slate-800/80">
+              <div className="grid grid-cols-3 gap-1 text-center bg-slate-950/70 rounded-lg p-1.5 border border-slate-800/80">
+                <div className="px-1 py-0.5 rounded bg-slate-900/60">
+                  <span className="block text-[8px] font-mono uppercase text-slate-500 font-semibold">Basic</span>
+                  <span className={`text-[11.5px] font-mono font-bold ${project.platform === "iOS" ? "text-purple-300" : "text-emerald-300"}`}>
+                    {project.pricing.basicPrice}
+                  </span>
+                </div>
+                <div className="px-1 py-0.5 rounded bg-slate-900/60">
+                  <span className="block text-[8px] font-mono uppercase text-slate-500 font-semibold">Standard</span>
+                  <span className={`text-[11.5px] font-mono font-bold ${project.platform === "iOS" ? "text-purple-300" : "text-emerald-300"}`}>
+                    {project.pricing.standardPrice}
+                  </span>
+                </div>
+                <div className="px-1 py-0.5 rounded bg-slate-900/60">
+                  <span className="block text-[8px] font-mono uppercase text-slate-500 font-semibold">Premium</span>
+                  <span className="text-[11.5px] font-mono font-bold text-amber-300">
+                    {project.pricing.premiumPrice}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="pt-2 border-t border-slate-800/80">
+              <div className="flex items-baseline justify-between gap-1 mb-1.5">
+                <span className="text-[9px] font-mono font-bold tracking-wider text-slate-400 uppercase">
+                  Starting From
+                </span>
+                <span className="text-sm font-mono font-extrabold text-transparent bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-400 bg-clip-text">
+                  {project.pricing.startingPrice}
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-1 text-[9.5px] font-mono bg-slate-950/70 rounded-lg p-1.5 border border-slate-800/80">
+                <div className="truncate">
+                  <span className="text-slate-500">Std: </span>
+                  <span className="text-slate-300 font-medium">{project.pricing.standardPrice}</span>
+                </div>
+                <div className="truncate text-right">
+                  <span className="text-slate-500">Prem: </span>
+                  <span className="text-amber-300/90 font-medium">{project.pricing.premiumPrice}</span>
+                </div>
+              </div>
+              {project.pricing.customPrice && (
+                <div className="mt-1 flex items-center justify-between text-[9px] font-mono">
+                  <span className="text-slate-500">Custom Scope:</span>
+                  <span className="text-amber-400/90 font-medium">{project.pricing.customPrice}</span>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Bottom Action Line */}
+      {/* Bottom Action Line: VIEW DETAILS & VIEW DEMO */}
       <div className="px-3.5 sm:px-4 pb-3.5 sm:pb-4 pt-0.5">
-        <div className="pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs font-semibold text-amber-400 group-hover:text-amber-300 transition-colors">
-          <span className="font-heading uppercase tracking-wider text-[10.5px]">
-            {project.platform ? "View App Architecture" : "View Architecture"}
-          </span>
-          <ArrowUpRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
+        <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2 text-xs">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedProject(project);
+            }}
+            className="font-heading uppercase tracking-wider text-[10px] font-semibold text-slate-400 group-hover:text-amber-300 transition-colors flex items-center gap-1 cursor-pointer"
+          >
+            <span>View Architecture</span>
+            <ArrowRight className="w-3 h-3 text-slate-500 group-hover:text-amber-300" />
+          </button>
+
+          {project.demoUrl ? (
+            <a
+              href={project.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="px-2 py-0.5 rounded bg-amber-500/10 hover:bg-amber-400/20 text-amber-300 border border-amber-500/30 text-[9.5px] font-mono font-bold flex items-center gap-1 transition-all"
+            >
+              <span>VIEW DEMO</span>
+              <ArrowUpRight className="w-3 h-3" />
+            </a>
+          ) : (
+            <span className="text-[9px] font-mono text-slate-500 bg-slate-900/80 border border-slate-800/80 px-1.5 py-0.5 rounded select-none">
+              DEMO COMING SOON
+            </span>
+          )}
         </div>
       </div>
     </div>
@@ -428,6 +505,14 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
             }
             return renderProjectCard(item.data, index);
           })}
+        </div>
+
+        {/* Subtle Pricing Disclaimer */}
+        <div className="mt-8 text-center">
+          <p className="text-[11px] sm:text-xs font-mono text-slate-400/80 max-w-2xl mx-auto flex items-center justify-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400/80 shrink-0" />
+            <span>Prices are indicative. Final pricing depends on features, integrations, content, design complexity and project requirements.</span>
+          </p>
         </div>
       </div>
 

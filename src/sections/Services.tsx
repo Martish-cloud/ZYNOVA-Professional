@@ -152,14 +152,14 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
                   <div className="mb-3.5 px-3 py-2 rounded-xl bg-gradient-to-r from-amber-500/10 to-amber-500/5 border border-amber-500/20 flex items-center justify-between">
                     <div>
                       <span className="text-[9.5px] font-mono uppercase tracking-wider text-amber-400/80 block font-semibold">
-                        Starting from $200
+                        Starting from {service.pricing.split(" ")[0]}
                       </span>
                       <span className="text-xs sm:text-sm font-mono font-bold text-amber-300">
                         {service.pricing}
                       </span>
                     </div>
                     {service.pricingNote && (
-                      <span className="text-[9.5px] text-slate-400 italic text-right max-w-[125px] leading-tight">
+                      <span className="text-[9.5px] text-slate-400 italic text-right max-w-[150px] leading-tight">
                         *{service.pricingNote}
                       </span>
                     )}

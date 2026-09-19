@@ -85,6 +85,68 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
           </div>
         </div>
 
+        {/* Transparent Indicative Pricing & Tiers */}
+        {project.pricing && (
+          <div className="p-4 rounded-xl bg-gradient-to-r from-amber-950/25 via-slate-900/80 to-amber-950/15 border border-amber-500/25">
+            <div className="flex flex-wrap items-baseline justify-between gap-2 mb-3">
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400/90 font-semibold block">
+                  {project.platform ? `${project.platform} Application Pricing` : "Project Pricing & Development Scope"}
+                </span>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-xs text-slate-400 font-mono">Starting from:</span>
+                  <span className="text-lg sm:text-xl font-extrabold font-mono text-transparent bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-400 bg-clip-text">
+                    {project.pricing.startingPrice}
+                  </span>
+                </div>
+              </div>
+
+              {project.demoUrl ? (
+                <a
+                  href={project.demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950 font-mono font-bold text-xs flex items-center gap-1.5 hover:bg-amber-300 transition-colors shadow-[0_0_15px_rgba(245,158,11,0.25)]"
+                >
+                  <span>VIEW LIVE DEMO</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              ) : (
+                <span className="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-800 text-[10px] font-mono text-slate-400 select-none">
+                  DEMO COMING SOON
+                </span>
+              )}
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs font-mono">
+              {project.pricing.basicPrice && (
+                <div className="p-2 rounded-lg bg-slate-950/60 border border-slate-800/80">
+                  <span className="text-[10px] text-slate-500 block uppercase">Basic Tier</span>
+                  <span className="font-bold text-slate-200">{project.pricing.basicPrice}</span>
+                </div>
+              )}
+              <div className="p-2 rounded-lg bg-slate-950/60 border border-slate-800/80">
+                <span className="text-[10px] text-slate-500 block uppercase">Standard Tier</span>
+                <span className="font-bold text-slate-200">{project.pricing.standardPrice}</span>
+              </div>
+              <div className="p-2 rounded-lg bg-slate-950/60 border border-slate-800/80">
+                <span className="text-[10px] text-amber-400/90 block uppercase">Premium Tier</span>
+                <span className="font-bold text-amber-300">{project.pricing.premiumPrice}</span>
+              </div>
+              {project.pricing.customPrice && (
+                <div className="col-span-2 sm:col-span-3 p-2 rounded-lg bg-slate-950/40 border border-slate-800/60 flex items-center justify-between">
+                  <span className="text-[10.5px] text-slate-400 uppercase">Custom Architecture &amp; Scale</span>
+                  <span className="font-bold text-amber-400">{project.pricing.customPrice}</span>
+                </div>
+              )}
+            </div>
+
+            <p className="text-[10px] font-mono text-slate-500 mt-2.5 leading-tight">
+              *{project.pricing.pricingQualification || "Prices are indicative. Final pricing depends on features, integrations, content, design complexity and project requirements."}
+            </p>
+          </div>
+        )}
+
         {/* Overview */}
         <div>
           <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 mb-1">

@@ -81,8 +81,8 @@ export const servicesData: ServiceItem[] = [
       "Play Store release readiness and asset preparation"
     ],
     icon: "Smartphone",
-    pricing: "$200 – $1,790",
-    pricingNote: "Extra services chargeable"
+    pricing: "$260 – $2,140",
+    pricingNote: "Basic $260 • Standard $740 • Premium $2,140"
   },
   {
     id: "ios-app-development",
@@ -100,8 +100,8 @@ export const servicesData: ServiceItem[] = [
       "App Store submission preparation & compliance audit"
     ],
     icon: "AppWindow",
-    pricing: "$200 – $1,790",
-    pricingNote: "Extra services chargeable"
+    pricing: "$350 – $2,280",
+    pricingNote: "Basic $350 • Standard $865 • Premium $2,280"
   },
   {
     id: "enterprise-backend-stack",
