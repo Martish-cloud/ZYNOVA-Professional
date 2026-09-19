@@ -8,7 +8,6 @@ import { ProjectModal } from "./ProjectModal";
 import { PortfolioImage } from "../components/ui/PortfolioImage";
 import { useCursor } from "../context/useCursor";
 import {
-  ArrowUpRight,
   FileSpreadsheet,
   BarChart3,
   ArrowRight,
@@ -504,16 +503,17 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
           </button>
 
           {project.demoUrl ? (
-            <a
-              href={project.demoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="px-2 py-0.5 rounded bg-amber-500/10 hover:bg-amber-400/20 text-amber-300 border border-amber-500/30 text-[9.5px] font-mono font-bold flex items-center gap-1 transition-all"
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedProject(project);
+              }}
+              className="px-2 py-0.5 rounded bg-amber-500/10 hover:bg-amber-400/20 text-amber-300 border border-amber-500/30 text-[9.5px] font-mono font-bold flex items-center gap-1 transition-all cursor-pointer"
             >
-              <span>VIEW DEMO</span>
-              <ArrowUpRight className="w-3 h-3" />
-            </a>
+              <span>VIEW DETAILS</span>
+              <ArrowRight className="w-3 h-3" />
+            </button>
           ) : (
             <span className="text-[9px] font-mono text-slate-500 bg-slate-900/80 border border-slate-800/80 px-1.5 py-0.5 rounded select-none">
               DEMO COMING SOON

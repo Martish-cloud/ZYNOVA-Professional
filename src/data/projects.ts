@@ -127,7 +127,7 @@ export const projectsData: ProjectItem[] = [
       premiumPrice: "$600 – $840",
       customPrice: "Up to $960+"
     },
-    demoUrl: ""
+    demoUrl: "https://tasty-bites.zynovaprofessional.workers.dev"
   },
   {
     id: "petcare",
@@ -297,7 +297,7 @@ export const projectsData: ProjectItem[] = [
       premiumPrice: "$900 – $1,200",
       customPrice: "Up to $1,440+"
     },
-    demoUrl: ""
+    demoUrl: "https://trendzo-e-commarce.zynovaprofessional.workers.dev"
   },
   {
     id: "techzone",
@@ -469,7 +469,7 @@ export const projectsData: ProjectItem[] = [
       premiumPrice: "$960 – $1,320",
       customPrice: "Up to $1,800+"
     },
-    demoUrl: ""
+    demoUrl: "https://travelaya.zynovaprofessional.workers.dev"
   }
 ];
 

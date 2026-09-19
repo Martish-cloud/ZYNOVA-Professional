@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { donationConfig } from "../config/donationConfig";
 import { useCursor } from "../context/useCursor";
