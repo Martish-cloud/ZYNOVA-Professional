@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import type { DashboardItem } from "../../data/dashboards";
 import { DashboardImageViewer } from "./DashboardImageViewer";
 import { PortfolioImage } from "../ui/PortfolioImage";
@@ -61,7 +62,7 @@ export const DashboardGalleryModal: React.FC<DashboardGalleryModalProps> = ({
       ? "Explore our portfolio of interactive Excel dashboards, automated reporting models, and analytical tools engineered for rapid business intelligence."
       : "Explore our enterprise Power BI dashboards featuring production-grade DAX modeling, drill-down operational reporting, and interactive visualizations.";
 
-  return (
+  const modalContent = (
     <>
       <div
         className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 lg:p-10 bg-black/85 backdrop-blur-xl animate-in fade-in duration-200"
@@ -211,4 +212,6 @@ export const DashboardGalleryModal: React.FC<DashboardGalleryModalProps> = ({
       />
     </>
   );
+
+  return typeof document !== "undefined" ? createPortal(modalContent, document.body) : modalContent;
 };

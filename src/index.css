@@ -66,12 +66,6 @@
   transform: translateY(-4px);
 }
 
-/* Content Visibility Optimization for offscreen sections */
-.content-visibility-auto {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 700px;
-}
-
 /* Subtle Grid Background Pattern */
 .bg-cyber-grid {
   background-size: 40px 40px;

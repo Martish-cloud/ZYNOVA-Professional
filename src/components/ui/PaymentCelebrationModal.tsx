@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { createPortal } from "react-dom";
 import confetti from "canvas-confetti";
 import { Sparkles, Heart, CheckCircle2, X } from "lucide-react";
 
@@ -45,7 +46,7 @@ export const PaymentCelebrationModal: React.FC<PaymentCelebrationModalProps> = (
 
   if (!isOpen) return null;
 
-  return (
+  const modalContent = (
     <div
       role="dialog"
       aria-modal="true"
@@ -121,4 +122,6 @@ export const PaymentCelebrationModal: React.FC<PaymentCelebrationModalProps> = (
       </div>
     </div>
   );
+
+  return typeof document !== "undefined" ? createPortal(modalContent, document.body) : modalContent;
 };

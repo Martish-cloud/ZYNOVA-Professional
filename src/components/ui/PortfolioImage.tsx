@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { Sparkles, Layers } from "lucide-react";
 
 interface PortfolioImageProps {
@@ -27,6 +27,13 @@ export const PortfolioImage: React.FC<PortfolioImageProps> = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [fallbackStage, setFallbackStage] = useState<number>(0);
   const [isPermanentlyFailed, setIsPermanentlyFailed] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete) {
+      setIsLoaded(true);
+    }
+  }, [src]);
 
   // Compute WebP and PNG sources
   const { webpSrc, pngSrc, alternateSrc } = useMemo(() => {
@@ -95,6 +102,7 @@ export const PortfolioImage: React.FC<PortfolioImageProps> = ({
       {/* Reliable PNG fallback source for older mobile browsers / WebViews */}
       <source srcSet={pngSrc} type="image/png" />
       <img
+        ref={imgRef}
         src={currentSrc}
         alt={alt}
         width={width}
@@ -104,7 +112,7 @@ export const PortfolioImage: React.FC<PortfolioImageProps> = ({
         fetchPriority={isPriority ? "high" : "auto"}
         onError={handleError}
         onLoad={() => setIsLoaded(true)}
-        className={`${className} ${isLoaded ? "opacity-100" : "opacity-90"} transition-opacity duration-300`}
+        className={`${className} ${isLoaded || isPriority ? "opacity-100" : "opacity-90"} transition-opacity duration-300`}
         style={{
           aspectRatio: `${width} / ${height}`
         }}

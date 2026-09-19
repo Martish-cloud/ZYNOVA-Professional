@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import { createPortal } from "react-dom";
 import { servicesData } from "../data/services";
 import type { ServiceItem } from "../data/services";
 import { SectionHeading } from "../components/ui/SectionHeading";
@@ -150,7 +151,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
   };
 
   return (
-    <section id="services" className="py-12 sm:py-16 md:py-20 relative z-10 bg-transparent content-visibility-auto">
+    <section id="services" className="py-12 sm:py-16 md:py-20 relative z-10 bg-transparent">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <SectionHeading
           badge="WHAT WE BUILD"
@@ -450,7 +451,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
       {/* ============================================================ */}
       {/* VIEW CART DETAILS MODAL                                      */}
       {/* ============================================================ */}
-      {isCartModalOpen && (
+      {isCartModalOpen && typeof document !== "undefined" && createPortal(
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
           <div className="relative w-full max-w-lg rounded-2xl bg-slate-950 border border-amber-500/30 shadow-2xl p-4 sm:p-5 flex flex-col max-h-[85vh]">
             {/* Modal Header */}
@@ -556,7 +557,8 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Service Details Modal */}

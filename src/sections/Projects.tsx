@@ -285,7 +285,10 @@ const ProjectCard = React.memo<{
   const { setCursor, resetCursor } = useCursor();
   return (
     <div
-      onClick={() => onSelect(project)}
+      onClick={() => {
+        resetCursor();
+        onSelect(project);
+      }}
       onMouseEnter={() => setCursor("project", "VIEW")}
       onMouseLeave={resetCursor}
       className={`group relative rounded-2xl bg-gradient-to-b from-slate-900/70 via-slate-900/40 to-slate-950/90 border ${
@@ -559,7 +562,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
   }, []);
 
   return (
-    <section id="projects" className="py-14 sm:py-18 md:py-20 relative z-10 bg-transparent content-visibility-auto">
+    <section id="projects" className="py-14 sm:py-18 md:py-20 relative z-10 bg-transparent">
       <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           badge="SELECTED WORK"
