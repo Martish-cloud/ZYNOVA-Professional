@@ -36,8 +36,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
     { label: "Mobile Apps", value: "mobile" },
     { label: "E-commerce", value: "ecommerce" },
     { label: "Business Portals", value: "business" },
-    { label: "Data & BI", value: "data" },
-    { label: "UI / UX", value: "ui-ux" }
+    { label: "Data & BI", value: "data" }
   ];
 
   // Resolve work items according to the active category tab
@@ -157,7 +156,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
           </p>
 
           {/* Technologies / Feature Chips */}
-          <div className="flex flex-wrap gap-1 mb-1">
+          <div className="flex flex-wrap gap-1 mb-2.5">
             {["Interactive Dashboards", "Pivot Tables", "Automation", "Formulas"].map((chip) => (
               <span
                 key={chip}
@@ -166,6 +165,36 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
                 {chip}
               </span>
             ))}
+          </div>
+
+          {/* Direct Transparent Pricing Module */}
+          <div className="pt-2 border-t border-slate-800/80">
+            <div className="flex items-baseline justify-between gap-1 mb-1.5">
+              <span className="text-[9px] font-mono font-bold tracking-wider text-slate-400 uppercase">
+                Starting From
+              </span>
+              <span className="text-sm font-mono font-extrabold text-transparent bg-gradient-to-r from-emerald-200 via-teal-300 to-emerald-400 bg-clip-text">
+                $18
+              </span>
+            </div>
+            <div className="grid grid-cols-3 gap-1 text-center bg-slate-950/70 rounded-lg p-1.5 border border-slate-800/80">
+              <div className="px-1 py-0.5 rounded bg-slate-900/60">
+                <span className="block text-[8px] font-mono uppercase text-slate-500 font-semibold">Basic</span>
+                <span className="text-[11.5px] font-mono font-bold text-emerald-300">$18</span>
+              </div>
+              <div className="px-1 py-0.5 rounded bg-slate-900/60">
+                <span className="block text-[8px] font-mono uppercase text-slate-500 font-semibold">Standard</span>
+                <span className="text-[11.5px] font-mono font-bold text-emerald-300">$65</span>
+              </div>
+              <div className="px-1 py-0.5 rounded bg-slate-900/60">
+                <span className="block text-[8px] font-mono uppercase text-slate-500 font-semibold">Premium</span>
+                <span className="text-[11.5px] font-mono font-bold text-emerald-300">$176</span>
+              </div>
+            </div>
+            <div className="mt-1 flex items-center justify-between text-[9px] font-mono">
+              <span className="text-slate-500">Range:</span>
+              <span className="text-emerald-400/90 font-medium">$18 – $176</span>
+            </div>
           </div>
         </div>
       </div>
@@ -249,7 +278,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
           </p>
 
           {/* Technologies / Feature Chips */}
-          <div className="flex flex-wrap gap-1 mb-1">
+          <div className="flex flex-wrap gap-1 mb-2.5">
             {["Interactive Dashboards", "KPI Reporting", "DAX Modeling", "Power Query"].map((chip) => (
               <span
                 key={chip}
@@ -258,6 +287,36 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
                 {chip}
               </span>
             ))}
+          </div>
+
+          {/* Direct Transparent Pricing Module */}
+          <div className="pt-2 border-t border-slate-800/80">
+            <div className="flex items-baseline justify-between gap-1 mb-1.5">
+              <span className="text-[9px] font-mono font-bold tracking-wider text-slate-400 uppercase">
+                Starting From
+              </span>
+              <span className="text-sm font-mono font-extrabold text-transparent bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-400 bg-clip-text">
+                $21
+              </span>
+            </div>
+            <div className="grid grid-cols-3 gap-1 text-center bg-slate-950/70 rounded-lg p-1.5 border border-slate-800/80">
+              <div className="px-1 py-0.5 rounded bg-slate-900/60">
+                <span className="block text-[8px] font-mono uppercase text-slate-500 font-semibold">Basic</span>
+                <span className="text-[11.5px] font-mono font-bold text-amber-300">$21</span>
+              </div>
+              <div className="px-1 py-0.5 rounded bg-slate-900/60">
+                <span className="block text-[8px] font-mono uppercase text-slate-500 font-semibold">Standard</span>
+                <span className="text-[11.5px] font-mono font-bold text-amber-300">$95</span>
+              </div>
+              <div className="px-1 py-0.5 rounded bg-slate-900/60">
+                <span className="block text-[8px] font-mono uppercase text-slate-500 font-semibold">Premium</span>
+                <span className="text-[11.5px] font-mono font-bold text-amber-300">$279</span>
+              </div>
+            </div>
+            <div className="mt-1 flex items-center justify-between text-[9px] font-mono">
+              <span className="text-slate-500">Range:</span>
+              <span className="text-amber-400/90 font-medium">$21 – $279</span>
+            </div>
           </div>
         </div>
       </div>

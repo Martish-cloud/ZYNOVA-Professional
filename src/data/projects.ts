@@ -53,11 +53,11 @@ export const projectsData: ProjectItem[] = [
     badge: "Gym / Fitness Website",
     image: "/projects/FitLife.webp",
     pricing: {
-      startingPrice: "₹13,000",
-      basicPrice: "₹13,000",
-      standardPrice: "₹20,000 – ₹30,000",
-      premiumPrice: "₹35,000 – ₹50,000",
-      customPrice: "Up to ₹60,000+"
+      startingPrice: "$150",
+      basicPrice: "$150",
+      standardPrice: "$240 – $360",
+      premiumPrice: "$420 – $600",
+      customPrice: "Up to $720+"
     },
     demoUrl: ""
   },
@@ -87,11 +87,11 @@ export const projectsData: ProjectItem[] = [
     badge: "Business / Corporate",
     image: "/projects/BizGrow.webp",
     pricing: {
-      startingPrice: "₹18,000",
-      basicPrice: "₹18,000",
-      standardPrice: "₹25,000 – ₹35,000",
-      premiumPrice: "₹40,000 – ₹55,000",
-      customPrice: "Up to ₹75,000+"
+      startingPrice: "$210",
+      basicPrice: "$210",
+      standardPrice: "$300 – $420",
+      premiumPrice: "$480 – $660",
+      customPrice: "Up to $900+"
     },
     demoUrl: ""
   },
@@ -121,11 +121,11 @@ export const projectsData: ProjectItem[] = [
     badge: "Restaurant / Food Ordering",
     image: "/projects/tastybites.webp",
     pricing: {
-      startingPrice: "₹20,000",
-      basicPrice: "₹20,000",
-      standardPrice: "₹30,000 – ₹40,000",
-      premiumPrice: "₹50,000 – ₹70,000",
-      customPrice: "Up to ₹80,000+"
+      startingPrice: "$240",
+      basicPrice: "$240",
+      standardPrice: "$360 – $480",
+      premiumPrice: "$600 – $840",
+      customPrice: "Up to $960+"
     },
     demoUrl: ""
   },
@@ -155,11 +155,11 @@ export const projectsData: ProjectItem[] = [
     badge: "Pet Store / E-commerce",
     image: "/projects/PetCare.webp",
     pricing: {
-      startingPrice: "₹28,000",
-      basicPrice: "₹28,000",
-      standardPrice: "₹35,000 – ₹50,000",
-      premiumPrice: "₹55,000 – ₹75,000",
-      customPrice: "Up to ₹90,000+"
+      startingPrice: "$335",
+      basicPrice: "$335",
+      standardPrice: "$420 – $600",
+      premiumPrice: "$660 – $900",
+      customPrice: "Up to $1,080+"
     },
     demoUrl: ""
   },
@@ -188,11 +188,11 @@ export const projectsData: ProjectItem[] = [
     badge: "Beauty / E-commerce",
     image: "/projects/bloom-beauty.webp",
     pricing: {
-      startingPrice: "₹30,000",
-      basicPrice: "₹30,000",
-      standardPrice: "₹40,000 – ₹55,000",
-      premiumPrice: "₹65,000 – ₹85,000",
-      customPrice: "Up to ₹1,00,000+"
+      startingPrice: "$360",
+      basicPrice: "$360",
+      standardPrice: "$480 – $660",
+      premiumPrice: "$780 – $1,020",
+      customPrice: "Up to $1,200+"
     },
     demoUrl: ""
   },
@@ -222,11 +222,11 @@ export const projectsData: ProjectItem[] = [
     badge: "Book Store / E-commerce",
     image: "/projects/BookVerse.webp",
     pricing: {
-      startingPrice: "₹30,000",
-      basicPrice: "₹30,000",
-      standardPrice: "₹40,000 – ₹55,000",
-      premiumPrice: "₹65,000 – ₹85,000",
-      customPrice: "Up to ₹1,00,000+"
+      startingPrice: "$360",
+      basicPrice: "$360",
+      standardPrice: "$480 – $660",
+      premiumPrice: "$780 – $1,020",
+      customPrice: "Up to $1,200+"
     },
     demoUrl: ""
   },
@@ -256,11 +256,11 @@ export const projectsData: ProjectItem[] = [
     badge: "Real Estate",
     image: "/projects/HomeX.webp",
     pricing: {
-      startingPrice: "₹30,000",
-      basicPrice: "₹30,000",
-      standardPrice: "₹40,000 – ₹55,000",
-      premiumPrice: "₹65,000 – ₹90,000",
-      customPrice: "Up to ₹1,20,000+"
+      startingPrice: "$360",
+      basicPrice: "$360",
+      standardPrice: "$480 – $660",
+      premiumPrice: "$780 – $1,080",
+      customPrice: "Up to $1,440+"
     },
     demoUrl: ""
   },
@@ -291,11 +291,11 @@ export const projectsData: ProjectItem[] = [
     badge: "Fashion / E-commerce",
     image: "/projects/Trendzo.webp",
     pricing: {
-      startingPrice: "₹35,000",
-      basicPrice: "₹35,000",
-      standardPrice: "₹45,000 – ₹65,000",
-      premiumPrice: "₹75,000 – ₹1,00,000",
-      customPrice: "Up to ₹1,20,000+"
+      startingPrice: "$420",
+      basicPrice: "$420",
+      standardPrice: "$540 – $780",
+      premiumPrice: "$900 – $1,200",
+      customPrice: "Up to $1,440+"
     },
     demoUrl: ""
   },
@@ -327,11 +327,11 @@ export const projectsData: ProjectItem[] = [
     badge: "Electronics / E-commerce",
     image: "/projects/TechZone.webp",
     pricing: {
-      startingPrice: "₹35,000",
-      basicPrice: "₹35,000",
-      standardPrice: "₹45,000 – ₹65,000",
-      premiumPrice: "₹75,000 – ₹1,10,000",
-      customPrice: "Up to ₹1,50,000+"
+      startingPrice: "$420",
+      basicPrice: "$420",
+      standardPrice: "$540 – $780",
+      premiumPrice: "$900 – $1,320",
+      customPrice: "Up to $1,800+"
     },
     demoUrl: ""
   },
@@ -360,11 +360,11 @@ export const projectsData: ProjectItem[] = [
     badge: "Healthcare Platform",
     image: "/projects/MediWell.webp",
     pricing: {
-      startingPrice: "₹35,000",
-      basicPrice: "₹35,000",
-      standardPrice: "₹45,000 – ₹65,000",
-      premiumPrice: "₹75,000 – ₹1,10,000",
-      customPrice: "Up to ₹1,50,000+"
+      startingPrice: "$420",
+      basicPrice: "$420",
+      standardPrice: "$540 – $780",
+      premiumPrice: "$900 – $1,320",
+      customPrice: "Up to $1,800+"
     },
     demoUrl: ""
   },
@@ -394,11 +394,11 @@ export const projectsData: ProjectItem[] = [
     badge: "Grocery / E-commerce",
     image: "/projects/FreshMart.webp",
     pricing: {
-      startingPrice: "₹40,000",
-      basicPrice: "₹40,000",
-      standardPrice: "₹50,000 – ₹70,000",
-      premiumPrice: "₹80,000 – ₹1,10,000",
-      customPrice: "Up to ₹1,30,000+"
+      startingPrice: "$480",
+      basicPrice: "$480",
+      standardPrice: "$600 – $840",
+      premiumPrice: "$960 – $1,320",
+      customPrice: "Up to $1,560+"
     },
     demoUrl: ""
   },
@@ -428,11 +428,11 @@ export const projectsData: ProjectItem[] = [
     badge: "Education / LMS",
     image: "/projects/LearnHub.webp",
     pricing: {
-      startingPrice: "₹40,000",
-      basicPrice: "₹40,000",
-      standardPrice: "₹50,000 – ₹70,000",
-      premiumPrice: "₹80,000 – ₹1,10,000",
-      customPrice: "Up to ₹1,50,000+"
+      startingPrice: "$480",
+      basicPrice: "$480",
+      standardPrice: "$600 – $840",
+      premiumPrice: "$960 – $1,320",
+      customPrice: "Up to $1,800+"
     },
     demoUrl: ""
   },
@@ -463,11 +463,11 @@ export const projectsData: ProjectItem[] = [
     badge: "Travel / Booking Platform",
     image: "/projects/TraveLaya.webp",
     pricing: {
-      startingPrice: "₹40,000",
-      basicPrice: "₹40,000",
-      standardPrice: "₹50,000 – ₹70,000",
-      premiumPrice: "₹80,000 – ₹1,10,000",
-      customPrice: "Up to ₹1,50,000+"
+      startingPrice: "$480",
+      basicPrice: "$480",
+      standardPrice: "$600 – $840",
+      premiumPrice: "$960 – $1,320",
+      customPrice: "Up to $1,800+"
     },
     demoUrl: ""
   }

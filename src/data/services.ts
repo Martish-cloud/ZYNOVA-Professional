@@ -10,6 +10,7 @@ export interface ServiceItem {
   icon: string;
   pricing?: string;
   pricingNote?: string;
+  basePrice?: number;
 }
 
 export const servicesData: ServiceItem[] = [
@@ -29,7 +30,10 @@ export const servicesData: ServiceItem[] = [
       "Cross-browser & cross-device testing",
       "Performance optimization & accessibility audit"
     ],
-    icon: "Layout"
+    icon: "Layout",
+    pricing: "$150 – $720",
+    pricingNote: "Basic $150 • Standard $360 • Premium $720",
+    basePrice: 150
   },
   {
     id: "mern-stack-development",
@@ -46,7 +50,10 @@ export const servicesData: ServiceItem[] = [
       "Secure authentication (JWT / OAuth / RBAC)",
       "Automated deployment & environment configuration"
     ],
-    icon: "Layers"
+    icon: "Layers",
+    pricing: "$240 – $1,800",
+    pricingNote: "Basic $240 • Standard $600 • Premium $1,800",
+    basePrice: 240
   },
   {
     id: "backend-development-core",
@@ -63,7 +70,10 @@ export const servicesData: ServiceItem[] = [
       "Security hardening & rate limiting",
       "Cloud deployment & container orchestration"
     ],
-    icon: "Server"
+    icon: "Server",
+    pricing: "$210 – $1,440",
+    pricingNote: "Basic $210 • Standard $480 • Premium $1,440",
+    basePrice: 210
   },
   {
     id: "android-app-development",
@@ -82,7 +92,8 @@ export const servicesData: ServiceItem[] = [
     ],
     icon: "Smartphone",
     pricing: "$260 – $2,140",
-    pricingNote: "Basic $260 • Standard $740 • Premium $2,140"
+    pricingNote: "Basic $260 • Standard $740 • Premium $2,140",
+    basePrice: 260
   },
   {
     id: "ios-app-development",
@@ -101,7 +112,8 @@ export const servicesData: ServiceItem[] = [
     ],
     icon: "AppWindow",
     pricing: "$350 – $2,280",
-    pricingNote: "Basic $350 • Standard $865 • Premium $2,280"
+    pricingNote: "Basic $350 • Standard $865 • Premium $2,280",
+    basePrice: 350
   },
   {
     id: "enterprise-backend-stack",
@@ -118,7 +130,10 @@ export const servicesData: ServiceItem[] = [
       "Unit & integration test suites",
       "CI/CD pipeline automation setup"
     ],
-    icon: "Cpu"
+    icon: "Cpu",
+    pricing: "$420 – $1,800",
+    pricingNote: "Basic $420 • Standard $900 • Premium $1,800",
+    basePrice: 420
   },
   {
     id: "blockchain-development",
@@ -135,7 +150,10 @@ export const servicesData: ServiceItem[] = [
       "Gas optimization & security review",
       "Testnet & Mainnet deployment guidance"
     ],
-    icon: "ShieldCheck"
+    icon: "ShieldCheck",
+    pricing: "$480 – $2,400",
+    pricingNote: "Basic $480 • Standard $1,200 • Premium $2,400",
+    basePrice: 480
   },
   {
     id: "laravel-php-development",
@@ -152,7 +170,10 @@ export const servicesData: ServiceItem[] = [
       "Admin dashboards with granular role permissions",
       "Production deployment & server configuration"
     ],
-    icon: "Code2"
+    icon: "Code2",
+    pricing: "$240 – $1,560",
+    pricingNote: "Basic $240 • Standard $600 • Premium $1,560",
+    basePrice: 240
   },
   {
     id: "wordpress-development",
@@ -169,7 +190,10 @@ export const servicesData: ServiceItem[] = [
       "Security hardening & automated backup configuration",
       "Content migration & client administration guide"
     ],
-    icon: "FileCode"
+    icon: "FileCode",
+    pricing: "$180 – $1,200",
+    pricingNote: "Basic $180 • Standard $450 • Premium $1,200",
+    basePrice: 180
   },
   {
     id: "shopify-development",
@@ -186,7 +210,10 @@ export const servicesData: ServiceItem[] = [
       "Speed optimization for higher conversion rates",
       "Full store setup, payment gateway, and launch testing"
     ],
-    icon: "ShoppingBag"
+    icon: "ShoppingBag",
+    pricing: "$240 – $1,440",
+    pricingNote: "Basic $240 • Standard $600 • Premium $1,440",
+    basePrice: 240
   },
 
   // --- Category 02: Data & Business Solutions ---
@@ -205,7 +232,10 @@ export const servicesData: ServiceItem[] = [
       "Data layout restructuring for clarity",
       "Standard operating procedure document"
     ],
-    icon: "FileSpreadsheet"
+    icon: "FileSpreadsheet",
+    pricing: "$18 – $176",
+    pricingNote: "Basic $18 • Standard $65 • Premium $176",
+    basePrice: 18
   },
   {
     id: "data-cleaning-excel",
@@ -222,7 +252,10 @@ export const servicesData: ServiceItem[] = [
       "Anomaly & outlier detection summary",
       "Cleaned master workbook with original audit trail"
     ],
-    icon: "Filter"
+    icon: "Filter",
+    pricing: "$18 – $176",
+    pricingNote: "Basic $18 • Standard $65 • Premium $176",
+    basePrice: 18
   },
   {
     id: "data-merging-excel",
@@ -239,7 +272,10 @@ export const servicesData: ServiceItem[] = [
       "Discrepancy reconciliation sheets",
       "Structured output for executive review"
     ],
-    icon: "GitMerge"
+    icon: "GitMerge",
+    pricing: "$18 – $176",
+    pricingNote: "Basic $18 • Standard $65 • Premium $176",
+    basePrice: 18
   },
   {
     id: "excel-dashboards-professional",
@@ -256,7 +292,10 @@ export const servicesData: ServiceItem[] = [
       "Protected user-friendly interface with hidden backend sheets",
       "User instructions for scheduled data refreshing"
     ],
-    icon: "BarChart3"
+    icon: "BarChart3",
+    pricing: "$18 – $176",
+    pricingNote: "Basic $18 • Standard $65 • Premium $176",
+    basePrice: 18
   },
   {
     id: "excel-dashboards-advanced",
@@ -273,7 +312,10 @@ export const servicesData: ServiceItem[] = [
       "High-density visual storytelling design",
       "Maintenance-free automated transformation workflow"
     ],
-    icon: "PieChart"
+    icon: "PieChart",
+    pricing: "$18 – $176",
+    pricingNote: "Basic $18 • Standard $65 • Premium $176",
+    basePrice: 18
   },
   {
     id: "power-bi-reporting",
@@ -290,7 +332,10 @@ export const servicesData: ServiceItem[] = [
       "Cross-filtering and drill-down interactions",
       "Publishing guidance for Power BI Service"
     ],
-    icon: "LineChart"
+    icon: "LineChart",
+    pricing: "$21 – $279",
+    pricingNote: "Basic $21 • Standard $95 • Premium $279",
+    basePrice: 21
   },
   {
     id: "power-bi-dashboards-advanced",
@@ -307,6 +352,9 @@ export const servicesData: ServiceItem[] = [
       "Performance optimization for rapid query response",
       "Row-Level Security (RLS) configuration for role-based access"
     ],
-    icon: "Activity"
+    icon: "Activity",
+    pricing: "$21 – $279",
+    pricingNote: "Basic $21 • Standard $95 • Premium $279",
+    basePrice: 21
   }
 ];
