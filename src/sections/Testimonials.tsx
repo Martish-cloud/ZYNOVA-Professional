@@ -169,8 +169,12 @@ export const Testimonials: React.FC = () => {
               {/* Card Footer: Service Pill Badge */}
               <div className="relative z-10 pt-3.5 mt-3 border-t border-slate-800/80 flex items-center justify-between gap-2">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/25 group-hover:border-amber-400/40 transition-colors">
-                  <Sparkles className="w-3 h-3 text-amber-400" />
-                  <span>{item.service}</span>
+                  {item.service.includes("📱") ? (
+                    <span className="text-[11px] leading-none select-none">📱</span>
+                  ) : (
+                    <Sparkles className="w-3 h-3 text-amber-400" />
+                  )}
+                  <span>{item.service.replace("📱", "").trim()}</span>
                 </span>
 
                 <span className="text-[10.5px] font-mono text-slate-500">

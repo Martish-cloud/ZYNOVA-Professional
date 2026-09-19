@@ -81,9 +81,9 @@ export const testimonialsData: TestimonialItem[] = [
     company: "BrightPath Media",
     country: "United States",
     flag: "🇺🇸",
-    service: "AI Automation & Workflow",
+    service: "📱 iOS App Development",
     review:
-      "The automation workflow helped streamline several repetitive tasks in our process. I particularly appreciated the structured approach to understanding our requirements before implementation.",
+      "The iOS app development team delivered a smooth and well-structured application that aligned closely with our requirements. I particularly appreciated their attention to detail, responsive communication, and ability to turn our ideas into a polished iOS experience.",
     rating: 5.0,
     avatar: "VL",
     image: "/images/testimonials/valentina-lopez.jpg",
