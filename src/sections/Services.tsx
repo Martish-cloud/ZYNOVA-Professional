@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { servicesData } from "../data/services";
 import type { ServiceItem } from "../data/services";
 import { SectionHeading } from "../components/ui/SectionHeading";
@@ -53,7 +53,10 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
 
-  const filteredServices = servicesData.filter((s) => s.category === activeCategory);
+  const filteredServices = useMemo(
+    () => servicesData.filter((s) => s.category === activeCategory),
+    [activeCategory]
+  );
 
   // Cart operations
   const addToCart = (service: ServiceItem, e?: React.MouseEvent) => {
@@ -147,7 +150,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
   };
 
   return (
-    <section id="services" className="py-12 sm:py-16 md:py-20 relative z-10 bg-transparent">
+    <section id="services" className="py-12 sm:py-16 md:py-20 relative z-10 bg-transparent content-visibility-auto">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <SectionHeading
           badge="WHAT WE BUILD"

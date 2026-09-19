@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useCursor } from "../../context/useCursor";
+import { useCursorState } from "../../context/useCursor";
 
 export const CustomCursor: React.FC = () => {
-  const { cursorType, cursorText } = useCursor();
+  const { cursorType, cursorText } = useCursorState();
   
   const [isVisible, setIsVisible] = useState(false);
   const [clickPos, setClickPos] = useState<{ x: number; y: number } | null>(null);
@@ -34,56 +34,24 @@ export const CustomCursor: React.FC = () => {
   useEffect(() => {
     if (isTouchDevice) return;
 
-    let animationFrameId: number;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      mousePos.current = { x: e.clientX, y: e.clientY };
-      if (!isVisibleRef.current) {
-        isVisibleRef.current = true;
-        setIsVisible(true);
-      }
-    };
-
-    const handleMouseLeave = () => {
-      isVisibleRef.current = false;
-      setIsVisible(false);
-    };
-
-    const handleMouseEnter = () => {
-      isVisibleRef.current = true;
-      setIsVisible(true);
-    };
-
-    const handleMouseDown = (e: MouseEvent) => {
-      setClickPos({ x: e.clientX, y: e.clientY });
-      setTimeout(() => setClickPos(null), 320);
-    };
-
-    const handleVisibility = () => {
-      if (document.hidden) {
-        cancelAnimationFrame(animationFrameId);
-      } else {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = requestAnimationFrame(render);
-      }
-    };
-
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    document.addEventListener("mouseleave", handleMouseLeave);
-    document.addEventListener("mouseenter", handleMouseEnter);
-    window.addEventListener("mousedown", handleMouseDown);
-    document.addEventListener("visibilitychange", handleVisibility);
+    let animationFrameId: number | null = null;
+    let isRunning = false;
 
     const render = () => {
       // Smooth lerp physics
       const dotFactor = 0.45;
       const ringFactor = 0.14;
 
-      dotPos.current.x += (mousePos.current.x - dotPos.current.x) * dotFactor;
-      dotPos.current.y += (mousePos.current.y - dotPos.current.y) * dotFactor;
+      const dotDx = mousePos.current.x - dotPos.current.x;
+      const dotDy = mousePos.current.y - dotPos.current.y;
+      const ringDx = mousePos.current.x - ringPos.current.x;
+      const ringDy = mousePos.current.y - ringPos.current.y;
 
-      ringPos.current.x += (mousePos.current.x - ringPos.current.x) * ringFactor;
-      ringPos.current.y += (mousePos.current.y - ringPos.current.y) * ringFactor;
+      dotPos.current.x += dotDx * dotFactor;
+      dotPos.current.y += dotDy * dotFactor;
+
+      ringPos.current.x += ringDx * ringFactor;
+      ringPos.current.y += ringDy * ringFactor;
 
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${dotPos.current.x}px, ${dotPos.current.y}px, 0) translate(-50%, -50%)`;
@@ -93,10 +61,77 @@ export const CustomCursor: React.FC = () => {
         ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate(-50%, -50%)`;
       }
 
+      // If motion has settled to sub-pixel accuracy, stop the loop to eliminate idle CPU drain
+      if (
+        Math.abs(ringDx) < 0.15 &&
+        Math.abs(ringDy) < 0.15 &&
+        Math.abs(dotDx) < 0.15 &&
+        Math.abs(dotDy) < 0.15
+      ) {
+        isRunning = false;
+        animationFrameId = null;
+        return;
+      }
+
       animationFrameId = requestAnimationFrame(render);
     };
 
-    animationFrameId = requestAnimationFrame(render);
+    const wakeLoop = () => {
+      if (!isRunning) {
+        isRunning = true;
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mousePos.current = { x: e.clientX, y: e.clientY };
+      if (!isVisibleRef.current) {
+        isVisibleRef.current = true;
+        setIsVisible(true);
+      }
+      wakeLoop();
+    };
+
+    const handleMouseLeave = () => {
+      isVisibleRef.current = false;
+      setIsVisible(false);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+      isRunning = false;
+    };
+
+    const handleMouseEnter = () => {
+      isVisibleRef.current = true;
+      setIsVisible(true);
+      wakeLoop();
+    };
+
+    const handleMouseDown = (e: MouseEvent) => {
+      setClickPos({ x: e.clientX, y: e.clientY });
+      setTimeout(() => setClickPos(null), 320);
+    };
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+        isRunning = false;
+      } else {
+        wakeLoop();
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mouseenter", handleMouseEnter);
+    window.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    wakeLoop();
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -104,7 +139,7 @@ export const CustomCursor: React.FC = () => {
       document.removeEventListener("mouseenter", handleMouseEnter);
       window.removeEventListener("mousedown", handleMouseDown);
       document.removeEventListener("visibilitychange", handleVisibility);
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
   }, [isTouchDevice]);
 

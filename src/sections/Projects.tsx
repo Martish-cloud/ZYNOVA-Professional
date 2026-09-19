@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { projectsData, mobileProjectsData } from "../data/projects";
 import type { ProjectItem } from "../data/projects";
 import { excelDashboards, powerBIDashboards } from "../data/dashboards";
@@ -24,75 +24,14 @@ type WorkItem =
   | { type: "excel" }
   | { type: "powerbi" };
 
-export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
+// ============================================================
+// CARD 1: EXCEL (Compact Medium Card) - Memoized
+// ============================================================
+const ExcelCard = React.memo<{ onSelect: () => void }>(({ onSelect }) => {
   const { setCursor, resetCursor } = useCursor();
-  const [activeFilter, setActiveFilter] = useState<string>("All");
-  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
-  const [activeDashboardModal, setActiveDashboardModal] = useState<"excel" | "powerbi" | null>(null);
-
-  const filters = [
-    { label: "All Work", value: "All" },
-    { label: "Mobile Apps", value: "mobile" },
-    { label: "E-commerce", value: "ecommerce" },
-    { label: "Business Portals", value: "business" },
-    { label: "Data & BI", value: "data" }
-  ];
-
-  // Resolve work items according to the active category tab
-  const workItems: WorkItem[] = (() => {
-    if (activeFilter === "data") {
-      // "Data & BI" tab displays ONLY Excel and Power BI
-      return [{ type: "excel" }, { type: "powerbi" }];
-    }
-
-    if (activeFilter === "mobile" || activeFilter === "web") {
-      // "Mobile Apps" tab displays ONLY the 12 iOS & Android mobile applications
-      return mobileProjectsData.map((p) => ({ type: "project", data: p }));
-    }
-
-    if (activeFilter === "All") {
-      // "All Work" includes ALL existing projects + Excel + Power BI + 12 Mobile Apps
-      // Structured into balanced rows on desktop (4 cards per row, 7 rows total = 28 cards)
-      const items: WorkItem[] = [];
-      const baseProjects = projectsData.filter((p) => !p.platform);
-      baseProjects.forEach((project, index) => {
-        if (index === 4) {
-          items.push({ type: "excel" });
-          items.push({ type: "powerbi" });
-        }
-        items.push({ type: "project", data: project });
-      });
-      if (baseProjects.length < 4) {
-        items.push({ type: "excel" });
-        items.push({ type: "powerbi" });
-      }
-      // Append all 12 mobile applications
-      mobileProjectsData.forEach((app) => {
-        items.push({ type: "project", data: app });
-      });
-      return items;
-    }
-
-    // Individual category filters (e.g. ecommerce, business, ui-ux)
-    return projectsData
-      .filter((p) => p.filterCategory === activeFilter && !p.platform)
-      .map((p) => ({ type: "project", data: p }));
-  })();
-
-  const activeDashboards =
-    activeDashboardModal === "excel"
-      ? excelDashboards
-      : activeDashboardModal === "powerbi"
-      ? powerBIDashboards
-      : [];
-
-  // ============================================================
-  // CARD 1: EXCEL (Compact Medium Card)
-  // ============================================================
-  const renderExcelCard = () => (
+  return (
     <div
-      key="dashboard-card-excel"
-      onClick={() => setActiveDashboardModal("excel")}
+      onClick={onSelect}
       onMouseEnter={() => setCursor("project", "VIEW")}
       onMouseLeave={resetCursor}
       className="group relative rounded-2xl bg-gradient-to-b from-slate-900/80 via-[#0a0c16] to-[#06070d] border border-emerald-500/25 hover:border-emerald-400/60 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(16,185,129,0.25)] flex flex-col justify-between cursor-pointer overflow-hidden h-full"
@@ -207,14 +146,17 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
       </div>
     </div>
   );
+});
+ExcelCard.displayName = "ExcelCard";
 
-  // ============================================================
-  // CARD 2: POWER BI (Compact Medium Card)
-  // ============================================================
-  const renderPowerBICard = () => (
+// ============================================================
+// CARD 2: POWER BI (Compact Medium Card) - Memoized
+// ============================================================
+const PowerBICard = React.memo<{ onSelect: () => void }>(({ onSelect }) => {
+  const { setCursor, resetCursor } = useCursor();
+  return (
     <div
-      key="dashboard-card-powerbi"
-      onClick={() => setActiveDashboardModal("powerbi")}
+      onClick={onSelect}
       onMouseEnter={() => setCursor("project", "VIEW")}
       onMouseLeave={resetCursor}
       className="group relative rounded-2xl bg-gradient-to-b from-slate-900/80 via-[#0a0c16] to-[#06070d] border border-amber-500/25 hover:border-amber-400/60 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(245,158,11,0.25)] flex flex-col justify-between cursor-pointer overflow-hidden h-full"
@@ -329,14 +271,21 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
       </div>
     </div>
   );
+});
+PowerBICard.displayName = "PowerBICard";
 
-  // ============================================================
-  // CARD 3: PROJECT & MOBILE APP CARD (Compact Medium Card)
-  // ============================================================
-  const renderProjectCard = (project: ProjectItem, index: number) => (
+// ============================================================
+// CARD 3: PROJECT & MOBILE APP CARD - Memoized
+// ============================================================
+const ProjectCard = React.memo<{
+  project: ProjectItem;
+  index: number;
+  onSelect: (p: ProjectItem) => void;
+}>(({ project, index, onSelect }) => {
+  const { setCursor, resetCursor } = useCursor();
+  return (
     <div
-      key={project.id}
-      onClick={() => setSelectedProject(project)}
+      onClick={() => onSelect(project)}
       onMouseEnter={() => setCursor("project", "VIEW")}
       onMouseLeave={resetCursor}
       className={`group relative rounded-2xl bg-gradient-to-b from-slate-900/70 via-slate-900/40 to-slate-950/90 border ${
@@ -365,26 +314,30 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
 
           {/* Top-left category tag */}
           <div className="absolute top-2 left-2 z-10">
-            <span className={`px-1.5 py-0.5 rounded text-[8.5px] font-mono uppercase tracking-widest backdrop-blur-md shadow-sm border ${
-              project.platform === "iOS"
-                ? "bg-purple-950/90 text-purple-300 border-purple-500/30"
-                : project.platform === "Android"
-                ? "bg-emerald-950/90 text-emerald-300 border-emerald-500/30"
-                : "bg-slate-950/85 text-slate-300 border-white/10"
-            }`}>
+            <span
+              className={`px-1.5 py-0.5 rounded text-[8.5px] font-mono uppercase tracking-widest backdrop-blur-md shadow-sm border ${
+                project.platform === "iOS"
+                  ? "bg-purple-950/90 text-purple-300 border-purple-500/30"
+                  : project.platform === "Android"
+                  ? "bg-emerald-950/90 text-emerald-300 border-emerald-500/30"
+                  : "bg-slate-950/85 text-slate-300 border-white/10"
+              }`}
+            >
               {project.platform ? `${project.platform} App` : project.category}
             </span>
           </div>
 
           {/* Category Pill on top-right */}
           <div className="absolute top-2 right-2 z-10">
-            <span className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-semibold backdrop-blur-md shadow-lg border ${
-              project.platform === "iOS"
-                ? "bg-black/80 text-purple-300 border-purple-400/30"
-                : project.platform === "Android"
-                ? "bg-black/80 text-emerald-300 border-emerald-400/30"
-                : "bg-black/80 text-amber-300 border-amber-400/30"
-            }`}>
+            <span
+              className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-semibold backdrop-blur-md shadow-lg border ${
+                project.platform === "iOS"
+                  ? "bg-black/80 text-purple-300 border-purple-400/30"
+                  : project.platform === "Android"
+                  ? "bg-black/80 text-emerald-300 border-emerald-400/30"
+                  : "bg-black/80 text-amber-300 border-amber-400/30"
+              }`}
+            >
               {project.badge}
             </span>
           </div>
@@ -397,11 +350,13 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
               {project.title}
             </h3>
             {project.platform && (
-              <span className={`text-[8.5px] font-mono font-bold px-1.5 py-0.5 rounded ${
-                project.platform === "iOS"
-                  ? "text-purple-300 bg-purple-950/40 border border-purple-500/20"
-                  : "text-emerald-300 bg-emerald-950/40 border border-emerald-500/20"
-              }`}>
+              <span
+                className={`text-[8.5px] font-mono font-bold px-1.5 py-0.5 rounded ${
+                  project.platform === "iOS"
+                    ? "text-purple-300 bg-purple-950/40 border border-purple-500/20"
+                    : "text-emerald-300 bg-emerald-950/40 border border-emerald-500/20"
+                }`}
+              >
                 {project.platform}
               </span>
             )}
@@ -487,14 +442,14 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
         </div>
       </div>
 
-      {/* Bottom Action Line: VIEW DETAILS & VIEW DEMO */}
+      {/* Bottom Action Line: VIEW ARCHITECTURE & VIEW DETAILS */}
       <div className="px-3.5 sm:px-4 pb-3.5 sm:pb-4 pt-0.5">
         <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between gap-2 text-xs">
           <button
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              setSelectedProject(project);
+              onSelect(project);
             }}
             className="font-heading uppercase tracking-wider text-[10px] font-semibold text-slate-400 group-hover:text-amber-300 transition-colors flex items-center gap-1 cursor-pointer"
           >
@@ -507,7 +462,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                setSelectedProject(project);
+                onSelect(project);
               }}
               className="px-2 py-0.5 rounded bg-amber-500/10 hover:bg-amber-400/20 text-amber-300 border border-amber-500/30 text-[9.5px] font-mono font-bold flex items-center gap-1 transition-all cursor-pointer"
             >
@@ -523,9 +478,88 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
       </div>
     </div>
   );
+});
+ProjectCard.displayName = "ProjectCard";
+
+export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
+  const { setCursor, resetCursor } = useCursor();
+  const [activeFilter, setActiveFilter] = useState<string>("All");
+  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+  const [activeDashboardModal, setActiveDashboardModal] = useState<"excel" | "powerbi" | null>(null);
+
+  const filters = [
+    { label: "All Work", value: "All" },
+    { label: "Mobile Apps", value: "mobile" },
+    { label: "E-commerce", value: "ecommerce" },
+    { label: "Business Portals", value: "business" },
+    { label: "Data & BI", value: "data" }
+  ];
+
+  // Resolve work items according to the active category tab (memoized)
+  const workItems: WorkItem[] = useMemo(() => {
+    if (activeFilter === "data") {
+      return [{ type: "excel" }, { type: "powerbi" }];
+    }
+
+    if (activeFilter === "mobile" || activeFilter === "web") {
+      return mobileProjectsData.map((p) => ({ type: "project", data: p }));
+    }
+
+    if (activeFilter === "All") {
+      const items: WorkItem[] = [];
+      const baseProjects = projectsData.filter((p) => !p.platform);
+      baseProjects.forEach((project, index) => {
+        if (index === 4) {
+          items.push({ type: "excel" });
+          items.push({ type: "powerbi" });
+        }
+        items.push({ type: "project", data: project });
+      });
+      if (baseProjects.length < 4) {
+        items.push({ type: "excel" });
+        items.push({ type: "powerbi" });
+      }
+      mobileProjectsData.forEach((app) => {
+        items.push({ type: "project", data: app });
+      });
+      return items;
+    }
+
+    return projectsData
+      .filter((p) => p.filterCategory === activeFilter && !p.platform)
+      .map((p) => ({ type: "project", data: p }));
+  }, [activeFilter]);
+
+  const activeDashboards = useMemo(() => {
+    return activeDashboardModal === "excel"
+      ? excelDashboards
+      : activeDashboardModal === "powerbi"
+      ? powerBIDashboards
+      : [];
+  }, [activeDashboardModal]);
+
+  const handleSelectExcel = useCallback(() => {
+    setActiveDashboardModal("excel");
+  }, []);
+
+  const handleSelectPowerBI = useCallback(() => {
+    setActiveDashboardModal("powerbi");
+  }, []);
+
+  const handleSelectProject = useCallback((project: ProjectItem) => {
+    setSelectedProject(project);
+  }, []);
+
+  const handleCloseProjectModal = useCallback(() => {
+    setSelectedProject(null);
+  }, []);
+
+  const handleCloseDashboardModal = useCallback(() => {
+    setActiveDashboardModal(null);
+  }, []);
 
   return (
-    <section id="projects" className="py-14 sm:py-18 md:py-20 relative z-10 bg-transparent">
+    <section id="projects" className="py-14 sm:py-18 md:py-20 relative z-10 bg-transparent content-visibility-auto">
       <div className="max-w-7xl 2xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           badge="SELECTED WORK"
@@ -557,12 +591,19 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-4.5 xl:gap-5 animate-in fade-in duration-300">
           {workItems.map((item, index) => {
             if (item.type === "excel") {
-              return renderExcelCard();
+              return <ExcelCard key="dashboard-card-excel" onSelect={handleSelectExcel} />;
             }
             if (item.type === "powerbi") {
-              return renderPowerBICard();
+              return <PowerBICard key="dashboard-card-powerbi" onSelect={handleSelectPowerBI} />;
             }
-            return renderProjectCard(item.data, index);
+            return (
+              <ProjectCard
+                key={item.data.id}
+                project={item.data}
+                index={index}
+                onSelect={handleSelectProject}
+              />
+            );
           })}
         </div>
 
@@ -580,7 +621,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
         <ProjectModal
           project={selectedProject}
           isOpen={!!selectedProject}
-          onClose={() => setSelectedProject(null)}
+          onClose={handleCloseProjectModal}
           onDiscussProject={(brief) => {
             if (onDiscussProject) onDiscussProject(brief);
           }}
@@ -593,7 +634,7 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
           category={activeDashboardModal}
           dashboards={activeDashboards}
           isOpen={activeDashboardModal !== null}
-          onClose={() => setActiveDashboardModal(null)}
+          onClose={handleCloseDashboardModal}
         />
       )}
     </section>

@@ -194,7 +194,7 @@ export const projectsData: ProjectItem[] = [
       premiumPrice: "$780 – $1,020",
       customPrice: "Up to $1,200+"
     },
-    demoUrl: ""
+    demoUrl: "https://bloom-beauty-cosmetics.zynovaprofessional.workers.dev"
   },
   {
     id: "bookverse",

@@ -28,11 +28,17 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
 }) => {
   const { setCursor, resetCursor } = useCursor();
   const buttonRef = useRef<HTMLDivElement>(null);
+  const rectRef = useRef<{ left: number; top: number; width: number; height: number } | null>(null);
   const rafId = useRef<number | null>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!buttonRef.current) return;
-    const rect = buttonRef.current.getBoundingClientRect();
+    let rect = rectRef.current;
+    if (!rect) {
+      const r = buttonRef.current.getBoundingClientRect();
+      rect = { left: r.left, top: r.top, width: r.width, height: r.height };
+      rectRef.current = rect;
+    }
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
@@ -49,10 +55,15 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   };
 
   const handleMouseEnter = () => {
+    if (buttonRef.current) {
+      const r = buttonRef.current.getBoundingClientRect();
+      rectRef.current = { left: r.left, top: r.top, width: r.width, height: r.height };
+    }
     setCursor("button", cursorLabel);
   };
 
   const handleMouseLeave = () => {
+    rectRef.current = null;
     if (rafId.current) cancelAnimationFrame(rafId.current);
     if (buttonRef.current) {
       buttonRef.current.style.transition = "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)";

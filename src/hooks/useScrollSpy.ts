@@ -6,18 +6,29 @@ export function useScrollSpy(sectionIds: string[], offset = 120) {
 
   useEffect(() => {
     let ticking = false;
+    let elementMap: { id: string; el: HTMLElement | null }[] = [];
+
+    const cacheElements = () => {
+      elementMap = sectionIds.map((id) => ({
+        id,
+        el: document.getElementById(id)
+      }));
+    };
+
+    cacheElements();
 
     const checkActiveSection = () => {
       const scrollPosition = window.scrollY + offset;
       let matchedId: string | null = null;
 
-      for (let i = sectionIds.length - 1; i >= 0; i--) {
-        const id = sectionIds[i];
-        const element = document.getElementById(id);
+      for (let i = elementMap.length - 1; i >= 0; i--) {
+        const item = elementMap[i];
+        const element = item.el || document.getElementById(item.id);
         if (element) {
+          if (!item.el) item.el = element;
           const top = element.offsetTop;
           if (scrollPosition >= top) {
-            matchedId = id;
+            matchedId = item.id;
             break;
           }
         }
@@ -42,9 +53,13 @@ export function useScrollSpy(sectionIds: string[], offset = 120) {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", cacheElements, { passive: true });
     checkActiveSection();
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", cacheElements);
+    };
   }, [sectionIds, offset]);
 
   return activeId;

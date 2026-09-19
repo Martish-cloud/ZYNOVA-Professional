@@ -52,6 +52,8 @@ export const GlobalVideoBackground: React.FC = () => {
         className="w-full h-full object-cover object-center pointer-events-none"
         style={{
           transform: "translate3d(0, 0, 0)",
+          filter: "blur(2.5px)",
+          willChange: "transform",
           backfaceVisibility: "hidden",
           WebkitBackfaceVisibility: "hidden"
         }}
@@ -60,9 +62,6 @@ export const GlobalVideoBackground: React.FC = () => {
         <source src="/videos/tech-02.mp4" type="video/mp4" />
         <source src="/videos/Tech 02.mp4" type="video/mp4" />
       </video>
-
-      {/* 30% Screen-Space Optical Blur Overlay */}
-      <div className="absolute inset-0 backdrop-blur-[2.5px] pointer-events-none" />
 
       {/* Deep Obsidian Radial Vignette & Atmospheric Contrast Blends */}
       <div className="absolute inset-0 bg-[#050609]/30 pointer-events-none" />
