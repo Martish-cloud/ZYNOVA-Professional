@@ -398,7 +398,7 @@ export const ZynovaGivesBack: React.FC = () => {
                   </div>
                   <div>
                     <h4 className="text-xs sm:text-sm font-semibold text-white font-heading">
-                      Zynova Community Collective
+                      ZYNOVA DIGITAL PROFESSIONALS Community Collective
                     </h4>
                     <p className="text-[11px] text-amber-200/70">
                       100% Voluntary Contributions &bull; Transparent Allocation

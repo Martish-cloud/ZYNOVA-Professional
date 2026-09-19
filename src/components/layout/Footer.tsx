@@ -63,7 +63,7 @@ export const Footer: React.FC = () => {
                   </span>
                 </div>
               </div>
-              <span className="font-heading text-xl sm:text-2xl font-extrabold tracking-wider text-white flex items-center gap-1">
+              <span className="font-heading text-lg sm:text-xl lg:text-2xl font-extrabold tracking-wider text-white flex items-center gap-1">
                 {siteConfig.brandName}
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block shadow-[0_0_6px_#38bdf8]" />
               </span>
@@ -79,7 +79,7 @@ export const Footer: React.FC = () => {
                 <Mail className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
                 <a
                   href={`mailto:${siteConfig.contact.email}`}
-                  aria-label={`Email Zynova at ${siteConfig.contact.email}`}
+                  aria-label={`Email Zynova Digital Professionals at ${siteConfig.contact.email}`}
                   onMouseEnter={() => setCursor("link")}
                   onMouseLeave={resetCursor}
                   className="text-slate-200 hover:text-cyan-300 transition-colors hover:underline focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded py-0.5 inline-flex items-center min-h-[44px] sm:min-h-0"
@@ -93,7 +93,7 @@ export const Footer: React.FC = () => {
                 <Phone className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
                 <a
                   href={`tel:${siteConfig.contact.phoneTel}`}
-                  aria-label={`Call Zynova at ${siteConfig.contact.phone}`}
+                  aria-label={`Call Zynova Digital Professionals at ${siteConfig.contact.phone}`}
                   onMouseEnter={() => setCursor("link")}
                   onMouseLeave={resetCursor}
                   className="text-slate-200 hover:text-cyan-300 transition-colors hover:underline focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded py-0.5 inline-flex items-center min-h-[44px] sm:min-h-0"
@@ -109,7 +109,7 @@ export const Footer: React.FC = () => {
                   href={siteConfig.whatsappGroupURL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Join the Zynova WhatsApp group"
+                  aria-label="Join the Zynova Digital Professionals WhatsApp group"
                   onMouseEnter={() => setCursor("button", "JOIN")}
                   onMouseLeave={resetCursor}
                   className="text-slate-200 hover:text-cyan-300 transition-colors hover:underline focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded py-0.5 inline-flex items-center min-h-[44px] sm:min-h-0"
@@ -183,7 +183,7 @@ export const Footer: React.FC = () => {
               <span>Freelance Hubs</span>
             </h4>
             <p className="text-xs text-slate-300 mb-2.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
-              Engage Zynova securely via leading contract and freelance platforms:
+              Engage Zynova Digital Professionals securely via leading contract and freelance platforms:
             </p>
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {platformKeys.map((key) => {
@@ -212,7 +212,7 @@ export const Footer: React.FC = () => {
                   <Mail className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
                   <a
                     href={`mailto:${siteConfig.contact.email}`}
-                    aria-label={`Email Zynova at ${siteConfig.contact.email}`}
+                    aria-label={`Email Zynova Digital Professionals at ${siteConfig.contact.email}`}
                     onMouseEnter={() => setCursor("link")}
                     onMouseLeave={resetCursor}
                     className="text-cyan-400 hover:text-cyan-300 hover:underline drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] inline-flex items-center min-h-[44px] sm:min-h-0 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded"
@@ -224,7 +224,7 @@ export const Footer: React.FC = () => {
                   <Phone className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
                   <a
                     href={`tel:${siteConfig.contact.phoneTel}`}
-                    aria-label={`Call Zynova at ${siteConfig.contact.phone}`}
+                    aria-label={`Call Zynova Digital Professionals at ${siteConfig.contact.phone}`}
                     onMouseEnter={() => setCursor("link")}
                     onMouseLeave={resetCursor}
                     className="text-slate-300 hover:text-cyan-300 hover:underline drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] inline-flex items-center min-h-[44px] sm:min-h-0 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded"
@@ -243,7 +243,7 @@ export const Footer: React.FC = () => {
                   href={siteConfig.whatsappGroupURL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Join the Zynova WhatsApp group"
+                  aria-label="Join the Zynova Digital Professionals WhatsApp group"
                   onMouseEnter={() => setCursor("button", "JOIN")}
                   onMouseLeave={resetCursor}
                   className="text-xs text-[#D4AF37] hover:text-[#F4E4BC] hover:underline font-mono drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] inline-flex items-center gap-1.5 py-0.5 min-h-[44px] sm:min-h-0 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]/50 rounded cursor-pointer"

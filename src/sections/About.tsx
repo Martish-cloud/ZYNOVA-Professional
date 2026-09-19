@@ -14,7 +14,7 @@ export const About: React.FC = () => {
           badge="WHO WE ARE"
           title="Technology Built Around"
           highlightedTitle="Your Vision."
-          subtitle="Zynova is a digital technology brand focused on building modern software, websites, applications, automation systems, and data-driven business solutions."
+          subtitle="ZYNOVA DIGITAL PROFESSIONALS is a digital technology brand focused on building modern software, websites, applications, automation systems, and data-driven business solutions."
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
@@ -25,7 +25,7 @@ export const About: React.FC = () => {
             </h3>
 
             <p className="text-slate-300 leading-relaxed text-xs sm:text-sm">
-              At Zynova, we believe software must be resilient, beautiful, and directly tied to business results. We combine modern full-stack development, mobile engineering, AI workflows, and precision data analytics to solve tangible challenges.
+              At ZYNOVA DIGITAL PROFESSIONALS, we believe software must be resilient, beautiful, and directly tied to business results. We combine modern full-stack development, mobile engineering, AI workflows, and precision data analytics to solve tangible challenges.
             </p>
 
             <p className="text-slate-400 leading-relaxed text-xs sm:text-sm">

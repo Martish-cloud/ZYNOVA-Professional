@@ -73,12 +73,12 @@ export const Navbar: React.FC = () => {
                 </span>
               </div>
             </div>
-            <div className="flex flex-col">
-              <span className="font-heading text-lg font-extrabold tracking-wider text-white flex items-center gap-1">
+            <div className="flex flex-col min-w-0">
+              <span className="font-heading text-xs sm:text-sm lg:text-base font-extrabold tracking-wider text-white flex items-center gap-1 whitespace-nowrap">
                 {siteConfig.brandName}
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block shadow-[0_0_6px_#f59e0b]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block shadow-[0_0_6px_#f59e0b] shrink-0" />
               </span>
-              <span className="text-[8.5px] uppercase tracking-widest text-amber-200/60 font-mono hidden sm:block leading-none">
+              <span className="text-[7.5px] sm:text-[8.5px] uppercase tracking-widest text-amber-200/60 font-mono hidden sm:block leading-none">
                 STUDIO &bull; EST. 2026
               </span>
             </div>
@@ -118,7 +118,7 @@ export const Navbar: React.FC = () => {
               variant="primary"
               className="group hidden sm:inline-flex !py-1.5 !px-3.5 text-xs font-bold shadow-[0_0_20px_rgba(245,158,11,0.35)] hover:shadow-[0_0_30px_rgba(245,158,11,0.55)] cursor-pointer"
               cursorLabel="CALL"
-              aria-label={`Call Zynova at ${siteConfig.phone}`}
+              aria-label={`Call Zynova Digital Professionals at ${siteConfig.phone}`}
             >
               <Phone className="w-3 h-3 text-slate-950 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" />
               <span>BOOK A CALL</span>
@@ -178,7 +178,7 @@ export const Navbar: React.FC = () => {
               <div className="pt-4 mt-2 border-t border-slate-800">
                 <a
                   href={`tel:${siteConfig.phoneTel}`}
-                  aria-label={`Call Zynova at ${siteConfig.phone}`}
+                  aria-label={`Call Zynova Digital Professionals at ${siteConfig.phone}`}
                   onClick={() => setMobileMenuOpen(false)}
                   className="group w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 text-slate-950 font-bold text-sm shadow-[0_0_20px_rgba(245,158,11,0.35)] hover:shadow-[0_0_30px_rgba(245,158,11,0.55)] min-h-[44px] transition-all cursor-pointer"
                 >

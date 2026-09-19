@@ -53,7 +53,7 @@ export interface SiteConfig {
 }
 
 export const siteConfig: SiteConfig = {
-  brandName: "ZYNOVA",
+  brandName: "ZYNOVA DIGITAL PROFESSIONALS",
   tagline: "BUILD. AUTOMATE. SCALE.",
   positioning: "Premium Digital Solutions & Software Development",
   email: "team.zynova@gmail.com",

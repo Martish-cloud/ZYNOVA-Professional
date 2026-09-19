@@ -23,9 +23,9 @@ export const handleBookingSubmit = async (
       }
     });
 
-    const emailSubject = `📅 New Discovery Call Booking: ${booking.name} (${booking.preferredDate || "Immediate"} @ ${booking.preferredTime || "Flexible"}) - ZYNOVA`;
+    const emailSubject = `📅 New Discovery Call Booking: ${booking.name} (${booking.preferredDate || "Immediate"} @ ${booking.preferredTime || "Flexible"}) - ZYNOVA DIGITAL PROFESSIONALS`;
     const emailBody = `
-New Discovery Call Request on ZYNOVA Platform:
+New Discovery Call Request on ZYNOVA DIGITAL PROFESSIONALS Platform:
 
 • Client Name: ${booking.name}
 • Work Email: ${booking.email}
