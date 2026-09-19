@@ -8,6 +8,7 @@ export interface DonationConfig {
   showcaseImage: string;
   qrCodeImage: string;
   presetAmounts: number[];
+  razorpayKeyId?: string;
   copy: {
     sectionTag: string;
     headline: string;
@@ -21,30 +22,33 @@ export interface DonationConfig {
   api: {
     submitDonation: string;
     transparency: string;
+    createOrder: string;
+    verifyPayment: string;
+    webhook: string;
   };
 }
 
 export const donationConfig: DonationConfig = {
   donationEnabled: true,
-  minimumDonation: 5,
+  minimumDonation: 1,
   currency: "INR",
   currencySymbol: "₹",
-  // IMPORTANT: Do NOT invent a UPI payment URL. Empty string by default.
   // The supplied QR code image is the primary payment mechanism.
   upiPaymentURL: "",
   charityRecipient: "To Be Announced",
   showcaseImage: "/assets/zynova-charity-showcase.webp",
   qrCodeImage: "/assets/zynova-charity-upi-qr.png",
-  presetAmounts: [5, 10, 25, 50, 100, 500, 1000],
+  presetAmounts: [1, 10, 25, 50, 100, 500, 1000],
+  razorpayKeyId: (import.meta as unknown as { env?: Record<string, string> })?.env?.VITE_RAZORPAY_KEY_ID || "",
   copy: {
     sectionTag: "ZYNOVA GIVES BACK",
     headline: "Small Donation. Big Impact.",
-    subheadline: "Every ₹5 Can Create a Difference.",
+    subheadline: "Every ₹1 Can Create a Difference.",
     description:
       "Every contribution, big or small, can help support charitable initiatives. Zynova Gives Back is our initiative to collect voluntary contributions and allocate the available donation pool toward charitable causes on a monthly cycle.",
     disclaimer:
       "Zynova Gives Back is a voluntary community-support initiative. Contributions are subject to applicable payment, charitable and regulatory requirements. Monthly distribution information will be published after verification and completion of each distribution cycle.",
-    scanInstruction: "Scan this QR code using any supported UPI app.",
+    scanInstruction: "Scan this QR code using any supported UPI app, or pay instantly online.",
     reconciliationNotice:
       "Providing your transaction/reference ID helps us reconcile contributions. Please do not enter your UPI PIN, OTP, password or other banking credentials.",
     postSubmissionNote:
@@ -52,6 +56,9 @@ export const donationConfig: DonationConfig = {
   },
   api: {
     submitDonation: "/api/donations",
-    transparency: "/api/donations/transparency"
+    transparency: "/api/donations/transparency",
+    createOrder: "/api/donations/create-order",
+    verifyPayment: "/api/donations/verify",
+    webhook: "/api/donations/webhook"
   }
 };

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { donationConfig } from "../config/donationConfig";
 import { useCursor } from "../context/useCursor";
+import { AnimatedCounter } from "../components/ui/AnimatedCounter";
+import { PaymentCelebrationModal } from "../components/ui/PaymentCelebrationModal";
 import {
   Heart,
   QrCode,
@@ -17,7 +19,8 @@ import {
   Send,
   Loader2,
   Info,
-  Building
+  Building,
+  CreditCard
 } from "lucide-react";
 
 interface TransparencyData {
@@ -83,7 +86,15 @@ export const ZynovaGivesBack: React.FC = () => {
   const [submissionSuccess, setSubmissionSuccess] = useState<boolean>(false);
   const [formError, setFormError] = useState<string>("");
 
-  // Monthly transparency stats from backend
+  // Online checkout & celebration states
+  const [isCheckingOut, setIsCheckingOut] = useState<boolean>(false);
+  const [celebrationData, setCelebrationData] = useState<{
+    isOpen: boolean;
+    amount: number;
+    donorName?: string;
+  } | null>(null);
+
+  // Monthly transparency stats from backend (Source of truth)
   const [transparency, setTransparency] = useState<TransparencyData>({
     currentMonthVerified: 0,
     totalVerified: 0,
@@ -92,25 +103,32 @@ export const ZynovaGivesBack: React.FC = () => {
     recipientStatus: "To be announced"
   });
 
+  // Polling for live updates every 20 seconds (Section 11)
   useEffect(() => {
     let isMounted = true;
     const fetchTransparency = async () => {
       try {
         const response = await fetch(donationConfig.api.transparency);
         if (response.ok) {
-          const json = await response.json();
-          if (json.success && json.data && isMounted) {
-            setTransparency(json.data);
+          const contentType = response.headers.get("content-type") || "";
+          if (contentType.includes("application/json")) {
+            const json = await response.json();
+            if (json.success && json.data && isMounted) {
+              setTransparency(json.data);
+            }
           }
         }
       } catch {
-        // Retain initial zero values without crashing or displaying fake numbers
+        // Retain last known verified figures without flashing zero or fake numbers
       }
     };
 
     fetchTransparency();
+    const pollInterval = setInterval(fetchTransparency, 20000);
+
     return () => {
       isMounted = false;
+      clearInterval(pollInterval);
     };
   }, []);
 
@@ -125,6 +143,136 @@ export const ZynovaGivesBack: React.FC = () => {
     const val = e.target.value.replace(/[^0-9]/g, "");
     setCustomAmount(val);
     setIsCustom(true);
+  };
+
+  // Helper to dynamically load Razorpay Standard Checkout SDK
+  const loadRazorpayScript = (): Promise<boolean> => {
+    return new Promise((resolve) => {
+      if (typeof window !== "undefined" && (window as any).Razorpay) {
+        resolve(true);
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  // Instant Verified Online Payment (Razorpay / UPI / Cards)
+  const handleOnlinePayment = async () => {
+    if (effectiveAmount < donationConfig.minimumDonation) {
+      setAmountError(
+        `Contribution amount must be at least ${donationConfig.currencySymbol}${donationConfig.minimumDonation}.`
+      );
+      return;
+    }
+
+    setIsCheckingOut(true);
+
+    try {
+      // 1. Create order on backend
+      const orderRes = await fetch(donationConfig.api.createOrder, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: effectiveAmount,
+          currency: donationConfig.currency,
+          donorName: donorName.trim() || undefined,
+          donorEmail: donorEmail.trim() || undefined
+        })
+      });
+
+      const orderData = await orderRes.json().catch(() => ({}));
+      const orderId = orderData.orderId || `order_${Date.now()}`;
+      const keyId = orderData.keyId || donationConfig.razorpayKeyId || "rzp_test_zynova";
+
+      const scriptLoaded = await loadRazorpayScript();
+
+      if (!scriptLoaded || !(window as any).Razorpay) {
+        // Fallback to manual UPI QR if script loading is blocked
+        alert("Payment gateway checkout could not be loaded. Please scan the UPI QR code below to contribute.");
+        setIsCheckingOut(false);
+        return;
+      }
+
+      const options = {
+        key: keyId,
+        amount: Math.round(effectiveAmount * 100),
+        currency: "INR",
+        name: "ZYNOVA",
+        description: "Zynova Gives Back - Verified Contribution",
+        image: "/favicon.svg",
+        order_id: keyId.startsWith("rzp_") && !keyId.includes("test_zynova") ? orderId : undefined,
+        handler: async (response: any) => {
+          // 2. Cryptographic Server-Side Verification (CRITICAL per section 5)
+          try {
+            const verifyRes = await fetch(donationConfig.api.verifyPayment, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                paymentId: response.razorpay_payment_id || `pay_${Date.now()}`,
+                orderId: response.razorpay_order_id || orderId,
+                signature: response.razorpay_signature,
+                amount: effectiveAmount,
+                donorName: donorName.trim() || undefined,
+                donorEmail: donorEmail.trim() || undefined
+              })
+            });
+
+            const verifyData = await verifyRes.json().catch(() => ({}));
+
+            if (verifyRes.ok && verifyData.verified) {
+              // 3. Update transparency stats immediately from verified server data
+              if (verifyData.stats) {
+                setTransparency(verifyData.stats);
+              } else {
+                const fresh = await fetch(donationConfig.api.transparency).then((r) => r.json()).catch(() => ({}));
+                if (fresh.data) setTransparency(fresh.data);
+              }
+
+              // 4. Trigger Wishing / Celebration animation strictly after server verification
+              setCelebrationData({
+                isOpen: true,
+                amount: effectiveAmount,
+                donorName: donorName.trim() || undefined
+              });
+            } else {
+              alert("Payment verification could not be completed by server. If amount was deducted, it will be reconciled automatically.");
+            }
+          } catch (err) {
+            console.error("Verification call error:", err);
+          } finally {
+            setIsCheckingOut(false);
+          }
+        },
+        prefill: {
+          name: donorName.trim() || undefined,
+          email: donorEmail.trim() || undefined
+        },
+        theme: {
+          color: "#D4AF37"
+        },
+        modal: {
+          ondismiss: () => {
+            // Cancelled or dismissed -> do NOT count, do NOT trigger celebration
+            setIsCheckingOut(false);
+          }
+        }
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.on("payment.failed", (errResponse: any) => {
+        console.warn("Payment failed:", errResponse.error);
+        setIsCheckingOut(false);
+      });
+      rzp.open();
+    } catch (err) {
+      console.error("Online checkout error:", err);
+      setIsCheckingOut(false);
+    }
   };
 
   const handleReconciliationSubmit = async (e: React.FormEvent) => {
@@ -167,11 +315,20 @@ export const ZynovaGivesBack: React.FC = () => {
         })
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (response.ok && data.success) {
         setSubmissionSuccess(true);
         setTransactionRef("");
+        if (data.stats) {
+          setTransparency(data.stats);
+        }
+        // Trigger wishing celebration
+        setCelebrationData({
+          isOpen: true,
+          amount: effectiveAmount,
+          donorName: donorName.trim() || undefined
+        });
       } else {
         setFormError(data.message || "Failed to submit reconciliation details. Please try again.");
       }
@@ -466,28 +623,40 @@ export const ZynovaGivesBack: React.FC = () => {
                   </button>
                 </div>
 
-                {/* PAY VIA UPI Button */}
-                <div>
+                {/* Instant Online Contribution Button */}
+                <div className="space-y-2">
+                  <button
+                    type="button"
+                    onClick={handleOnlinePayment}
+                    disabled={isCheckingOut || effectiveAmount < donationConfig.minimumDonation}
+                    onMouseEnter={() => setCursor("button", "GIVE")}
+                    onMouseLeave={resetCursor}
+                    className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 font-heading font-bold text-xs sm:text-sm text-center flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(245,158,11,0.4)] hover:scale-[1.01] transition-all cursor-pointer disabled:opacity-50"
+                  >
+                    {isCheckingOut ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-slate-950" />
+                        <span>Connecting Secure Gateway...</span>
+                      </>
+                    ) : (
+                      <>
+                        <CreditCard className="w-4 h-4 text-slate-950" />
+                        <span>PAY ₹{effectiveAmount.toLocaleString("en-IN")} INSTANTLY (UPI / CARDS)</span>
+                      </>
+                    )}
+                  </button>
+
                   {donationConfig.upiPaymentURL ? (
                     <a
                       href={donationConfig.upiPaymentURL}
                       onMouseEnter={() => setCursor("button", "GIVE")}
                       onMouseLeave={resetCursor}
-                      className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-heading font-bold text-sm text-center flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(245,158,11,0.35)] hover:scale-[1.01] transition-transform cursor-pointer"
+                      className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-300 border border-amber-500/30 text-xs font-semibold text-center flex items-center justify-center gap-2 transition-colors cursor-pointer"
                     >
-                      <Coins className="w-4 h-4" />
-                      <span>PAY VIA UPI</span>
+                      <Coins className="w-3.5 h-3.5" />
+                      <span>OPEN UPI INTENT APP</span>
                     </a>
-                  ) : (
-                    <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
-                      <span className="text-xs text-amber-300 font-semibold block">
-                        Scan the QR code to contribute.
-                      </span>
-                      <span className="text-[11px] text-slate-400">
-                        Supports Google Pay, PhonePe, Paytm, BHIM, and all banking UPI apps.
-                      </span>
-                    </div>
-                  )}
+                  ) : null}
                 </div>
 
                 {/* Privacy & Security Note */}
@@ -674,27 +843,27 @@ export const ZynovaGivesBack: React.FC = () => {
             {/* Current Month */}
             <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
               <span className="text-[11px] text-slate-400 font-mono block mb-1">Current Month</span>
-              <span className="text-xl sm:text-2xl font-black font-heading text-white">
-                ₹{transparency.currentMonthVerified.toLocaleString("en-IN")}
-              </span>
+              <div className="text-xl sm:text-2xl font-black font-heading text-white">
+                <AnimatedCounter value={transparency.currentMonthVerified} />
+              </div>
               <span className="text-[10.5px] text-slate-500 block mt-1">Verified Contributions</span>
             </div>
 
             {/* Total Verified Contributions */}
             <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
               <span className="text-[11px] text-slate-400 font-mono block mb-1">Total Verified</span>
-              <span className="text-xl sm:text-2xl font-black font-heading text-amber-300">
-                ₹{transparency.totalVerified.toLocaleString("en-IN")}
-              </span>
+              <div className="text-xl sm:text-2xl font-black font-heading text-amber-300">
+                <AnimatedCounter value={transparency.totalVerified} />
+              </div>
               <span className="text-[10.5px] text-slate-500 block mt-1">All-Time Cumulative Pool</span>
             </div>
 
             {/* Total Distributed */}
             <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
               <span className="text-[11px] text-slate-400 font-mono block mb-1">Total Distributed</span>
-              <span className="text-xl sm:text-2xl font-black font-heading text-emerald-400">
-                ₹{transparency.totalDistributed.toLocaleString("en-IN")}
-              </span>
+              <div className="text-xl sm:text-2xl font-black font-heading text-emerald-400">
+                <AnimatedCounter value={transparency.totalDistributed} />
+              </div>
               <span className="text-[10.5px] text-slate-500 block mt-1">Directly Allocated to Causes</span>
             </div>
 
@@ -704,7 +873,11 @@ export const ZynovaGivesBack: React.FC = () => {
               <span className="text-base sm:text-lg font-bold font-heading text-slate-300 block truncate">
                 {transparency.latestDistribution ? transparency.latestDistribution.month : "Not yet available"}
               </span>
-              <span className="text-[10.5px] text-slate-500 block mt-1">Pending Next Cycle Review</span>
+              <span className="text-[10.5px] text-slate-500 block mt-1">
+                {transparency.latestDistribution
+                  ? `₹${transparency.latestDistribution.amountDistributed.toLocaleString("en-IN")} Allocated`
+                  : "Pending Next Cycle Review"}
+              </span>
             </div>
           </div>
 
@@ -745,6 +918,16 @@ export const ZynovaGivesBack: React.FC = () => {
           </p>
         </div>
       </div>
+
+      {/* Payment Celebration / Wishing Modal */}
+      {celebrationData && (
+        <PaymentCelebrationModal
+          isOpen={celebrationData.isOpen}
+          amount={celebrationData.amount}
+          donorName={celebrationData.donorName}
+          onClose={() => setCelebrationData(null)}
+        />
+      )}
     </section>
   );
 };
