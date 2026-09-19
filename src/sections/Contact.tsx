@@ -75,7 +75,7 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
     try {
       // 1. Send enquiry email directly to team.zynova@gmail.com via multi-tier relay
       await sendEnquiryEmail({
-        subject: `New Project Enquiry: ${formData.name} - ${formData.serviceRequired} [ZYNOVA DIGITAL PROFESSIONALS]`,
+        subject: `New Project Enquiry: ${formData.name} - ${formData.serviceRequired} [Zynova -Solutions]`,
         senderEmail: formData.email,
         senderName: formData.name,
         fields: {
@@ -87,7 +87,7 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
           "Preferred Meeting Time": formData.preferredTime || "Flexible",
           "Project Scope / Brief": formData.message
         },
-        autoResponse: `Thank you for contacting ZYNOVA DIGITAL PROFESSIONALS. We have received your project enquiry regarding "${formData.serviceRequired}" and our engineering team will get back to you within 12 hours.`
+        autoResponse: `Thank you for contacting Zynova -Solutions. We have received your project enquiry regarding "${formData.serviceRequired}" and our engineering team will get back to you within 12 hours.`
       });
 
       // 2. Also forward to local backend API if present
@@ -144,11 +144,11 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
               </div>
 
               <h3 className="text-xl sm:text-2xl font-black font-heading tracking-tight text-white">
-                JOIN THE ZYNOVA DIGITAL PROFESSIONALS COMMUNITY
+                JOIN THE ZYNOVA -SOLUTIONS COMMUNITY
               </h3>
 
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-xl">
-                Connect with ZYNOVA DIGITAL PROFESSIONALS on WhatsApp for project discussions, updates, enquiries and direct communication.
+                Connect with Zynova -Solutions on WhatsApp for project discussions, updates, enquiries and direct communication.
               </p>
 
               <div className="pt-1.5">
@@ -160,7 +160,7 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
                   variant="gold"
                   className="w-full sm:w-auto !py-2.5 sm:!py-3 !px-5 sm:!px-6 text-xs sm:text-sm font-bold shadow-[0_0_25px_rgba(212,175,55,0.35)] cursor-pointer"
                   cursorLabel="JOIN"
-                  aria-label="Join the Zynova Digital Professionals WhatsApp group"
+                  aria-label="Join the Zynova -Solutions WhatsApp group"
                 >
                   <WhatsAppIcon className="w-4 h-4 text-slate-950" />
                   <span>JOIN WHATSAPP GROUP &rarr;</span>
@@ -193,7 +193,7 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
                 {/* Card 1: Email */}
                 <a
                   href={`mailto:${siteConfig.contact.email}`}
-                  aria-label={`Email Zynova Digital Professionals at ${siteConfig.contact.email}`}
+                  aria-label={`Email Zynova -Solutions at ${siteConfig.contact.email}`}
                   onMouseEnter={() => setCursor("link")}
                   onMouseLeave={resetCursor}
                   className="group p-3 sm:p-3.5 rounded-xl bg-[#0B0B0F] hover:bg-[#1F1F23] border border-[#D4AF37]/20 hover:border-[#D4AF37]/70 transition-all duration-300 shadow-sm hover:shadow-[0_0_25px_rgba(212,175,55,0.2)] flex flex-col justify-between min-h-[95px] focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/60 cursor-pointer"
@@ -219,7 +219,7 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
                 {/* Card 2: Phone */}
                 <a
                   href={`tel:${siteConfig.contact.phoneTel}`}
-                  aria-label={`Call Zynova Digital Professionals at ${siteConfig.contact.phone}`}
+                  aria-label={`Call Zynova -Solutions at ${siteConfig.contact.phone}`}
                   onMouseEnter={() => setCursor("link")}
                   onMouseLeave={resetCursor}
                   className="group p-3 sm:p-3.5 rounded-xl bg-[#0B0B0F] hover:bg-[#1F1F23] border border-[#D4AF37]/20 hover:border-[#D4AF37]/70 transition-all duration-300 shadow-sm hover:shadow-[0_0_25px_rgba(212,175,55,0.2)] flex flex-col justify-between min-h-[95px] focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/60 cursor-pointer"
@@ -247,7 +247,7 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
                   href={siteConfig.whatsappGroupURL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Join the Zynova Digital Professionals WhatsApp group"
+                  aria-label="Join the Zynova -Solutions WhatsApp group"
                   onMouseEnter={() => setCursor("button", "JOIN")}
                   onMouseLeave={resetCursor}
                   className="group p-3 sm:p-3.5 rounded-xl bg-[#0B0B0F] hover:bg-[#1F1F23] border border-[#D4AF37]/20 hover:border-[#D4AF37]/70 transition-all duration-300 shadow-sm hover:shadow-[0_0_25px_rgba(212,175,55,0.2)] flex flex-col justify-between min-h-[95px] focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/60 cursor-pointer sm:col-span-2"
@@ -262,7 +262,7 @@ export const Contact: React.FC<ContactProps> = ({ onSuccess }) => {
                   </div>
                   <div>
                     <span className="text-xs sm:text-sm font-semibold text-white group-hover:text-[#F4E4BC] transition-colors block">
-                      Join the Zynova Digital Professionals WhatsApp Group
+                      Join the Zynova -Solutions WhatsApp Group
                     </span>
                     <span className="text-[10.5px] text-[#D4AF37] group-hover:text-[#F4E4BC] group-hover:underline flex items-center gap-1 mt-0.5 font-medium">
                       Connect on WhatsApp &rarr;

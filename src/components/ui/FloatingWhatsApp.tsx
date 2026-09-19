@@ -12,7 +12,7 @@ export const FloatingWhatsApp: React.FC = () => {
         href={siteConfig.whatsappGroupURL}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Join the Zynova Digital Professionals WhatsApp group"
+        aria-label="Join the Zynova -Solutions WhatsApp group"
         onMouseEnter={() => setCursor("button", "JOIN")}
         onMouseLeave={resetCursor}
         className="group relative flex items-center gap-2.5 h-12 px-3.5 sm:px-4 rounded-full bg-[#0B0B0F]/95 hover:bg-[#1F1F23] border border-[#D4AF37]/40 hover:border-[#D4AF37] shadow-[0_4px_25px_rgba(212,175,55,0.25)] hover:shadow-[0_6px_35px_rgba(212,175,55,0.5)] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/60 cursor-pointer"

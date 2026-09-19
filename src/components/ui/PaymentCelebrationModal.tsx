@@ -111,7 +111,7 @@ export const PaymentCelebrationModal: React.FC<PaymentCelebrationModalProps> = (
 
         {/* Message */}
         <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-xs mx-auto">
-          Your voluntary contribution was verified and added to the <strong className="text-amber-200">ZYNOVA DIGITAL PROFESSIONALS Gives Back</strong> community transparency pool.
+          Your voluntary contribution was verified and added to the <strong className="text-amber-200">Zynova -Solutions Gives Back</strong> community transparency pool.
         </p>
 
         {/* Progress return notice */}

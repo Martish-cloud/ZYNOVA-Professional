@@ -49,7 +49,7 @@ export const WhyZynova: React.FC = () => {
     <section id="why-zynova" className="py-14 sm:py-18 md:py-20 relative z-10 bg-transparent border-t border-amber-500/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          badge="WHY WORK WITH ZYNOVA DIGITAL PROFESSIONALS"
+          badge="WHY WORK WITH ZYNOVA -SOLUTIONS"
           title="Engineered for Reliability and"
           highlightedTitle="Predictable Success."
           subtitle="We eliminate the uncertainty of software development through transparent milestones, fast communication, and modern engineering standards."

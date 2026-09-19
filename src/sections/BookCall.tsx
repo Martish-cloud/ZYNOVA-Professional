@@ -95,7 +95,7 @@ export const BookCall: React.FC<BookCallProps> = ({
     try {
       // 1. Dispatch discovery call request to team.zynova@gmail.com
       await sendEnquiryEmail({
-        subject: `New Discovery Call Booking: ${formData.name} (${formData.preferredDate || "Immediate"} @ ${formData.preferredTime || "Flexible"}) - ZYNOVA DIGITAL PROFESSIONALS`,
+        subject: `New Discovery Call Booking: ${formData.name} (${formData.preferredDate || "Immediate"} @ ${formData.preferredTime || "Flexible"}) - Zynova -Solutions`,
         senderEmail: formData.email,
         senderName: formData.name,
         fields: {
@@ -107,7 +107,7 @@ export const BookCall: React.FC<BookCallProps> = ({
           "Preferred Time": formData.preferredTime || "Flexible",
           "Project Scope / Brief": formData.message
         },
-        autoResponse: `Thank you for booking a Discovery Call with ZYNOVA DIGITAL PROFESSIONALS. We have received your slot request for ${formData.preferredDate || "an upcoming date"} and will confirm our calendar invite shortly.`
+        autoResponse: `Thank you for booking a Discovery Call with Zynova -Solutions. We have received your slot request for ${formData.preferredDate || "an upcoming date"} and will confirm our calendar invite shortly.`
       });
 
       // 2. Also forward to local backend API if configured

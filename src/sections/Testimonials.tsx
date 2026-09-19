@@ -98,7 +98,7 @@ export const Testimonials: React.FC = () => {
           badge="CLIENT TESTIMONIALS"
           title="What Our Clients"
           highlightedTitle="Say."
-          subtitle="Feedback from businesses and professionals who have worked with ZYNOVA DIGITAL PROFESSIONALS across technology, automation, data analytics and digital solutions."
+          subtitle="Feedback from businesses and professionals who have worked with Zynova -Solutions across technology, automation, data analytics and digital solutions."
           badgeVariant="gold"
           align="center"
         />

@@ -30,7 +30,7 @@ export const Platforms: React.FC = () => {
           badge="FIND US ONLINE"
           title="Available on Leading"
           highlightedTitle="Freelance &amp; Contract Hubs."
-          subtitle="ZYNOVA DIGITAL PROFESSIONALS is available through leading freelancing platforms, providing flexible escrow security and milestone-based engagements worldwide."
+          subtitle="Zynova -Solutions is available through leading freelancing platforms, providing flexible escrow security and milestone-based engagements worldwide."
         />
 
         {/* Icons-Only Platform Grid */}

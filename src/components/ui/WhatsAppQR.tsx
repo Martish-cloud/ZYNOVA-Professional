@@ -40,7 +40,7 @@ export const WhatsAppQR: React.FC<WhatsAppQRProps> = ({
           {!imgError ? (
             <img
               src="/zynova-whatsapp-qr.png"
-              alt="ZYNOVA DIGITAL PROFESSIONALS WhatsApp Group QR Code"
+              alt="Zynova -Solutions WhatsApp Group QR Code"
               width={size}
               height={size}
               onError={() => setImgError(true)}
@@ -55,7 +55,7 @@ export const WhatsAppQR: React.FC<WhatsAppQRProps> = ({
               fgColor="#0B0B0F"
               level="M"
               marginSize={2}
-              title="ZYNOVA DIGITAL PROFESSIONALS WhatsApp Group QR Code"
+              title="Zynova -Solutions WhatsApp Group QR Code"
               className="block select-none"
             />
           )}
@@ -64,7 +64,7 @@ export const WhatsAppQR: React.FC<WhatsAppQRProps> = ({
 
       {/* Label Below QR */}
       <p className="text-[11px] sm:text-xs text-slate-400 mt-3 max-w-[220px] leading-relaxed">
-        Scan this QR code with your phone camera or WhatsApp to join the ZYNOVA DIGITAL PROFESSIONALS group.
+        Scan this QR code with your phone camera or WhatsApp to join the Zynova -Solutions group.
       </p>
     </div>
   );

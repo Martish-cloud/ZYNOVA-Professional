@@ -47,9 +47,9 @@ export const donationConfig: DonationConfig = {
     headline: "Small Donation. Big Impact.",
     subheadline: "Every ₹5 Can Create a Difference.",
     description:
-      "Every contribution, big or small, can help support charitable initiatives. ZYNOVA DIGITAL PROFESSIONALS Gives Back is our initiative to collect voluntary contributions and allocate the available donation pool toward charitable causes on a monthly cycle.",
+      "Every contribution, big or small, can help support charitable initiatives. Zynova -Solutions Gives Back is our initiative to collect voluntary contributions and allocate the available donation pool toward charitable causes on a monthly cycle.",
     disclaimer:
-      "ZYNOVA DIGITAL PROFESSIONALS Gives Back is a voluntary community-support initiative. Contributions are subject to applicable payment, charitable and regulatory requirements. Monthly distribution information will be published after verification and completion of each distribution cycle.",
+      "Zynova -Solutions Gives Back is a voluntary community-support initiative. Contributions are subject to applicable payment, charitable and regulatory requirements. Monthly distribution information will be published after verification and completion of each distribution cycle.",
     scanInstruction: "Scan this QR code using any supported UPI app, or pay instantly online.",
     reconciliationNotice:
       "Providing your transaction/reference ID helps us reconcile contributions. Please do not enter your UPI PIN, OTP, password or other banking credentials.",
