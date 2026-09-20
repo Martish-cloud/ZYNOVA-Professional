@@ -136,14 +136,14 @@ export const TypewriterHeroHeadline: React.FC<TypewriterHeroHeadlineProps> = ({ 
         )}
       </span>
 
-      {/* Line 2: SCALE WHAT'S NEXT. (Radiant Metallic Champagne Gold) */}
+      {/* Line 2: SCALE WHAT'S NEXT. (Light Blue to Dark Blue Effect) */}
       <span className="inline-flex items-center justify-center min-h-[1.12em]">
-        <span className="bg-gradient-to-r from-[#F4E4BC] via-[#D4AF37] to-[#E6C364] bg-clip-text text-transparent drop-shadow-[0_0_45px_rgba(212,175,55,0.35)]">
+        <span className="bg-gradient-to-r from-[#7DD3FC] via-[#38BDF8] to-[#1D4ED8] bg-clip-text text-transparent drop-shadow-[0_0_40px_rgba(56,189,248,0.35)]">
           {l2}
         </span>
         {cursorLine === 2 && (
           <span
-            className="inline-block ml-1 sm:ml-1.5 w-[3px] sm:w-[4px] md:w-[6px] h-[0.78em] bg-[#D4AF37] align-baseline animate-cursor-blink shadow-[0_0_16px_#f59e0b] rounded-[1px]"
+            className="inline-block ml-1 sm:ml-1.5 w-[3px] sm:w-[4px] md:w-[6px] h-[0.78em] bg-[#38BDF8] align-baseline animate-cursor-blink shadow-[0_0_16px_#38bdf8] rounded-[1px]"
             aria-hidden="true"
           />
         )}
