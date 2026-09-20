@@ -8,8 +8,7 @@ import {
   Filter,
   TrendingUp,
   ArrowUpRight,
-  Sparkles,
-  RefreshCw
+  Sparkles
 } from "lucide-react";
 
 export const DataSolutions: React.FC = () => {
@@ -18,10 +17,10 @@ export const DataSolutions: React.FC = () => {
 
   // Simulated metrics based on timeframe
   const metricsData = {
-    Q1: { processed: "420,000", speed: "99.4%", latency: "1.2s", accuracy: "99.98%", heightMultiplier: 0.65 },
-    Q2: { processed: "680,000", speed: "99.7%", latency: "1.0s", accuracy: "99.99%", heightMultiplier: 0.78 },
-    Q3: { processed: "890,000", speed: "99.8%", latency: "0.8s", accuracy: "100.0%", heightMultiplier: 0.88 },
-    Q4: { processed: "1,250,000+", speed: "99.9%", latency: "0.4s", accuracy: "100.0%", heightMultiplier: 1.0 }
+    Q1: { processed: "420,000", speed: "99.4%", latency: "1.2s", accuracy: "99.98%" },
+    Q2: { processed: "680,000", speed: "99.7%", latency: "1.0s", accuracy: "99.99%" },
+    Q3: { processed: "890,000", speed: "99.8%", latency: "0.8s", accuracy: "100.0%" },
+    Q4: { processed: "1,250,000+", speed: "99.9%", latency: "0.4s", accuracy: "100.0%" }
   };
 
   const currentMetric = metricsData[activeTimeframe];
@@ -166,39 +165,8 @@ export const DataSolutions: React.FC = () => {
             </div>
           </div>
 
-          {/* Simulated Interactive Bar Visualization */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/40 border border-slate-800/80">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-                <BarChart3 className="w-3.5 h-3.5 text-amber-400" />
-                <span>MONTHLY CONSOLIDATED OPERATIONAL VOLUME ({activeTimeframe})</span>
-              </div>
-              <span className="text-xs font-mono text-amber-400 flex items-center gap-1">
-                <RefreshCw className="w-3 h-3 animate-spin" /> Live Simulated Feed
-              </span>
-            </div>
-
-            {/* Custom Bar Graphics using SVG & CSS */}
-            <div className="grid grid-cols-6 sm:grid-cols-12 gap-2 h-32 sm:h-36 items-end pt-3 border-b border-slate-800 pb-2">
-              {[45, 62, 58, 75, 82, 90, 68, 88, 94, 85, 96, 100].map((val, idx) => {
-                const adjustedVal = Math.round(val * currentMetric.heightMultiplier);
-                return (
-                  <div key={idx} className="flex flex-col items-center gap-1.5 group h-full justify-end">
-                    <div
-                      style={{ height: `${adjustedVal}%` }}
-                      className="w-full rounded-t-md bg-gradient-to-t from-amber-600 via-yellow-500 to-amber-300 group-hover:from-amber-400 group-hover:to-yellow-200 transition-all duration-500 shadow-[0_0_12px_rgba(245,158,11,0.25)]"
-                    />
-                    <span className="text-[8.5px] font-mono text-slate-400 group-hover:text-white transition-colors">
-                      M0{idx + 1}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
           {/* Bottom CTA for Data Consultations */}
-          <div className="mt-6 pt-5 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="pt-5 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3">
             <span className="text-xs text-slate-400 text-center sm:text-left">
               Need custom Excel cleaning or an enterprise Power BI model for your datasets?
             </span>
