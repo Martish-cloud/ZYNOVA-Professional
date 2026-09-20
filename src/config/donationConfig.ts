@@ -37,7 +37,7 @@ export const donationConfig: DonationConfig = {
   contactEmail: "team.zynova@gmail.com",
   charityRecipient: "To Be Announced",
   showcaseImage: "/assets/zynova-charity-showcase.webp",
-  presetAmounts: [100, 250, 500, 1000, 2000],
+  presetAmounts: [5, 25, 50, 100, 500],
   copy: {
     sectionTag: "ZYNOVA GIVES BACK",
     headline: "Small Donation. Big Impact.",

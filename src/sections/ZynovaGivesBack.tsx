@@ -44,7 +44,7 @@ export const ZynovaGivesBack: React.FC = () => {
   const { setCursor, resetCursor } = useCursor();
 
   // Contribution state
-  const [selectedPreset, setSelectedPreset] = useState<number>(500);
+  const [selectedPreset, setSelectedPreset] = useState<number>(50);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [isCustom, setIsCustom] = useState<boolean>(false);
 
@@ -297,7 +297,7 @@ export const ZynovaGivesBack: React.FC = () => {
                   {
                     step: "01",
                     title: "CHOOSE AMOUNT",
-                    desc: "Select a quick preset (₹100, ₹250, ₹500, ₹1,000, ₹2,000) or enter any custom contribution amount."
+                    desc: "Select a quick preset (₹5, ₹25, ₹50, ₹100, ₹500) or enter any custom contribution amount."
                   },
                   {
                     step: "02",
