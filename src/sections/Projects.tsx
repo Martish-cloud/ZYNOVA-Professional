@@ -54,7 +54,7 @@ const ExcelCard = React.memo<{ onSelect: () => void }>(({ onSelect }) => {
 
           {/* Top-left category tag */}
           <div className="absolute top-2 left-2 z-10">
-            <span className="px-1.5 py-0.5 rounded text-[8.5px] font-mono uppercase tracking-widest bg-emerald-950/90 backdrop-blur-md text-emerald-300 border border-emerald-500/30 flex items-center gap-1 shadow-sm">
+            <span className="px-1.5 py-0.5 rounded text-[8.5px] font-mono uppercase tracking-widest bg-emerald-950/95 text-emerald-300 border border-emerald-500/30 flex items-center gap-1 shadow-sm">
               <FileSpreadsheet className="w-2.5 h-2.5 text-emerald-400" />
               <span>EXCEL</span>
             </span>
@@ -62,13 +62,13 @@ const ExcelCard = React.memo<{ onSelect: () => void }>(({ onSelect }) => {
 
           {/* Category Pill on top-right */}
           <div className="absolute top-2 right-2 z-10">
-            <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-semibold bg-black/80 backdrop-blur-md text-emerald-300 border border-emerald-500/30 shadow-lg">
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-semibold bg-black/90 text-emerald-300 border border-emerald-500/30 shadow-lg">
               {excelDashboards.length} DASHBOARDS
             </span>
           </div>
 
           {/* Floating Tag over Visual */}
-          <div className="absolute bottom-1.5 left-2 px-1.5 py-0.5 rounded bg-black/80 backdrop-blur-md border border-emerald-500/30 text-[9px] font-mono text-emerald-300 flex items-center gap-1 pointer-events-none">
+          <div className="absolute bottom-1.5 left-2 px-1.5 py-0.5 rounded bg-black/90 border border-emerald-500/30 text-[9px] font-mono text-emerald-300 flex items-center gap-1 pointer-events-none">
             <Sparkles className="w-2 h-2 text-emerald-400" />
             <span>Formulas &bull; Automation</span>
           </div>
@@ -179,7 +179,7 @@ const PowerBICard = React.memo<{ onSelect: () => void }>(({ onSelect }) => {
 
           {/* Top-left category tag */}
           <div className="absolute top-2 left-2 z-10">
-            <span className="px-1.5 py-0.5 rounded text-[8.5px] font-mono uppercase tracking-widest bg-amber-950/90 backdrop-blur-md text-amber-300 border border-amber-500/30 flex items-center gap-1 shadow-sm">
+            <span className="px-1.5 py-0.5 rounded text-[8.5px] font-mono uppercase tracking-widest bg-amber-950/95 text-amber-300 border border-amber-500/30 flex items-center gap-1 shadow-sm">
               <BarChart3 className="w-2.5 h-2.5 text-amber-400" />
               <span>POWER BI</span>
             </span>
@@ -187,13 +187,13 @@ const PowerBICard = React.memo<{ onSelect: () => void }>(({ onSelect }) => {
 
           {/* Category Pill on top-right */}
           <div className="absolute top-2 right-2 z-10">
-            <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-semibold bg-black/80 backdrop-blur-md text-amber-300 border border-amber-500/30 shadow-lg">
+            <span className="px-2 py-0.5 rounded-full text-[9px] font-mono font-semibold bg-black/90 text-amber-300 border border-amber-500/30 shadow-lg">
               {powerBIDashboards.length} DASHBOARDS
             </span>
           </div>
 
           {/* Floating Tag over Visual */}
-          <div className="absolute bottom-1.5 left-2 px-1.5 py-0.5 rounded bg-black/80 backdrop-blur-md border border-amber-500/30 text-[9px] font-mono text-amber-300 flex items-center gap-1 pointer-events-none">
+          <div className="absolute bottom-1.5 left-2 px-1.5 py-0.5 rounded bg-black/90 border border-amber-500/30 text-[9px] font-mono text-amber-300 flex items-center gap-1 pointer-events-none">
             <TrendingUp className="w-2.5 h-2.5 text-amber-400" />
             <span>DAX &bull; Power Query &bull; KPIs</span>
           </div>
@@ -318,12 +318,12 @@ const ProjectCard = React.memo<{
           {/* Top-left category tag */}
           <div className="absolute top-2 left-2 z-10">
             <span
-              className={`px-1.5 py-0.5 rounded text-[8.5px] font-mono uppercase tracking-widest backdrop-blur-md shadow-sm border ${
+              className={`px-1.5 py-0.5 rounded text-[8.5px] font-mono uppercase tracking-widest shadow-sm border ${
                 project.platform === "iOS"
-                  ? "bg-purple-950/90 text-purple-300 border-purple-500/30"
+                  ? "bg-purple-950/95 text-purple-300 border-purple-500/30"
                   : project.platform === "Android"
-                  ? "bg-emerald-950/90 text-emerald-300 border-emerald-500/30"
-                  : "bg-slate-950/85 text-slate-300 border-white/10"
+                  ? "bg-emerald-950/95 text-emerald-300 border-emerald-500/30"
+                  : "bg-slate-950/90 text-slate-300 border-white/10"
               }`}
             >
               {project.platform ? `${project.platform} App` : project.category}
@@ -333,12 +333,12 @@ const ProjectCard = React.memo<{
           {/* Category Pill on top-right */}
           <div className="absolute top-2 right-2 z-10">
             <span
-              className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-semibold backdrop-blur-md shadow-lg border ${
+              className={`px-2 py-0.5 rounded-full text-[9px] font-mono font-semibold shadow-lg border ${
                 project.platform === "iOS"
-                  ? "bg-black/80 text-purple-300 border-purple-400/30"
+                  ? "bg-black/90 text-purple-300 border-purple-400/30"
                   : project.platform === "Android"
-                  ? "bg-black/80 text-emerald-300 border-emerald-400/30"
-                  : "bg-black/80 text-amber-300 border-amber-400/30"
+                  ? "bg-black/90 text-emerald-300 border-emerald-400/30"
+                  : "bg-black/90 text-amber-300 border-amber-400/30"
               }`}
             >
               {project.badge}

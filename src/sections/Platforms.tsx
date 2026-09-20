@@ -47,7 +47,7 @@ export const Platforms: React.FC = () => {
                 rel="noreferrer"
                 onMouseEnter={() => setCursor("project", plat.name)}
                 onMouseLeave={resetCursor}
-                className="group relative p-4 sm:p-5 rounded-xl bg-slate-900/40 border border-slate-800/80 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(245,158,11,0.2)] flex flex-col items-center justify-center text-center cursor-pointer overflow-hidden backdrop-blur-sm"
+                className="group relative p-4 sm:p-5 rounded-xl bg-slate-900/70 border border-slate-800/80 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(245,158,11,0.2)] flex flex-col items-center justify-center text-center cursor-pointer overflow-hidden"
               >
                 {/* Brand Color Ambient Glow on Hover */}
                 <div

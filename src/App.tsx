@@ -54,9 +54,9 @@ export const App: React.FC = () => {
 
         {/* Subtle Ambient Golden Atmosphere */}
         <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-          <div className="absolute top-[20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-amber-500/[0.035] blur-[150px]" />
-          <div className="absolute top-[50%] left-[-10%] w-[600px] h-[600px] rounded-full bg-yellow-500/[0.03] blur-[160px]" />
-          <div className="absolute top-[80%] right-[10%] w-[500px] h-[500px] rounded-full bg-amber-600/[0.025] blur-[140px]" />
+          <div className="absolute top-[20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(245,158,11,0.04)_0%,transparent_70%)]" />
+          <div className="absolute top-[50%] left-[-10%] w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(234,179,8,0.035)_0%,transparent_70%)]" />
+          <div className="absolute top-[80%] right-[10%] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(217,119,6,0.03)_0%,transparent_70%)]" />
         </div>
 
         {/* Custom Interactive Physics Cursor */}

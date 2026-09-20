@@ -17,7 +17,8 @@ export function useCountUp(target: number, durationMs = 1800, shouldStart = fals
       
       // Smooth ease-out cubic
       const easedProgress = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(easedProgress * target));
+      const nextVal = Math.floor(easedProgress * target);
+      setCount((prev) => (prev !== nextVal ? nextVal : prev));
 
       if (progress < 1) {
         animationFrameId = requestAnimationFrame(animate);

@@ -6,31 +6,30 @@ export function useScrollSpy(sectionIds: string[], offset = 120) {
 
   useEffect(() => {
     let ticking = false;
-    let elementMap: { id: string; el: HTMLElement | null }[] = [];
+    let sectionMetrics: { id: string; top: number }[] = [];
 
-    const cacheElements = () => {
-      elementMap = sectionIds.map((id) => ({
-        id,
-        el: document.getElementById(id)
-      }));
+    const cacheMetrics = () => {
+      sectionMetrics = sectionIds.map((id) => {
+        const el = document.getElementById(id);
+        return {
+          id,
+          top: el ? el.offsetTop : 0
+        };
+      });
     };
 
-    cacheElements();
+    cacheMetrics();
+    const timer = setTimeout(cacheMetrics, 600);
 
     const checkActiveSection = () => {
       const scrollPosition = window.scrollY + offset;
       let matchedId: string | null = null;
 
-      for (let i = elementMap.length - 1; i >= 0; i--) {
-        const item = elementMap[i];
-        const element = item.el || document.getElementById(item.id);
-        if (element) {
-          if (!item.el) item.el = element;
-          const top = element.offsetTop;
-          if (scrollPosition >= top) {
-            matchedId = item.id;
-            break;
-          }
+      for (let i = sectionMetrics.length - 1; i >= 0; i--) {
+        const item = sectionMetrics[i];
+        if (item.top > 0 && scrollPosition >= item.top) {
+          matchedId = item.id;
+          break;
         }
       }
 
@@ -53,12 +52,13 @@ export function useScrollSpy(sectionIds: string[], offset = 120) {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", cacheElements, { passive: true });
+    window.addEventListener("resize", cacheMetrics, { passive: true });
     checkActiveSection();
 
     return () => {
+      clearTimeout(timer);
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", cacheElements);
+      window.removeEventListener("resize", cacheMetrics);
     };
   }, [sectionIds, offset]);
 

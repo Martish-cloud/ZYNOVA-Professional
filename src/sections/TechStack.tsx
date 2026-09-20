@@ -100,7 +100,7 @@ export const TechStack: React.FC = () => {
                 key={tech.id}
                 onMouseEnter={() => setCursor("project", tech.name)}
                 onMouseLeave={resetCursor}
-                className="group relative p-3 sm:p-3.5 rounded-xl bg-slate-900/40 border border-slate-800/80 hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-1.5 flex flex-col items-center justify-center text-center cursor-pointer overflow-hidden backdrop-blur-sm hover:shadow-[0_0_25px_rgba(245,158,11,0.15)]"
+                className="group relative p-3 sm:p-3.5 rounded-xl bg-slate-900/70 border border-slate-800/80 hover:border-amber-500/50 transition-all duration-300 hover:-translate-y-1.5 flex flex-col items-center justify-center text-center cursor-pointer overflow-hidden hover:shadow-[0_0_25px_rgba(245,158,11,0.15)]"
               >
                 {/* Dynamic Brand Glow on Hover */}
                 <div
@@ -129,7 +129,7 @@ export const TechStack: React.FC = () => {
       </div>
 
       {/* Infinite Smooth Scrolling Marquee Bar */}
-      <div className="relative w-full overflow-hidden border-y border-slate-800/80 py-3 sm:py-3.5 bg-[#090b14]/80 backdrop-blur-md">
+      <div className="relative w-full overflow-hidden border-y border-slate-800/80 py-3 sm:py-3.5 bg-[#090b14]/95">
         {/* Subtle Edge Fades */}
         <div className="absolute top-0 bottom-0 left-0 w-24 bg-gradient-to-r from-[#07080b] to-transparent z-10 pointer-events-none" />
         <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-[#07080b] to-transparent z-10 pointer-events-none" />

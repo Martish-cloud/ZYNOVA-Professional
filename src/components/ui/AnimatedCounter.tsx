@@ -42,7 +42,7 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
       const easeOut = 1 - Math.pow(1 - progress, 3);
       const current = Math.round(startValue + (endValue - startValue) * easeOut);
 
-      setDisplayValue(current);
+      setDisplayValue((prev) => (prev !== current ? current : prev));
 
       if (progress < 1) {
         animFrameRef.current = requestAnimationFrame(animate);

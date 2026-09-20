@@ -52,7 +52,6 @@ export const GlobalVideoBackground: React.FC = () => {
         className="w-full h-full object-cover object-center pointer-events-none"
         style={{
           transform: "translate3d(0, 0, 0)",
-          filter: "blur(2.5px)",
           willChange: "transform",
           backfaceVisibility: "hidden",
           WebkitBackfaceVisibility: "hidden"

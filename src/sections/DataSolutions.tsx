@@ -38,42 +38,42 @@ export const DataSolutions: React.FC = () => {
         />
 
         {/* Top Feature Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 mb-10 sm:mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4 mb-7 sm:mb-8">
           {/* Card 1: Data Cleaning & Merging */}
-          <div className="p-5 sm:p-5.5 rounded-2xl bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-slate-800/80 hover:border-amber-500/40 transition-all group">
-            <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-3.5 group-hover:scale-110 transition-transform">
-              <Filter className="w-5 h-5" />
+          <div className="p-4 sm:p-4.5 rounded-xl sm:rounded-2xl bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-slate-800/80 hover:border-amber-500/40 transition-all group">
+            <div className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-2.5 group-hover:scale-105 transition-transform">
+              <Filter className="w-4.5 h-4.5" />
             </div>
-            <h3 className="font-heading text-base sm:text-lg font-bold text-white mb-1.5">
+            <h3 className="font-heading text-sm sm:text-base font-bold text-white mb-1 tracking-tight">
               Data Cleaning &amp; Merging
             </h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-400 leading-normal sm:leading-relaxed">
               Systematic elimination of duplicates, syntax sanitization, date/currency normalization, and multi-file master merging using advanced Excel Power Query.
             </p>
           </div>
 
           {/* Card 2: Professional Excel Dashboards */}
-          <div className="p-5 sm:p-5.5 rounded-2xl bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-slate-800/80 hover:border-yellow-500/40 transition-all group">
-            <div className="w-10 h-10 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-yellow-400 mb-3.5 group-hover:scale-110 transition-transform">
-              <FileSpreadsheet className="w-5 h-5" />
+          <div className="p-4 sm:p-4.5 rounded-xl sm:rounded-2xl bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-slate-800/80 hover:border-yellow-500/40 transition-all group">
+            <div className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-yellow-400 mb-2.5 group-hover:scale-105 transition-transform">
+              <FileSpreadsheet className="w-4.5 h-4.5" />
             </div>
-            <h3 className="font-heading text-base sm:text-lg font-bold text-white mb-1.5">
+            <h3 className="font-heading text-sm sm:text-base font-bold text-white mb-1 tracking-tight">
               Automated Excel Dashboards
             </h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-400 leading-normal sm:leading-relaxed">
               Bespoke operational dashboards featuring dynamic timeline slicers, automated KPI variance indicators, scenario toggles, and one-click refresh buttons.
             </p>
           </div>
 
           {/* Card 3: Advanced Power BI Reporting */}
-          <div className="p-5 sm:p-5.5 rounded-2xl bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-slate-800/80 hover:border-amber-400/50 transition-all group">
-            <div className="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-300 mb-3.5 group-hover:scale-110 transition-transform">
-              <BarChart3 className="w-5 h-5" />
+          <div className="p-4 sm:p-4.5 rounded-xl sm:rounded-2xl bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-slate-800/80 hover:border-amber-400/50 transition-all group">
+            <div className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-300 mb-2.5 group-hover:scale-105 transition-transform">
+              <BarChart3 className="w-4.5 h-4.5" />
             </div>
-            <h3 className="font-heading text-base sm:text-lg font-bold text-white mb-1.5">
+            <h3 className="font-heading text-sm sm:text-base font-bold text-white mb-1 tracking-tight">
               Enterprise Power BI Models
             </h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-400 leading-normal sm:leading-relaxed">
               Production-grade Star Schema modeling, complex DAX time-intelligence formulas (YoY, MoM, moving averages), drill-through views, and scheduled cloud sync.
             </p>
           </div>
