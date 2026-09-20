@@ -262,7 +262,7 @@ export const projectsData: ProjectItem[] = [
       premiumPrice: "$780 – $1,080",
       customPrice: "Up to $1,440+"
     },
-    demoUrl: ""
+    demoUrl: "https://home-x-nu.vercel.app"
   },
   {
     id: "trendzo",
@@ -400,7 +400,7 @@ export const projectsData: ProjectItem[] = [
       premiumPrice: "$960 – $1,320",
       customPrice: "Up to $1,560+"
     },
-    demoUrl: ""
+    demoUrl: "https://freshmart.zynovaprofessional.workers.dev"
   },
   {
     id: "learnhub",
