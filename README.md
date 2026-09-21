@@ -1,346 +1,477 @@
-# 🚀 Zynova Digital Professionals
+<div align="center">
 
-<p align="center">
-  <img
-    src="./public/images/zynova-hero.png"
-    alt="Zynova Digital Professionals"
-    width="100%"
-  />
-</p>
+<!-- Animated Header -->
 
-<p align="center">
-  <strong>Modern Digital Solutions for Businesses, Creators & Growing Brands</strong>
-</p>
+<img src="https://readme-typing-svg.demolab.com?font=Orbitron&weight=700&size=32&duration=3000&pause=1000&color=0EA5E9&center=true&vCenter=true&width=850&lines=🚀+Zynova+Digital+Professionals;🌐+Web+%7C+Apps+%7C+AI+%7C+Automation;📊+Data+%7C+Business+Solutions;⚡+Build+Smarter.+Launch+Faster.+Grow+Digitally." alt="Zynova Animated Header" />
 
-<p align="center">
-  Website Development • App Development • AI Solutions • Automation • Data & Business Solutions
-</p>
+<br>
 
-<p align="center">
-  <a href="https://github.com/Martish-cloud/ZYNOVA-Professional">
-    <img src="https://img.shields.io/badge/GitHub-Repository-111827?style=for-the-badge&logo=github&logoColor=white" />
-  </a>
-  <a href="https://zynova-professional.zynovaprofessional.workers.dev/">
-    <img src="https://img.shields.io/badge/🌐%20Live%20Website-Zynova-0EA5E9?style=for-the-badge" />
-  </a>
-  <a href="mailto:team.zynova@gmail.com">
-    <img src="https://img.shields.io/badge/Email-team.zynova%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" />
-  </a>
-</p>
+<img
+src="./public/images/zynova-hero.png"
+alt="Zynova Digital Professionals"
+width="100%"
+/>
+
+<br>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&height=120&color=0:111827,50:1D2937,100:651724&section=header&text=ZYNOVA&fontSize=42&fontColor=FFFFFF&animation=fadeIn&fontAlignY=65" width="100%"/>
+
+</div>
 
 ---
 
-# ✨ About Zynova
+<div align="center">
 
-**Zynova Digital Professionals** is a digital services platform focused on building modern websites, applications, automation systems, AI-powered solutions, and business tools for individuals, startups, creators, and businesses.
+### ✨ **Modern Digital Solutions for Businesses, Creators & Growing Brands**
 
-The platform is designed around one principle:
+**Website Development • App Development • AI Solutions • Automation • Data & Business Solutions**
+
+<br>
+
+<a href="https://zynova-professional.zynovaprofessional.workers.dev/">
+<img src="https://img.shields.io/badge/🚀%20LIVE%20WEBSITE-0EA5E9?style=for-the-badge&logo=googlechrome&logoColor=white" />
+</a>
+
+<a href="https://github.com/Martish-cloud/ZYNOVA-Professional">
+<img src="https://img.shields.io/badge/GITHUB-111827?style=for-the-badge&logo=github&logoColor=white" />
+</a>
+
+<a href="mailto:team.zynova@gmail.com">
+<img src="https://img.shields.io/badge/EMAIL-EA4335?style=for-the-badge&logo=gmail&logoColor=white" />
+</a>
+
+<br><br>
+
+<img src="https://komarev.com/ghpvc/?username=Martish-cloud&label=Project%20Views&color=0EA5E9&style=for-the-badge" />
+
+</div>
+
+---
+
+# 🌌 About Zynova
+
+<div align="center">
 
 > **Build smarter. Launch faster. Grow digitally.**
 
-Zynova brings together technology, design, automation, and business-focused solutions under one professional digital brand.
+</div>
+
+**Zynova Digital Professionals** is a digital solutions platform focused on helping businesses, startups, creators, professionals and growing brands build modern digital products.
+
+We combine:
+
+```text
+        💡 Strategy
+           ↓
+        🎨 Design
+           ↓
+        💻 Development
+           ↓
+        🤖 AI & Automation
+           ↓
+        📊 Data & Analytics
+           ↓
+        🚀 Digital Growth
+```
+
+Our goal is simple:
+
+**Turn ideas into functional, scalable and modern digital experiences.**
 
 ---
 
-# 🌐 Live Website
+# 🌐 Explore Zynova
 
-<p align="center">
+<div align="center">
 
 <a href="https://zynova-professional.zynovaprofessional.workers.dev/">
-  <img src="https://img.shields.io/badge/🚀%20VISIT%20ZYNOVA%20WEBSITE-111827?style=for-the-badge&logo=googlechrome&logoColor=white" />
+
+<img src="https://img.shields.io/badge/🚀%20EXPLORE%20ZYNOVA-111827?style=for-the-badge&logo=googlechrome&logoColor=white" />
+
 </a>
 
-</p>
+<br><br>
 
-🔗 **Live Website:**  
-https://zynova-professional.zynovaprofessional.workers.dev/
+<a href="https://zynova-professional.zynovaprofessional.workers.dev/">
 
----
+<img src="https://img.shields.io/badge/zynova--professional.zynovaprofessional.workers.dev-0EA5E9?style=for-the-badge" />
 
-# 🖼️ Portfolio Preview
+</a>
 
-<p align="center">
-  <img
-    src="./public/images/zynova-preview.png"
-    alt="Zynova Website Preview"
-    width="95%"
-  />
-</p>
-
-<p align="center">
-  <i>Premium responsive Zynova interface</i>
-</p>
+</div>
 
 ---
 
-# 💎 What We Offer
+# ✨ What We Build
 
 <table>
 <tr>
-<td width="50%">
 
-## 🌐 Website Development
+<td width="50%" valign="top">
 
-Modern business and custom web solutions including:
+## 🌐 Web Development
 
-- Business Websites
-- Landing Pages
-- E-commerce Websites
-- Portfolio Websites
-- Corporate Websites
-- Custom Web Applications
-- Responsive Websites
-- Website Performance Optimization
+Build modern digital experiences designed for real businesses.
+
+**Services**
+
+* 💻 Business Websites
+* 🛒 E-commerce Platforms
+* 🎯 Landing Pages
+* 👤 Portfolio Websites
+* 🏢 Corporate Websites
+* ⚙️ Custom Web Applications
+* 📱 Responsive Websites
+* ⚡ Performance Optimization
 
 </td>
 
-<td width="50%">
+<td width="50%" valign="top">
 
 ## 📱 App Development
 
-Custom application development for:
+Turn business ideas into practical mobile applications.
 
-- Android
-- iOS
-- Cross-platform applications
-- Business applications
-- Customer-facing apps
-- Utility applications
-- Custom mobile solutions
+**Services**
+
+* Android Applications
+* iOS Applications
+* Cross-platform Apps
+* Business Applications
+* Customer Apps
+* Utility Applications
+* Custom Mobile Solutions
 
 </td>
+
 </tr>
 
 <tr>
-<td>
+
+<td valign="top">
 
 ## 🤖 AI & Automation
 
-- Generative AI solutions
-- AI-powered workflows
-- AI integrations
-- API integrations
-- Automation systems
-- n8n workflows
-- AI agents
-- Business process automation
+Automate repetitive processes and integrate intelligent systems.
+
+**Services**
+
+* Generative AI
+* AI Agents
+* AI Integrations
+* API Integrations
+* n8n Automation
+* Workflow Automation
+* Business Process Automation
+* AI-powered Systems
 
 </td>
 
-<td>
+<td valign="top">
 
-## 📊 Data & Business Solutions
+## 📊 Data & Business
 
-- Microsoft Excel
-- Advanced Excel solutions
-- Power BI
-- Data analysis
-- Dashboard development
-- Data cleaning
-- Data processing
-- Business reporting
+Transform raw business data into useful information.
+
+**Services**
+
+* Microsoft Excel
+* Advanced Excel
+* Power BI
+* Data Analysis
+* Dashboard Development
+* Data Cleaning
+* Data Processing
+* Business Reporting
 
 </td>
+
 </tr>
 </table>
 
 ---
 
-# 🧩 Technology Ecosystem
+# 🧠 Technology Ecosystem
 
-<p align="center">
+<div align="center">
 
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
-<img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=111111" />
-<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=111111" />
-<img src="https://img.shields.io/badge/Next.js-111111?style=for-the-badge&logo=next.js&logoColor=white" />
-<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
-<img src="https://img.shields.io/badge/Express.js-111111?style=for-the-badge&logo=express&logoColor=white" />
-<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
-<img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" />
+### 💻 Web
 
-</p>
+<img src="https://skillicons.dev/icons?i=html,css,js,react,nextjs,nodejs,express" />
 
-<p align="center">
+<br><br>
 
-<img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" />
-<img src="https://img.shields.io/badge/React%20Native-61DAFB?style=for-the-badge&logo=react&logoColor=111111" />
-<img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" />
-<img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" />
-<img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" />
-<img src="https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" />
-<img src="https://img.shields.io/badge/WordPress-21759B?style=for-the-badge&logo=wordpress&logoColor=white" />
-<img src="https://img.shields.io/badge/Shopify-7AB55C?style=for-the-badge&logo=shopify&logoColor=white" />
+### 🐍 Backend & Programming
 
-</p>
+<img src="https://skillicons.dev/icons?i=python,django,java,spring,dotnet,php,laravel" />
 
-<p align="center">
+<br><br>
+
+### 📱 Mobile & Platforms
+
+<img src="https://skillicons.dev/icons?i=flutter,react,wordpress,shopify" />
+
+<br><br>
+
+### 🤖 AI • Automation • Data
+
+<img src="https://skillicons.dev/icons?i=python,openai" />
+
+<br><br>
 
 <img src="https://img.shields.io/badge/Excel-217346?style=for-the-badge&logo=microsoftexcel&logoColor=white" />
 <img src="https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=111111" />
 <img src="https://img.shields.io/badge/n8n-EA4B71?style=for-the-badge&logo=n8n&logoColor=white" />
-<img src="https://img.shields.io/badge/AI%20Automation-111827?style=for-the-badge&logo=openai&logoColor=white" />
 
-</p>
+</div>
 
 ---
 
 # 🏆 Featured Solutions
 
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=rect&height=80&color=0:111827,100:651724&text=Featured%20Digital%20Experiences&fontSize=25&fontColor=FFFFFF&animation=fadeIn" width="100%"/>
+
+</div>
+
+---
+
 ## 🌸 Bloom Beauty
 
-<p align="center">
-  <img
-    src="./public/images/bloom-beauty.png"
-    alt="Bloom Beauty Website"
-    width="90%"
-  />
-</p>
+<div align="center">
 
-**Beauty & cosmetics-focused e-commerce experience**
+<img
+src="./public/images/bloom-beauty.png"
+alt="Bloom Beauty"
+width="90%"
+/>
+
+### 💄 Beauty • Cosmetics • E-commerce
+
+**A modern digital shopping experience designed for beauty and cosmetics brands.**
+
+</div>
 
 ---
 
 ## 🏠 HomeX
 
-<p align="center">
-  <img
-    src="./public/images/homex.png"
-    alt="HomeX Website"
-    width="90%"
-  />
-</p>
+<div align="center">
 
-**Modern product and home-focused digital shopping experience**
+<img
+src="./public/images/homex.png"
+alt="HomeX"
+width="90%"
+/>
+
+### 🏡 Home • Products • Commerce
+
+**A clean product-focused digital shopping experience for modern home brands.**
+
+</div>
 
 ---
 
 ## 🍽️ Tasty Bites
 
-<p align="center">
-  <img
-    src="./public/images/tasty-bites.png"
-    alt="Tasty Bites Website"
-    width="90%"
-  />
-</p>
+<div align="center">
 
-**Food and restaurant-oriented digital experience**
+<img
+src="./public/images/tasty-bites.png"
+alt="Tasty Bites"
+width="90%"
+/>
+
+### 🍔 Food • Restaurant • Digital Experience
+
+**A restaurant-focused interface designed for modern food businesses.**
+
+</div>
 
 ---
 
 ## ✈️ Travelaya
 
-<p align="center">
-  <img
-    src="./public/images/travelaya.png"
-    alt="Travelaya Website"
-    width="90%"
-  />
-</p>
+<div align="center">
 
-**Travel-focused digital platform concept**
+<img
+src="./public/images/travelaya.png"
+alt="Travelaya"
+width="90%"
+/>
+
+### 🌍 Travel • Discovery • Digital Platform
+
+**A travel-focused digital platform concept built around exploration and discovery.**
+
+</div>
 
 ---
 
 ## 🛍️ TrendZo
 
-<p align="center">
-  <img
-    src="./public/images/trendzo.png"
-    alt="TrendZo Website"
-    width="90%"
-  />
-</p>
+<div align="center">
 
-**Modern commerce-focused website concept**
+<img
+src="./public/images/trendzo.png"
+alt="TrendZo"
+width="90%"
+/>
+
+### 👕 Fashion • Commerce • Modern UI
+
+**A contemporary commerce experience designed around modern shopping behavior.**
+
+</div>
 
 ---
 
-# ⚡ Why Zynova
+# ⚡ Why Zynova?
 
-<table>
-<tr>
-<td align="center">
+<div align="center">
 
-### 🚀
+| 🚀                        | 🎨                        | 🤖                     |
+| ------------------------- | ------------------------- | ---------------------- |
+| **Modern Development**    | **Premium UI**            | **AI Ready**           |
+| Contemporary technologies | Clean visual experiences  | AI integrations        |
+| Responsive architecture   | Conversion-focused design | Intelligent automation |
 
-**Modern Development**
+| 📱                    | ⚙️                   | 🔧                             |
+| --------------------- | -------------------- | ------------------------------ |
+| **Responsive**        | **Business Focused** | **Custom Solutions**           |
+| Mobile-first thinking | Practical technology | Requirement-driven development |
 
-Contemporary technologies and responsive interfaces.
-
-</td>
-
-<td align="center">
-
-### 📱
-
-**Responsive by Design**
-
-Optimized for mobile, tablet, laptop and desktop.
-
-</td>
-
-<td align="center">
-
-### 🎨
-
-**Premium UI**
-
-Clean, modern and conversion-focused interfaces.
-
-</td>
-</tr>
-
-<tr>
-<td align="center">
-
-### 🤖
-
-**AI Ready**
-
-AI integrations and automation capabilities.
-
-</td>
-
-<td align="center">
-
-### ⚙️
-
-**Business Focused**
-
-Technology designed around practical business needs.
-
-</td>
-
-<td align="center">
-
-### 🔧
-
-**Custom Solutions**
-
-Projects are structured around specific requirements.
-
-</td>
-</tr>
-</table>
+</div>
 
 ---
 
 # 🎨 Design Philosophy
 
-Zynova's interface is designed around:
+<div align="center">
 
 ```text
-Minimal
-   ↓
-Modern
-   ↓
-Interactive
-   ↓
-Responsive
-   ↓
-Business Focused
-   ↓
-Performance Optimized
+                    ┌───────────────┐
+                    │    💡 IDEA    │
+                    └───────┬───────┘
+                            ↓
+                    ┌───────────────┐
+                    │   🎨 DESIGN   │
+                    └───────┬───────┘
+                            ↓
+                    ┌───────────────┐
+                    │  💻 DEVELOP   │
+                    └───────┬───────┘
+                            ↓
+                    ┌───────────────┐
+                    │ 🤖 AUTOMATE   │
+                    └───────┬───────┘
+                            ↓
+                    ┌───────────────┐
+                    │ 📊 OPTIMIZE   │
+                    └───────┬───────┘
+                            ↓
+                    ┌───────────────┐
+                    │ 🚀 LAUNCH     │
+                    └───────────────┘
+```
+
+</div>
+
+### Our approach
+
+**Minimal → Modern → Interactive → Responsive → Business Focused → Performance Optimized**
+
+---
+
+# 🌐 Digital Services
+
+<div align="center">
+
+```text
+╭──────────────────────────────────────────────────────────────╮
+│                                                              │
+│     🌐 WEBSITES       📱 APPS        🤖 AI SYSTEMS          │
+│                                                              │
+│     ⚙️ AUTOMATION     📊 DATA        💼 BUSINESS TOOLS      │
+│                                                              │
+╰──────────────────────────────────────────────────────────────╯
+```
+
+</div>
+
+---
+
+# 📈 Our Digital Stack
+
+<div align="center">
+
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Martish-cloud&layout=compact&theme=github_dark&hide_border=true&bg_color=111827&title_color=0EA5E9" />
+
+</div>
+
+---
+
+# 🚀 The Zynova Vision
+
+<div align="center">
+
+### **Technology should simplify business — not complicate it.**
+
+<br>
+
+We aim to create digital solutions that are:
+
+**⚡ Fast**
+
+**🎨 Beautiful**
+
+**📱 Responsive**
+
+**🤖 Intelligent**
+
+**📊 Data-driven**
+
+**🔧 Practical**
+
+<br>
+
+### From idea → to product → to digital growth.
+
+</div>
+
+---
+
+# 📬 Let's Build Something
+
+<div align="center">
+
+Whether you need a **website, application, AI solution, automation workflow, Excel system, Power BI dashboard or custom digital product**, Zynova is built to turn ideas into practical digital solutions.
+
+<br>
+
+<a href="https://zynova-professional.zynovaprofessional.workers.dev/">
+<img src="https://img.shields.io/badge/🚀%20START%20A%20PROJECT-0EA5E9?style=for-the-badge" />
+</a>
+
+<a href="mailto:team.zynova@gmail.com">
+<img src="https://img.shields.io/badge/📩%20CONTACT%20ZYNOVA-651724?style=for-the-badge" />
+</a>
+
+</div>
+
+---
+
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&height=120&color=0:651724,50:1D2937,100:111827&section=footer&animation=fadeIn" width="100%"/>
+
+### 🚀 **ZYNOVA DIGITAL PROFESSIONALS**
+
+**Build Smarter. Launch Faster. Grow Digitally.**
+
+<br>
+
+<sub>© 2026 Zynova Digital Professionals • Digital Solutions • AI • Automation • Data</sub>
+
+</div>
