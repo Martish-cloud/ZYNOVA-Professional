@@ -41,7 +41,7 @@ export const PortfolioShowcaseModal: React.FC<PortfolioShowcaseModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Machine Learning & AI Portfolio"
+      title="Machine Learning Engineer Portfolio"
       maxWidth="max-w-3xl"
     >
       <div className="space-y-4 sm:space-y-5 text-slate-200">

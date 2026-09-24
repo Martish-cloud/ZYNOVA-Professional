@@ -169,7 +169,7 @@ export const About: React.FC = () => {
 
                     <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between gap-2">
                       <span className="text-[11px] sm:text-xs font-mono text-amber-300 truncate font-semibold">
-                        Machine Learning &amp; AI Portfolio
+                        Machine Learning Engineer Portfolio
                       </span>
                       <span className="px-2.5 py-1 rounded text-[10.5px] font-mono bg-amber-400 text-slate-950 font-bold border border-amber-300 hover:brightness-110 transition-colors shrink-0 flex items-center gap-1 shadow-sm">
                         <span>Details</span>
