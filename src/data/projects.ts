@@ -29,6 +29,40 @@ export interface ProjectItem {
 
 export const projectsData: ProjectItem[] = [
   {
+    id: "hamhold-jewellery",
+    title: "HAMHOLD Jewellery",
+    subtitle: "Luxury Jewellery Brand & E-commerce Platform",
+    category: "E-commerce",
+    filterCategory: "ecommerce",
+    shortDesc: "Premium luxury jewellery e-commerce website designed for HAMHOLD, featuring an editorial brand experience, campaign-driven visuals, responsive design, jewellery presentation, and a sophisticated luxury shopping interface.",
+    overview: "A complete luxury jewellery brand website designed and engineered for HAMHOLD, delivering an editorial digital experience with high-impact hero campaigns, curated collections, brand ambassador spotlights, mobile responsiveness, and conversion-focused product presentation.",
+    challenge: "Crafting a bespoke digital luxury experience that captures the heritage and prestige of haute jewellery, balancing high-resolution visual storytelling with lightning-fast load times and seamless mobile commerce.",
+    solution: "Engineered an editorial luxury layout with gold and champagne accents, ambassador campaign showcases, curated high-resolution jewellery galleries, and intuitive customer engagement funnels.",
+    technologies: ["React.js", "Tailwind CSS", "Responsive Design", "Luxury UI", "E-commerce"],
+    keyFeatures: [
+      "Editorial luxury homepage & hero campaign",
+      "Brand ambassador showcase (HM GET READY / Ayesha Campaign)",
+      "Curated collections (Bridal, Gold, Diamonds & Fine Jewellery)",
+      "Full responsive design across mobile, tablet & desktop",
+      "High-resolution jewellery presentation cards & galleries",
+      "Fast-loading performance with smooth micro-interactions",
+      "Luxury aesthetics with champagne & warm gold accents",
+      "Direct WhatsApp & consultation inquiry integration"
+    ],
+    gradientTheme: "from-amber-950/40 via-yellow-950/30 to-slate-900/50",
+    badge: "Luxury Jewellery",
+    image: "/projects/hamhold-jewellery.webp",
+    pricing: {
+      startingPrice: "$450",
+      basicPrice: "$450",
+      standardPrice: "$750",
+      premiumPrice: "$1,500",
+      customPrice: "$2,500+",
+      pricingQualification: "Includes luxury editorial UI, campaign hero, mobile responsiveness, product catalogs & direct consultation integration."
+    },
+    demoUrl: "https://hamhold-jewellery.zynovaprofessional.workers.dev/"
+  },
+  {
     id: "fitlife",
     title: "FitLife",
     subtitle: "Gym / Fitness Website",

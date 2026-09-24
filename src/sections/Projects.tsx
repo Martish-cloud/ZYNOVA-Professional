@@ -461,17 +461,18 @@ const ProjectCard = React.memo<{
           </button>
 
           {project.demoUrl ? (
-            <button
-              type="button"
+            <a
+              href={project.demoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={(e) => {
                 e.stopPropagation();
-                onSelect(project);
               }}
-              className="px-1.5 py-0.5 rounded bg-amber-500/10 hover:bg-amber-400/20 text-amber-300 border border-amber-500/30 text-[8px] sm:text-[9px] font-mono font-bold flex items-center gap-0.5 transition-all cursor-pointer shrink-0"
+              className="px-1.5 py-0.5 rounded bg-amber-500/10 hover:bg-amber-400/20 text-amber-300 hover:text-amber-200 border border-amber-500/30 hover:border-amber-400/50 text-[8px] sm:text-[9px] font-mono font-bold flex items-center gap-0.5 transition-all cursor-pointer shrink-0"
             >
-              <span>DETAILS</span>
+              <span>VISIT WEBSITE</span>
               <ArrowRight className="w-2.5 h-2.5" />
-            </button>
+            </a>
           ) : (
             <span className="text-[7.5px] sm:text-[8px] font-mono text-slate-500 bg-slate-900/80 border border-slate-800/80 px-1 py-0.5 rounded select-none shrink-0">
               COMING SOON
