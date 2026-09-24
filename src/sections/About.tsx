@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { siteConfig } from "../config/siteConfig";
 import { SectionHeading } from "../components/ui/SectionHeading";
+import { PortfolioShowcaseModal } from "../components/portfolio/PortfolioShowcaseModal";
 import { useCursor } from "../context/useCursor";
 import { ShieldCheck, MapPin, Terminal, Cpu, Clock, CheckCircle2 } from "lucide-react";
 
 export const About: React.FC = () => {
   const { setCursor, resetCursor } = useCursor();
+  const [isPortfolioModalOpen, setIsPortfolioModalOpen] = useState(false);
 
   return (
     <section id="about" className="py-14 sm:py-18 md:py-20 relative z-10 bg-transparent">
@@ -130,12 +132,20 @@ export const About: React.FC = () => {
 
                 {/* Founder Portfolio Showcase Preview */}
                 <div className="pt-1">
-                  <div className="relative rounded-xl overflow-hidden border border-amber-500/30 bg-slate-950 group/img">
+                  <div
+                    onClick={() => {
+                      resetCursor();
+                      setIsPortfolioModalOpen(true);
+                    }}
+                    onMouseEnter={() => setCursor("project", "VIEW")}
+                    onMouseLeave={resetCursor}
+                    className="relative rounded-xl overflow-hidden border border-amber-500/30 hover:border-amber-400/60 bg-slate-950 group/img cursor-pointer transition-all duration-300 hover:shadow-[0_12px_28px_-10px_rgba(245,158,11,0.25)]"
+                  >
                     <img
                       src="/projects/amit-halder-portfolio.webp"
                       alt="Amit Halder Portfolio Showcase"
                       loading="lazy"
-                      className="w-full h-36 object-cover object-top opacity-85 group-hover/img:opacity-100 transition-opacity duration-300"
+                      className="w-full h-36 object-cover object-top opacity-85 group-hover/img:opacity-100 group-hover/img:scale-[1.02] transition-all duration-300"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none" />
                     <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between">
@@ -144,6 +154,7 @@ export const About: React.FC = () => {
                         href="/projects/amit-halder-portfolio.webp"
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-500/20 text-amber-200 border border-amber-400/30 hover:bg-amber-500/30 transition-colors"
                       >
                         Full Preview
@@ -161,6 +172,12 @@ export const About: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Internal ML / AI Portfolio Details Modal */}
+      <PortfolioShowcaseModal
+        isOpen={isPortfolioModalOpen}
+        onClose={() => setIsPortfolioModalOpen(false)}
+      />
     </section>
   );
 };
