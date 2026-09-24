@@ -61,7 +61,7 @@ export const PortfolioShowcaseModal: React.FC<PortfolioShowcaseModalProps> = ({
         {/* Visual Preview Screenshot (Preserving existing preview image, No iframe) */}
         <div className="relative rounded-xl overflow-hidden border border-slate-700/80 bg-slate-950 shadow-xl group">
           <img
-            src="/projects/amit-halder-portfolio.webp"
+            src="/projects/ml-portfolio-preview-v2.webp"
             alt="Amit Halder — Machine Learning & AI Portfolio Showcase"
             loading="lazy"
             className="w-full h-44 sm:h-56 md:h-64 object-cover object-top transition-transform duration-500 group-hover:scale-[1.01]"
@@ -73,7 +73,7 @@ export const PortfolioShowcaseModal: React.FC<PortfolioShowcaseModalProps> = ({
               Live Interactive Portfolio Preview
             </span>
             <a
-              href="/projects/amit-halder-portfolio.webp"
+              href="/projects/ml-portfolio-preview-v2.webp"
               target="_blank"
               rel="noopener noreferrer"
               className="px-2 py-0.5 rounded text-[10px] font-mono bg-black/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 transition-colors inline-flex items-center gap-1"

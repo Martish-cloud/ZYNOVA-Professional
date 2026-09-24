@@ -152,7 +152,7 @@ export const About: React.FC = () => {
                     className="relative rounded-xl overflow-hidden border border-amber-500/30 hover:border-amber-400/60 bg-slate-950 group/img cursor-pointer transition-all duration-300 hover:shadow-[0_12px_28px_-10px_rgba(245,158,11,0.25)] flex flex-col justify-end"
                   >
                     <img
-                      src="/projects/amit-halder-portfolio.webp"
+                      src="/projects/ml-portfolio-preview-v2.webp"
                       alt="Amit Halder — Machine Learning & AI Portfolio Showcase"
                       loading="lazy"
                       className="w-full h-36 sm:h-40 object-cover object-top opacity-85 group-hover/img:opacity-100 group-hover/img:scale-[1.02] transition-all duration-300"
