@@ -152,7 +152,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
 
   return (
     <section id="services" className="py-12 sm:py-16 md:py-20 relative z-10 bg-transparent">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div className="max-w-7xl 2xl:max-w-[1536px] mx-auto px-3 sm:px-6 lg:px-8">
         <SectionHeading
           badge="WHAT WE BUILD"
           title="Engineered Solutions Built Around"
@@ -193,8 +193,8 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
           </div>
         </div>
 
-        {/* Service Cards Grid - 5 Columns on Desktop (xl:grid-cols-5), 3 on Tablet (md:grid-cols-3), 2 on SM, 1 on Mobile */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-3.5">
+        {/* Service Cards Grid - 5 Columns on Desktop (lg:grid-cols-5), 3 on Tablet (md:grid-cols-3), 2 on Mobile (grid-cols-2) */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-2.5 md:gap-3 xl:gap-3.5">
           {filteredServices.map((service) => {
             const cartItem = cart.find((item) => item.id === service.id);
             return (
@@ -203,52 +203,52 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
                 onClick={() => setSelectedService(service)}
                 onMouseEnter={() => setCursor("project", "EXPAND")}
                 onMouseLeave={resetCursor}
-                className="group relative p-3.5 sm:p-4 rounded-xl bg-gradient-to-b from-slate-900/70 via-slate-900/40 to-slate-950/90 border border-slate-800/80 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-10px_rgba(245,158,11,0.2)] flex flex-col justify-between cursor-pointer overflow-hidden"
+                className="group relative p-2 sm:p-2.5 md:p-3 rounded-xl bg-gradient-to-b from-slate-900/70 via-slate-900/40 to-slate-950/90 border border-slate-800/80 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-10px_rgba(245,158,11,0.2)] flex flex-col justify-between cursor-pointer overflow-hidden"
               >
                 {/* Subtle top-corner accent gradient */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/15 transition-colors pointer-events-none" />
+                <div className="absolute top-0 right-0 w-20 h-20 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/15 transition-colors pointer-events-none" />
 
                 <div>
                   {/* Header with Number and Icon */}
-                  <div className="flex items-center justify-between mb-2.5">
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-mono text-[10px] sm:text-xs font-bold text-slate-500 group-hover:text-amber-400 transition-colors">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex items-center gap-1">
+                      <span className="font-mono text-[9px] sm:text-[10px] font-bold text-slate-500 group-hover:text-amber-400 transition-colors">
                         // {service.number}
                       </span>
                       {service.pricing && (
-                        <span className="px-1.5 py-0.5 rounded text-[8.5px] font-mono font-bold bg-amber-400/10 text-amber-300 border border-amber-400/25">
+                        <span className="px-1 py-0.5 rounded text-[7.5px] sm:text-[8px] font-mono font-bold bg-amber-400/10 text-amber-300 border border-amber-400/25">
                           {service.pricing}
                         </span>
                       )}
                     </div>
-                    <div className="p-1.5 rounded-lg bg-slate-800/70 border border-slate-700/60 group-hover:scale-110 group-hover:border-amber-500/40 transition-all">
+                    <div className="p-1 sm:p-1.5 rounded-lg bg-slate-800/70 border border-slate-700/60 group-hover:scale-110 group-hover:border-amber-500/40 transition-all">
                       {getIcon(service.icon)}
                     </div>
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xs sm:text-sm font-bold font-heading text-white group-hover:text-amber-200 transition-colors mb-1.5 leading-snug line-clamp-2">
+                  <h3 className="text-xs sm:text-sm font-bold font-heading text-white group-hover:text-amber-200 transition-colors mb-1 leading-snug line-clamp-2">
                     {service.title}
                   </h3>
 
                   {/* Short Description */}
-                  <p className="text-[11px] text-slate-400 leading-snug mb-2 line-clamp-2 sm:line-clamp-3">
+                  <p className="text-[9.5px] sm:text-[10.5px] text-slate-400 leading-snug mb-1.5 line-clamp-2 sm:line-clamp-3">
                     {service.shortDesc}
                   </p>
 
                   {/* Pricing Box */}
                   {service.pricing && (
-                    <div className="mb-2 px-2 py-1.5 rounded-lg bg-gradient-to-r from-amber-500/10 to-amber-500/5 border border-amber-500/20">
+                    <div className="mb-1.5 px-1.5 py-1 rounded-md bg-gradient-to-r from-amber-500/10 to-amber-500/5 border border-amber-500/20">
                       <div className="flex items-baseline justify-between gap-1">
-                        <span className="text-[8.5px] font-mono uppercase tracking-wider text-amber-400/80 font-semibold">
+                        <span className="text-[7.5px] sm:text-[8px] font-mono uppercase tracking-wider text-amber-400/80 font-semibold truncate">
                           From {service.pricing.split(" ")[0]}
                         </span>
-                        <span className="text-[11px] font-mono font-bold text-amber-300">
+                        <span className="text-[10px] sm:text-[11px] font-mono font-bold text-amber-300 shrink-0">
                           {service.pricing}
                         </span>
                       </div>
                       {service.pricingNote && (
-                        <span className="text-[8px] text-slate-400 italic block truncate mt-0.5">
+                        <span className="text-[7.5px] sm:text-[8px] text-slate-400 italic block truncate mt-0.5">
                           {service.pricingNote}
                         </span>
                       )}
@@ -258,63 +258,63 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
 
                 <div>
                   {/* Tech Tags */}
-                  <div className="flex flex-wrap gap-1 mb-2.5">
+                  <div className="flex flex-wrap gap-0.5 sm:gap-1 mb-1.5">
                     {service.technologies.slice(0, 2).map((tech) => (
                       <span
                         key={tech}
-                        className="px-1.5 py-0.5 rounded text-[8.5px] font-mono bg-slate-800/60 text-slate-400 border border-slate-700/40"
+                        className="px-1 py-0.5 rounded text-[7.5px] sm:text-[8px] font-mono bg-slate-800/60 text-slate-400 border border-slate-700/40"
                       >
                         {tech}
                       </span>
                     ))}
                     {service.technologies.length > 2 && (
-                      <span className="px-1.5 py-0.5 rounded text-[8.5px] font-mono bg-slate-800/30 text-slate-400">
+                      <span className="px-1 py-0.5 rounded text-[7.5px] sm:text-[8px] font-mono bg-slate-800/30 text-slate-400">
                         +{service.technologies.length - 2}
                       </span>
                     )}
                   </div>
 
                   {/* Bottom Action Line: Deliverables + Quick Cart Action */}
-                  <div className="pt-2 border-t border-slate-800/60 flex items-center justify-between gap-1.5">
-                    <span className="text-[10.5px] font-semibold text-slate-400 group-hover:text-amber-300 transition-colors flex items-center gap-0.5">
+                  <div className="pt-1.5 border-t border-slate-800/60 flex items-center justify-between gap-1">
+                    <span className="text-[9px] sm:text-[10px] font-semibold text-slate-400 group-hover:text-amber-300 transition-colors flex items-center gap-0.5">
                       <span>Details</span>
-                      <ArrowUpRight className="w-3 h-3 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      <ArrowUpRight className="w-2.5 h-2.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </span>
 
                     {/* Add to Cart / Quantity controls on card */}
                     {cartItem ? (
                       <div
                         onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-1 bg-amber-400/15 border border-amber-400/40 rounded-md px-1.5 py-0.5"
+                        className="flex items-center gap-0.5 bg-amber-400/15 border border-amber-400/40 rounded-md px-1 py-0.5"
                       >
                         <button
                           type="button"
                           onClick={(e) => updateQuantity(service.id, -1, e)}
-                          className="w-4 h-4 rounded flex items-center justify-center text-amber-300 hover:bg-amber-400/30 text-[10px]"
+                          className="w-3.5 h-3.5 rounded flex items-center justify-center text-amber-300 hover:bg-amber-400/30 text-[9px]"
                           title="Decrease"
                         >
-                          <Minus className="w-2.5 h-2.5" />
+                          <Minus className="w-2 h-2" />
                         </button>
-                        <span className="text-[10px] font-mono font-bold text-amber-200 px-0.5">
+                        <span className="text-[9px] font-mono font-bold text-amber-200 px-0.5">
                           {cartItem.quantity}
                         </span>
                         <button
                           type="button"
                           onClick={(e) => updateQuantity(service.id, 1, e)}
-                          className="w-4 h-4 rounded flex items-center justify-center text-amber-300 hover:bg-amber-400/30 text-[10px]"
+                          className="w-3.5 h-3.5 rounded flex items-center justify-center text-amber-300 hover:bg-amber-400/30 text-[9px]"
                           title="Increase"
                         >
-                          <Plus className="w-2.5 h-2.5" />
+                          <Plus className="w-2 h-2" />
                         </button>
                       </div>
                     ) : (
                       <button
                         type="button"
                         onClick={(e) => addToCart(service, e)}
-                        className="px-2 py-0.5 rounded-md bg-amber-400/10 hover:bg-amber-400 text-amber-300 hover:text-slate-950 border border-amber-400/30 text-[10px] font-mono font-bold flex items-center gap-1 transition-all cursor-pointer"
+                        className="px-1.5 py-0.5 rounded-md bg-amber-400/10 hover:bg-amber-400 text-amber-300 hover:text-slate-950 border border-amber-400/30 text-[9px] font-mono font-bold flex items-center gap-0.5 transition-all cursor-pointer"
                         title="Add service to inquiry cart"
                       >
-                        <Plus className="w-2.5 h-2.5" />
+                        <Plus className="w-2 h-2" />
                         <span>Add</span>
                       </button>
                     )}

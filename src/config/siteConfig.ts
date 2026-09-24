@@ -85,17 +85,17 @@ export const siteConfig: SiteConfig = {
     bookingApi: "/api/bookings"
   },
   bookingURL: "#",
-  fiverrURL: "#",
+  fiverrURL: "https://tinyurl.com/5eadbvh9",
   freelancerURL: "#",
   truelancerURL: "#",
   peoplePerHourURL: "#",
-  upworkURL: "#",
+  upworkURL: "https://tinyurl.com/5be2x75x",
   freelancePlatforms: {
-    fiverr: "#",
+    fiverr: "https://tinyurl.com/5eadbvh9",
     freelancer: "#",
     truelancer: "#",
     peoplePerHour: "#",
-    upwork: "#"
+    upwork: "https://tinyurl.com/5be2x75x"
   },
   socialLinks: {
     linkedin: "#",

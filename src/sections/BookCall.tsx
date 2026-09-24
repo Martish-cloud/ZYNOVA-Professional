@@ -65,7 +65,7 @@ export const BookCall: React.FC<BookCallProps> = ({
     "Shopify E-commerce Development",
     "Excel Data Cleaning & Automation",
     "Professional Excel Dashboards",
-    "Power BI Reporting & DAX Dashboards",
+    "Power BI Reporting",
     "AI & Workflow Automation",
     "Digital Marketing",
     "Other Custom Digital Architecture"
