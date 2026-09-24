@@ -3,7 +3,7 @@ import { siteConfig } from "../config/siteConfig";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { PortfolioShowcaseModal } from "../components/portfolio/PortfolioShowcaseModal";
 import { useCursor } from "../context/useCursor";
-import { ShieldCheck, MapPin, Terminal, Cpu, Clock, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, MapPin, Terminal, Cpu, Clock, CheckCircle2, Sparkles, ExternalLink } from "lucide-react";
 
 export const About: React.FC = () => {
   const { setCursor, resetCursor } = useCursor();
@@ -130,35 +130,74 @@ export const About: React.FC = () => {
                   {siteConfig.founder.bio}
                 </p>
 
-                {/* Founder Portfolio Showcase Preview */}
-                <div className="pt-1">
-                  <div
-                    onClick={() => {
-                      resetCursor();
-                      setIsPortfolioModalOpen(true);
-                    }}
-                    onMouseEnter={() => setCursor("project", "VIEW")}
-                    onMouseLeave={resetCursor}
-                    className="relative rounded-xl overflow-hidden border border-amber-500/30 hover:border-amber-400/60 bg-slate-950 group/img cursor-pointer transition-all duration-300 hover:shadow-[0_12px_28px_-10px_rgba(245,158,11,0.25)]"
-                  >
-                    <img
-                      src="/projects/amit-halder-portfolio.webp"
-                      alt="Amit Halder Portfolio Showcase"
-                      loading="lazy"
-                      className="w-full h-36 object-cover object-top opacity-85 group-hover/img:opacity-100 group-hover/img:scale-[1.02] transition-all duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none" />
-                    <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between">
-                      <span className="text-[10px] font-mono text-amber-300">Amit Halder &bull; Portfolio Showcase</span>
-                      <a
-                        href="/projects/amit-halder-portfolio.webp"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-500/20 text-amber-200 border border-amber-400/30 hover:bg-amber-500/30 transition-colors"
-                      >
-                        Full Preview
-                      </a>
+                {/* Founder Portfolio Showcase Previews */}
+                <div className="pt-2 space-y-2">
+                  <div className="flex items-center justify-between pb-0.5">
+                    <span className="text-[10.5px] font-mono uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                      <Cpu className="w-3.5 h-3.5 text-amber-400" />
+                      <span>PORTFOLIO SHOWCASES</span>
+                    </span>
+                    <span className="text-[10px] font-mono text-amber-400/90 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
+                      2 Showcases
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {/* 1. Existing Amit Halder Portfolio Preview */}
+                    <div className="relative rounded-xl overflow-hidden border border-amber-500/30 hover:border-amber-400/60 bg-slate-950 group/img transition-all duration-300 hover:shadow-[0_12px_28px_-10px_rgba(245,158,11,0.25)] flex flex-col justify-end">
+                      <img
+                        src="/projects/amit-halder-portfolio.webp"
+                        alt="Amit Halder Portfolio Showcase"
+                        loading="lazy"
+                        className="w-full h-32 object-cover object-top opacity-85 group-hover/img:opacity-100 group-hover/img:scale-[1.02] transition-all duration-300"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none" />
+                      <div className="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between gap-1.5">
+                        <span className="text-[10px] font-mono text-amber-300 truncate">Amit Halder &bull; Portfolio</span>
+                        <a
+                          href="/projects/amit-halder-portfolio.webp"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-500/20 text-amber-200 border border-amber-400/30 hover:bg-amber-500/30 transition-colors shrink-0"
+                        >
+                          Full Preview
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* 2. Machine Learning / AI Portfolio Preview */}
+                    <div
+                      onClick={() => {
+                        resetCursor();
+                        setIsPortfolioModalOpen(true);
+                      }}
+                      onMouseEnter={() => setCursor("project", "VIEW")}
+                      onMouseLeave={resetCursor}
+                      className="relative rounded-xl overflow-hidden border border-amber-500/30 hover:border-amber-400/60 bg-slate-950 group/img cursor-pointer transition-all duration-300 hover:shadow-[0_12px_28px_-10px_rgba(245,158,11,0.25)] flex flex-col justify-end"
+                    >
+                      <img
+                        src="/projects/amit-halder-portfolio.webp"
+                        alt="Machine Learning & AI Portfolio Showcase"
+                        loading="lazy"
+                        className="w-full h-32 object-cover object-top opacity-85 group-hover/img:opacity-100 group-hover/img:scale-[1.02] transition-all duration-300"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none" />
+
+                      {/* Top badge */}
+                      <div className="absolute top-2 left-2.5 pointer-events-none">
+                        <span className="px-1.5 py-0.5 rounded text-[9.5px] font-mono bg-amber-500/20 text-amber-300 border border-amber-400/30 backdrop-blur-sm flex items-center gap-1 font-semibold">
+                          <Sparkles className="w-2.5 h-2.5 text-amber-400" />
+                          <span>AI / ML Portfolio</span>
+                        </span>
+                      </div>
+
+                      <div className="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between gap-1.5">
+                        <span className="text-[10px] font-mono text-amber-300 truncate">ML &bull; AI Portfolio</span>
+                        <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-400 text-slate-950 font-bold border border-amber-300 hover:brightness-110 transition-colors shrink-0 flex items-center gap-1 shadow-sm">
+                          <span>Details</span>
+                          <ExternalLink className="w-2.5 h-2.5 text-slate-950" />
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>

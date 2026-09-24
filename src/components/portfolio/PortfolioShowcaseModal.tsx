@@ -8,14 +8,14 @@ interface PortfolioShowcaseModalProps {
 }
 
 const keySkills = [
-  "Generative AI & LLMs",
-  "Prompt Engineering",
   "Machine Learning",
-  "Python Development",
-  "NLP & Text Processing",
+  "Generative AI",
+  "AI / ML Engineering",
+  "Python",
+  "NLP",
+  "Prompt Engineering",
   "AI Workflow Automation",
-  "REST API Integration",
-  "Data Analysis & Power BI"
+  "Data Analysis"
 ];
 
 const certifications = [
@@ -41,18 +41,19 @@ export const PortfolioShowcaseModal: React.FC<PortfolioShowcaseModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Amit Halder — Machine Learning & AI Portfolio"
+      title="Machine Learning & AI Portfolio"
       maxWidth="max-w-3xl"
     >
       <div className="space-y-4 sm:space-y-5 text-slate-200">
         {/* Subtitle & Category Badges */}
         <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-slate-800 text-xs">
           <span className="text-slate-400 font-mono">
-            Founder &bull; Technology Specialist
+            Amit Halder &bull; Founder &amp; Technology Specialist
           </span>
           <div className="flex items-center gap-1.5">
-            <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/25 font-mono text-[10.5px] font-semibold">
-              Machine Learning / AI / GenAI
+            <span className="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/25 font-mono text-[10.5px] font-semibold flex items-center gap-1">
+              <Sparkles className="w-3 h-3 text-amber-400" />
+              <span>Machine Learning / AI / GenAI</span>
             </span>
           </div>
         </div>
@@ -86,7 +87,7 @@ export const PortfolioShowcaseModal: React.FC<PortfolioShowcaseModalProps> = ({
         {/* Professional Description */}
         <div className="p-3.5 sm:p-4 rounded-xl bg-slate-900/60 border border-slate-800/80">
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            This is Amit Halder’s dedicated personal Machine Learning &amp; AI-focused portfolio, showcasing specialized engineering capabilities across Large Language Model integrations, prompt engineering architectures, automated intelligence workflows, and deep business data analytics.
+            This is Amit Halder’s dedicated personal Machine Learning &amp; AI portfolio, showcasing specialized engineering capabilities across Large Language Model integrations, prompt engineering architectures, automated intelligence workflows, and deep business data analytics.
           </p>
         </div>
 
