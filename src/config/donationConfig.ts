@@ -35,7 +35,7 @@ export const donationConfig: DonationConfig = {
   upiId: "askfor.amithalder@okaxis",
   businessName: "Zynova Digital Professionals",
   contactEmail: "team.zynova@gmail.com",
-  charityRecipient: "To Be Announced",
+  charityRecipient: "Sonu Sood Foundation",
   showcaseImage: "/assets/zynova-charity-showcase.webp",
   presetAmounts: [5, 25, 50, 100, 500],
   copy: {
