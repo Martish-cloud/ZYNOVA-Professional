@@ -1,27 +1,14 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
 import { useCountUp } from "../hooks/useCountUp";
+import { useInViewAnimation } from "../hooks/useInViewAnimation";
 import { Clock, Briefcase, Layers, ShieldCheck } from "lucide-react";
 
 export const Stats: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isInView, setIsInView] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true);
-        }
-      },
-      { threshold: 0.25 }
-    );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const { ref: containerRef, isInView } = useInViewAnimation<HTMLDivElement>({
+    threshold: 0.15,
+    rootMargin: "0px 0px -20px 0px",
+    retrigger: true
+  });
 
   const countHours = useCountUp(12, 1200, isInView);
   const countIndustries = useCountUp(8, 1400, isInView);

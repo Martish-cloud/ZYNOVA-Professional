@@ -4,17 +4,27 @@ import { HeroBackground } from "./HeroBackground";
 import { MagneticButton } from "../components/ui/MagneticButton";
 import { Badge } from "../components/ui/Badge";
 import { TypewriterHeroHeadline } from "../components/ui/TypewriterHeroHeadline";
+import { useInViewAnimation } from "../hooks/useInViewAnimation";
 import { ArrowRight, Sparkles, Layers, ShieldCheck } from "lucide-react";
 
 export const Hero: React.FC = () => {
+  const { ref: heroRef, isInView, prefersReducedMotion } = useInViewAnimation<HTMLElement>({
+    threshold: 0.1,
+    rootMargin: "0px",
+    retrigger: true
+  });
+
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
+  const isVisible = prefersReducedMotion || isInView;
+
   return (
     <section
       id="hero"
+      ref={heroRef}
       className="relative min-h-screen flex items-center justify-center pt-24 pb-12 md:py-24 overflow-hidden"
     >
       {/* Dynamic Animated Canvas & Ambient Backing */}
@@ -22,7 +32,11 @@ export const Hero: React.FC = () => {
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
         {/* Top Micro Badge */}
-        <div className="animate-in fade-in slide-in-from-top-4 duration-700 mb-3.5 sm:mb-4">
+        <div
+          className={`mb-3.5 sm:mb-4 transition-all duration-700 ease-out ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3 pointer-events-none"
+          }`}
+        >
           <Badge variant="gold" className="py-1 px-3 text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
             <span>PREMIUM DIGITAL SOLUTIONS &bull; EST. 2026</span>
@@ -33,12 +47,20 @@ export const Hero: React.FC = () => {
         <TypewriterHeroHeadline />
 
         {/* Supporting Copy */}
-        <p className="text-xs sm:text-sm md:text-base text-slate-300 max-w-2xl leading-relaxed mb-4 sm:mb-5 font-normal">
+        <p
+          className={`text-xs sm:text-sm md:text-base text-slate-300 max-w-2xl leading-relaxed mb-4 sm:mb-5 font-normal transition-all duration-700 delay-100 ease-out ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
+          }`}
+        >
           {siteConfig.brandName} is a premium technology studio engineering high-performance websites, scalable software, mobile apps, intelligent automation workflows, and actionable business intelligence.
         </p>
 
         {/* Founder Credential Line */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900/60 border border-amber-500/20 backdrop-blur-md text-[11px] sm:text-xs text-slate-400 mb-6 sm:mb-7">
+        <div
+          className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900/60 border border-amber-500/20 backdrop-blur-md text-[11px] sm:text-xs text-slate-400 mb-6 sm:mb-7 transition-all duration-700 delay-150 ease-out ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-3"
+          }`}
+        >
           <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
           <span>
             Founded by <span className="text-amber-100 font-semibold">{siteConfig.founder.name}</span> &bull; {siteConfig.founder.location}

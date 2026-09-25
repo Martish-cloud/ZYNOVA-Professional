@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 interface AnimatedCounterProps {
   value: number;
@@ -18,11 +19,18 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
   className = "",
   durationMs = 900
 }) => {
+  const prefersReducedMotion = useReducedMotion();
   const [displayValue, setDisplayValue] = useState<number>(value);
   const prevValueRef = useRef<number>(value);
   const animFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
+    if (prefersReducedMotion) {
+      setDisplayValue(value);
+      prevValueRef.current = value;
+      return;
+    }
+
     const startValue = prevValueRef.current;
     const endValue = value;
 
