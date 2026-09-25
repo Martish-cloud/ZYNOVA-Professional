@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { siteConfig } from "../../config/siteConfig";
-import { useScrollPosition } from "../../hooks/useScrollPosition";
 import { useScrollSpy } from "../../hooks/useScrollSpy";
 import { useCursor } from "../../context/useCursor";
 import { MagneticButton } from "../ui/MagneticButton";
@@ -31,11 +30,10 @@ const NAV_LINKS = [
 ];
 
 export const Navbar: React.FC = () => {
-  const { isScrolled } = useScrollPosition();
   const { setCursor, resetCursor } = useCursor();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const activeSection = useScrollSpy(SECTION_IDS, 150);
+  const { activeSection, isScrolled } = useScrollSpy(SECTION_IDS, 150);
 
   const handleLinkClick = (href: string) => {
     setMobileMenuOpen(false);

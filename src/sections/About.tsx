@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { siteConfig } from "../config/siteConfig";
 import { SectionHeading } from "../components/ui/SectionHeading";
-import { PortfolioShowcaseModal } from "../components/portfolio/PortfolioShowcaseModal";
 import { useCursor } from "../context/useCursor";
 import { ShieldCheck, MapPin, Terminal, Cpu, Clock, CheckCircle2, Sparkles, ExternalLink } from "lucide-react";
+
+const PortfolioShowcaseModal = React.lazy(() =>
+  import("../components/portfolio/PortfolioShowcaseModal").then((m) => ({ default: m.PortfolioShowcaseModal }))
+);
 
 export const About: React.FC = () => {
   const { setCursor, resetCursor } = useCursor();
@@ -190,10 +193,14 @@ export const About: React.FC = () => {
       </div>
 
       {/* Internal ML / AI Portfolio Details Modal */}
-      <PortfolioShowcaseModal
-        isOpen={isPortfolioModalOpen}
-        onClose={() => setIsPortfolioModalOpen(false)}
-      />
+      {isPortfolioModalOpen && (
+        <Suspense fallback={null}>
+          <PortfolioShowcaseModal
+            isOpen={isPortfolioModalOpen}
+            onClose={() => setIsPortfolioModalOpen(false)}
+          />
+        </Suspense>
+      )}
     </section>
   );
 };

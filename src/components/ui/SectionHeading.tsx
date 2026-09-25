@@ -13,7 +13,7 @@ interface SectionHeadingProps {
   fadeInOut?: boolean;
 }
 
-export const SectionHeading: React.FC<SectionHeadingProps> = ({
+export const SectionHeading: React.FC<SectionHeadingProps> = React.memo(({
   badge,
   title,
   highlightedTitle,
@@ -85,4 +85,4 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
       )}
     </div>
   );
-};
+});

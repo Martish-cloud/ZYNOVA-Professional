@@ -23,7 +23,8 @@ export const HeroBackground: React.FC = () => {
     if (!ctx) return;
 
     let animationFrameId: number;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let isMobile = window.innerWidth < 768;
+    let dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.2 : 1.6);
 
     let width = window.innerWidth;
     let height = window.innerHeight;
@@ -32,15 +33,18 @@ export const HeroBackground: React.FC = () => {
       if (!canvas) return;
       width = window.innerWidth;
       height = window.innerHeight;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
+      isMobile = width < 768;
+      dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.2 : 1.6);
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
     };
 
     setCanvasSize();
-    window.addEventListener("resize", setCanvasSize);
+    window.addEventListener("resize", setCanvasSize, { passive: true });
 
     // Mouse interactive coordinates
     const mouse = {
@@ -50,7 +54,12 @@ export const HeroBackground: React.FC = () => {
       targetY: height * 0.5
     };
 
+    let isIntersecting = true;
+    let isHidden = typeof document !== "undefined" ? document.hidden : false;
+    let isLoopRunning = false;
+
     const handleMouseMove = (e: MouseEvent) => {
+      if (!isIntersecting) return;
       mouse.targetX = e.clientX;
       mouse.targetY = e.clientY;
     };
@@ -133,8 +142,7 @@ export const HeroBackground: React.FC = () => {
     ];
 
     // Floating golden dust particles / embers
-    const particleCount = 45;
-    const particles = Array.from({ length: particleCount }, () => ({
+    const particles = Array.from({ length: 45 }, () => ({
       x: (Math.random() * 0.7 + 0.3) * width,
       y: Math.random() * height,
       vx: (Math.random() - 0.5) * 0.3,
@@ -145,16 +153,25 @@ export const HeroBackground: React.FC = () => {
       color: Math.random() > 0.3 ? "#D4AF37" : "#F4E4BC"
     }));
 
+    // Pre-allocated buffers to prevent GC pauses
+    const projected: ProjectedPoint[] = baseVertices.map(() => ({
+      x: 0,
+      y: 0,
+      scale: 0,
+      z: 0
+    }));
+
+    const sortedFaces = faces.map((indices) => ({
+      indices,
+      avgZ: 0
+    }));
+
     // Rotation angles with damping
     let rotX = 0;
     let rotY = 0;
     let targetRotX = 0;
     let targetRotY = 0;
     let time = 0;
-
-    let isIntersecting = true;
-    let isHidden = typeof document !== "undefined" ? document.hidden : false;
-    let isLoopRunning = false;
 
     const startLoop = () => {
       if (!isLoopRunning && isIntersecting && !isHidden) {
@@ -202,7 +219,6 @@ export const HeroBackground: React.FC = () => {
       mouse.y += (mouse.targetY - mouse.y) * 0.04;
 
       // Subtle dynamic crystal origin (right side of the hero on desktop, centered on mobile)
-      const isMobile = width < 768;
       const crystalCenterX = isMobile ? width * 0.5 : width * 0.78;
       const crystalCenterY = isMobile ? height * 0.35 : height * 0.48;
 
@@ -272,8 +288,10 @@ export const HeroBackground: React.FC = () => {
       // Dynamic scale factor based on screen width
       const crystalScale = isMobile ? Math.min(width, height) * 0.0016 : Math.min(width, height) * 0.0022;
 
-      // Project vertices
-      const projected: ProjectedPoint[] = baseVertices.map((v) => {
+      // Project vertices in-place into preallocated buffer (zero GC)
+      const fov = 750;
+      for (let i = 0; i < baseVertices.length; i++) {
+        const v = baseVertices[i];
         // Rotate around Y
         const x1 = v.x * crystalScale * cosY - v.z * crystalScale * sinY;
         const z1 = v.x * crystalScale * sinY + v.z * crystalScale * cosY;
@@ -283,27 +301,22 @@ export const HeroBackground: React.FC = () => {
         const z2 = v.y * crystalScale * sinX + z1 * cosX;
 
         // Perspective projection
-        const fov = 750;
         const scale = fov / (fov + z2);
+        projected[i].x = crystalCenterX + x1 * scale;
+        projected[i].y = crystalCenterY + y2 * scale;
+        projected[i].scale = scale;
+        projected[i].z = z2;
+      }
 
-        return {
-          x: crystalCenterX + x1 * scale,
-          y: crystalCenterY + y2 * scale,
-          scale,
-          z: z2
-        };
-      });
-
-      // --- 3. Render Polygonal Facets (Sorted by Average Z Depth) ---
-      const sortedFaces = faces
-        .map((faceIndices) => {
-          const p0 = projected[faceIndices[0]];
-          const p1 = projected[faceIndices[1]];
-          const p2 = projected[faceIndices[2]];
-          const avgZ = (p0.z + p1.z + p2.z) / 3;
-          return { indices: faceIndices, avgZ };
-        })
-        .sort((a, b) => a.avgZ - b.avgZ);
+      // --- 3. Render Polygonal Facets (Sorted by Average Z Depth in-place) ---
+      for (let i = 0; i < sortedFaces.length; i++) {
+        const sf = sortedFaces[i];
+        const p0 = projected[sf.indices[0]];
+        const p1 = projected[sf.indices[1]];
+        const p2 = projected[sf.indices[2]];
+        sf.avgZ = (p0.z + p1.z + p2.z) / 3;
+      }
+      sortedFaces.sort((a, b) => a.avgZ - b.avgZ);
 
       // Light source vector relative to crystal
       const lightVec = { x: -0.5, y: -0.6, z: 0.65 };
@@ -387,10 +400,14 @@ export const HeroBackground: React.FC = () => {
           ? "rgba(244, 228, 188, 0.85)" 
           : "rgba(212, 175, 55, 0.45)";
         
-        ctx.shadowColor = "#D4AF37";
-        ctx.shadowBlur = dot > 0.3 ? 12 : 4;
-        ctx.stroke();
-        ctx.shadowBlur = 0;
+        if (dot > 0.3) {
+          ctx.shadowColor = "#D4AF37";
+          ctx.shadowBlur = 8;
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+        } else {
+          ctx.stroke();
+        }
       });
 
       // --- 4. Extra Radiant Specular Glow Along Central Ridges ---
@@ -401,7 +418,7 @@ export const HeroBackground: React.FC = () => {
 
       ctx.save();
       ctx.shadowColor = "#FFE599";
-      ctx.shadowBlur = 20;
+      ctx.shadowBlur = 16;
       ctx.lineWidth = 2.2;
 
       keyEdgePairs.forEach(([iA, iB]) => {
@@ -420,8 +437,13 @@ export const HeroBackground: React.FC = () => {
       });
       ctx.restore();
 
-      // --- 5. Floating Ambient Golden Dust & Light Motes ---
-      particles.forEach((p) => {
+      // --- 5. Floating Ambient Golden Dust & Light Motes (Batched shadow) ---
+      const activeParticleCount = isMobile ? 22 : particles.length;
+      ctx.save();
+      ctx.shadowColor = "#D4AF37";
+      ctx.shadowBlur = 6;
+      for (let i = 0; i < activeParticleCount; i++) {
+        const p = particles[i];
         p.x += p.vx;
         p.y += p.vy;
         p.pulse += 0.03;
@@ -437,11 +459,9 @@ export const HeroBackground: React.FC = () => {
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.globalAlpha = dynamicAlpha;
-        ctx.shadowColor = "#D4AF37";
-        ctx.shadowBlur = 8;
         ctx.fill();
-        ctx.shadowBlur = 0;
-      });
+      }
+      ctx.restore();
       ctx.globalAlpha = 1;
 
       // --- 6. Subtle Vignette & Bottom Section Blending ---

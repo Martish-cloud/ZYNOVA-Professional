@@ -1,9 +1,8 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback, Suspense } from "react";
 import { createPortal } from "react-dom";
 import { servicesData } from "../data/services";
 import type { ServiceItem } from "../data/services";
 import { SectionHeading } from "../components/ui/SectionHeading";
-import { ServiceModal } from "./ServiceModal";
 import { useCursor } from "../context/useCursor";
 import {
   Layout,
@@ -34,6 +33,177 @@ import {
   X
 } from "lucide-react";
 
+const ServiceModal = React.lazy(() =>
+  import("./ServiceModal").then((m) => ({ default: m.ServiceModal }))
+);
+
+const renderServiceIcon = (iconName: string) => {
+  const props = { className: "w-4 h-4 text-amber-400 group-hover:text-amber-300 transition-colors" };
+  switch (iconName) {
+    case "Layout": return <Layout {...props} />;
+    case "Layers": return <Layers {...props} />;
+    case "Server": return <Server {...props} />;
+    case "Smartphone": return <Smartphone {...props} />;
+    case "AppWindow": return <AppWindow {...props} />;
+    case "Cpu": return <Cpu {...props} />;
+    case "ShieldCheck": return <ShieldCheck {...props} />;
+    case "Code2": return <Code2 {...props} />;
+    case "FileCode": return <FileCode {...props} />;
+    case "ShoppingBag": return <ShoppingBag {...props} />;
+    case "FileSpreadsheet": return <FileSpreadsheet {...props} />;
+    case "Filter": return <Filter {...props} />;
+    case "GitMerge": return <GitMerge {...props} />;
+    case "BarChart3": return <BarChart3 {...props} />;
+    case "PieChart": return <PieChart {...props} />;
+    case "LineChart": return <LineChart {...props} />;
+    case "Activity": return <Activity {...props} />;
+    default: return <Sparkles {...props} />;
+  }
+};
+
+interface ServiceCardProps {
+  service: ServiceItem;
+  quantity: number;
+  onOpenDetails: (service: ServiceItem) => void;
+  onAddToCart: (service: ServiceItem, e: React.MouseEvent) => void;
+  onUpdateQuantity: (id: string, delta: number, e: React.MouseEvent) => void;
+}
+
+const ServiceCard = React.memo<ServiceCardProps>(({
+  service,
+  quantity,
+  onOpenDetails,
+  onAddToCart,
+  onUpdateQuantity
+}) => {
+  const { setCursor, resetCursor } = useCursor();
+
+  return (
+    <div
+      onClick={() => onOpenDetails(service)}
+      onMouseEnter={() => setCursor("project", "EXPAND")}
+      onMouseLeave={resetCursor}
+      className="group relative p-2 sm:p-2.5 md:p-3 rounded-xl bg-gradient-to-b from-slate-900/70 via-slate-900/40 to-slate-950/90 border border-slate-800/80 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-10px_rgba(245,158,11,0.2)] flex flex-col justify-between cursor-pointer overflow-hidden"
+    >
+      {/* Subtle top-corner accent gradient */}
+      <div className="absolute top-0 right-0 w-20 h-20 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/15 transition-colors pointer-events-none" />
+
+      <div>
+        {/* Header with Number and Icon */}
+        <div className="flex items-center justify-between mb-1.5">
+          <div className="flex items-center gap-1">
+            <span className="font-mono text-[9px] sm:text-[10px] font-bold text-slate-500 group-hover:text-amber-400 transition-colors">
+              // {service.number}
+            </span>
+            {service.pricing && (
+              <span className="px-1 py-0.5 rounded text-[7.5px] sm:text-[8px] font-mono font-bold bg-amber-400/10 text-amber-300 border border-amber-400/25">
+                {service.pricing}
+              </span>
+            )}
+          </div>
+          <div className="p-1 sm:p-1.5 rounded-lg bg-slate-800/70 border border-slate-700/60 group-hover:scale-110 group-hover:border-amber-500/40 transition-all">
+            {renderServiceIcon(service.icon)}
+          </div>
+        </div>
+
+        {/* Title */}
+        <h3 className="text-xs sm:text-sm font-bold font-heading text-white group-hover:text-amber-200 transition-colors mb-1 leading-snug line-clamp-2">
+          {service.title}
+        </h3>
+
+        {/* Short Description */}
+        <p className="text-[9.5px] sm:text-[10.5px] text-slate-400 leading-snug mb-1.5 line-clamp-2 sm:line-clamp-3">
+          {service.shortDesc}
+        </p>
+
+        {/* Pricing Box */}
+        {service.pricing && (
+          <div className="mb-1.5 px-1.5 py-1 rounded-md bg-gradient-to-r from-amber-500/10 to-amber-500/5 border border-amber-500/20">
+            <div className="flex items-baseline justify-between gap-1">
+              <span className="text-[7.5px] sm:text-[8px] font-mono uppercase tracking-wider text-amber-400/80 font-semibold truncate">
+                From {service.pricing.split(" ")[0]}
+              </span>
+              <span className="text-[10px] sm:text-[11px] font-mono font-bold text-amber-300 shrink-0">
+                {service.pricing}
+              </span>
+            </div>
+            {service.pricingNote && (
+              <span className="text-[7.5px] sm:text-[8px] text-slate-400 italic block truncate mt-0.5">
+                {service.pricingNote}
+              </span>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div>
+        {/* Tech Tags */}
+        <div className="flex flex-wrap gap-0.5 sm:gap-1 mb-1.5">
+          {service.technologies.slice(0, 2).map((tech) => (
+            <span
+              key={tech}
+              className="px-1 py-0.5 rounded text-[7.5px] sm:text-[8px] font-mono bg-slate-800/60 text-slate-400 border border-slate-700/40"
+            >
+              {tech}
+            </span>
+          ))}
+          {service.technologies.length > 2 && (
+            <span className="px-1 py-0.5 rounded text-[7.5px] sm:text-[8px] font-mono bg-slate-800/30 text-slate-400">
+              +{service.technologies.length - 2}
+            </span>
+          )}
+        </div>
+
+        {/* Bottom Action Line: Deliverables + Quick Cart Action */}
+        <div className="pt-1.5 border-t border-slate-800/60 flex items-center justify-between gap-1">
+          <span className="text-[9px] sm:text-[10px] font-semibold text-slate-400 group-hover:text-amber-300 transition-colors flex items-center gap-0.5">
+            <span>Details</span>
+            <ArrowUpRight className="w-2.5 h-2.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </span>
+
+          {/* Add to Cart / Quantity controls on card */}
+          {quantity > 0 ? (
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-0.5 bg-amber-400/15 border border-amber-400/40 rounded-md px-1 py-0.5"
+            >
+              <button
+                type="button"
+                onClick={(e) => onUpdateQuantity(service.id, -1, e)}
+                className="w-3.5 h-3.5 rounded flex items-center justify-center text-amber-300 hover:bg-amber-400/30 text-[9px]"
+                title="Decrease"
+              >
+                <Minus className="w-2 h-2" />
+              </button>
+              <span className="text-[9px] font-mono font-bold text-amber-200 px-0.5">
+                {quantity}
+              </span>
+              <button
+                type="button"
+                onClick={(e) => onUpdateQuantity(service.id, 1, e)}
+                className="w-3.5 h-3.5 rounded flex items-center justify-center text-amber-300 hover:bg-amber-400/30 text-[9px]"
+                title="Increase"
+              >
+                <Plus className="w-2 h-2" />
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={(e) => onAddToCart(service, e)}
+              className="px-1.5 py-0.5 rounded-md bg-amber-400/10 hover:bg-amber-400 text-amber-300 hover:text-slate-950 border border-amber-400/30 text-[9px] font-mono font-bold flex items-center gap-0.5 transition-all cursor-pointer"
+              title="Add service to inquiry cart"
+            >
+              <Plus className="w-2 h-2" />
+              <span>Add</span>
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+});
+
 interface ServicesProps {
   onSelectServiceForBooking?: (serviceTitle: string) => void;
 }
@@ -60,7 +230,7 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
   );
 
   // Cart operations
-  const addToCart = (service: ServiceItem, e?: React.MouseEvent) => {
+  const addToCart = useCallback((service: ServiceItem, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     const price = service.basePrice || 150;
     setCart((prev) => {
@@ -82,9 +252,9 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
         }
       ];
     });
-  };
+  }, []);
 
-  const updateQuantity = (id: string, delta: number, e?: React.MouseEvent) => {
+  const updateQuantity = useCallback((id: string, delta: number, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     setCart((prev) =>
       prev
@@ -97,21 +267,25 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
         })
         .filter((item): item is CartItem => item !== null)
     );
-  };
+  }, []);
 
-  const removeFromCart = (id: string, e?: React.MouseEvent) => {
+  const removeFromCart = useCallback((id: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     setCart((prev) => prev.filter((item) => item.id !== id));
-  };
+  }, []);
 
-  const clearCart = (e?: React.MouseEvent) => {
+  const clearCart = useCallback((e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     setCart([]);
     setIsCartModalOpen(false);
-  };
+  }, []);
 
   const getCartTotal = () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const getCartCount = () => cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  const handleOpenDetails = useCallback((service: ServiceItem) => {
+    setSelectedService(service);
+  }, []);
 
   const checkoutToBookCall = () => {
     const summary = cart.map((item) => `${item.title} (×${item.quantity})`).join(", ");
@@ -123,30 +297,6 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
     const bookSection = document.getElementById("book-call");
     if (bookSection) {
       bookSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const getIcon = (iconName: string) => {
-    const props = { className: "w-4 h-4 text-amber-400 group-hover:text-amber-300 transition-colors" };
-    switch (iconName) {
-      case "Layout": return <Layout {...props} />;
-      case "Layers": return <Layers {...props} />;
-      case "Server": return <Server {...props} />;
-      case "Smartphone": return <Smartphone {...props} />;
-      case "AppWindow": return <AppWindow {...props} />;
-      case "Cpu": return <Cpu {...props} />;
-      case "ShieldCheck": return <ShieldCheck {...props} />;
-      case "Code2": return <Code2 {...props} />;
-      case "FileCode": return <FileCode {...props} />;
-      case "ShoppingBag": return <ShoppingBag {...props} />;
-      case "FileSpreadsheet": return <FileSpreadsheet {...props} />;
-      case "Filter": return <Filter {...props} />;
-      case "GitMerge": return <GitMerge {...props} />;
-      case "BarChart3": return <BarChart3 {...props} />;
-      case "PieChart": return <PieChart {...props} />;
-      case "LineChart": return <LineChart {...props} />;
-      case "Activity": return <Activity {...props} />;
-      default: return <Sparkles {...props} />;
     }
   };
 
@@ -198,129 +348,14 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
           {filteredServices.map((service) => {
             const cartItem = cart.find((item) => item.id === service.id);
             return (
-              <div
+              <ServiceCard
                 key={service.id}
-                onClick={() => setSelectedService(service)}
-                onMouseEnter={() => setCursor("project", "EXPAND")}
-                onMouseLeave={resetCursor}
-                className="group relative p-2 sm:p-2.5 md:p-3 rounded-xl bg-gradient-to-b from-slate-900/70 via-slate-900/40 to-slate-950/90 border border-slate-800/80 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-10px_rgba(245,158,11,0.2)] flex flex-col justify-between cursor-pointer overflow-hidden"
-              >
-                {/* Subtle top-corner accent gradient */}
-                <div className="absolute top-0 right-0 w-20 h-20 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/15 transition-colors pointer-events-none" />
-
-                <div>
-                  {/* Header with Number and Icon */}
-                  <div className="flex items-center justify-between mb-1.5">
-                    <div className="flex items-center gap-1">
-                      <span className="font-mono text-[9px] sm:text-[10px] font-bold text-slate-500 group-hover:text-amber-400 transition-colors">
-                        // {service.number}
-                      </span>
-                      {service.pricing && (
-                        <span className="px-1 py-0.5 rounded text-[7.5px] sm:text-[8px] font-mono font-bold bg-amber-400/10 text-amber-300 border border-amber-400/25">
-                          {service.pricing}
-                        </span>
-                      )}
-                    </div>
-                    <div className="p-1 sm:p-1.5 rounded-lg bg-slate-800/70 border border-slate-700/60 group-hover:scale-110 group-hover:border-amber-500/40 transition-all">
-                      {getIcon(service.icon)}
-                    </div>
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-xs sm:text-sm font-bold font-heading text-white group-hover:text-amber-200 transition-colors mb-1 leading-snug line-clamp-2">
-                    {service.title}
-                  </h3>
-
-                  {/* Short Description */}
-                  <p className="text-[9.5px] sm:text-[10.5px] text-slate-400 leading-snug mb-1.5 line-clamp-2 sm:line-clamp-3">
-                    {service.shortDesc}
-                  </p>
-
-                  {/* Pricing Box */}
-                  {service.pricing && (
-                    <div className="mb-1.5 px-1.5 py-1 rounded-md bg-gradient-to-r from-amber-500/10 to-amber-500/5 border border-amber-500/20">
-                      <div className="flex items-baseline justify-between gap-1">
-                        <span className="text-[7.5px] sm:text-[8px] font-mono uppercase tracking-wider text-amber-400/80 font-semibold truncate">
-                          From {service.pricing.split(" ")[0]}
-                        </span>
-                        <span className="text-[10px] sm:text-[11px] font-mono font-bold text-amber-300 shrink-0">
-                          {service.pricing}
-                        </span>
-                      </div>
-                      {service.pricingNote && (
-                        <span className="text-[7.5px] sm:text-[8px] text-slate-400 italic block truncate mt-0.5">
-                          {service.pricingNote}
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  {/* Tech Tags */}
-                  <div className="flex flex-wrap gap-0.5 sm:gap-1 mb-1.5">
-                    {service.technologies.slice(0, 2).map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-1 py-0.5 rounded text-[7.5px] sm:text-[8px] font-mono bg-slate-800/60 text-slate-400 border border-slate-700/40"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {service.technologies.length > 2 && (
-                      <span className="px-1 py-0.5 rounded text-[7.5px] sm:text-[8px] font-mono bg-slate-800/30 text-slate-400">
-                        +{service.technologies.length - 2}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Bottom Action Line: Deliverables + Quick Cart Action */}
-                  <div className="pt-1.5 border-t border-slate-800/60 flex items-center justify-between gap-1">
-                    <span className="text-[9px] sm:text-[10px] font-semibold text-slate-400 group-hover:text-amber-300 transition-colors flex items-center gap-0.5">
-                      <span>Details</span>
-                      <ArrowUpRight className="w-2.5 h-2.5 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </span>
-
-                    {/* Add to Cart / Quantity controls on card */}
-                    {cartItem ? (
-                      <div
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center gap-0.5 bg-amber-400/15 border border-amber-400/40 rounded-md px-1 py-0.5"
-                      >
-                        <button
-                          type="button"
-                          onClick={(e) => updateQuantity(service.id, -1, e)}
-                          className="w-3.5 h-3.5 rounded flex items-center justify-center text-amber-300 hover:bg-amber-400/30 text-[9px]"
-                          title="Decrease"
-                        >
-                          <Minus className="w-2 h-2" />
-                        </button>
-                        <span className="text-[9px] font-mono font-bold text-amber-200 px-0.5">
-                          {cartItem.quantity}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={(e) => updateQuantity(service.id, 1, e)}
-                          className="w-3.5 h-3.5 rounded flex items-center justify-center text-amber-300 hover:bg-amber-400/30 text-[9px]"
-                          title="Increase"
-                        >
-                          <Plus className="w-2 h-2" />
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={(e) => addToCart(service, e)}
-                        className="px-1.5 py-0.5 rounded-md bg-amber-400/10 hover:bg-amber-400 text-amber-300 hover:text-slate-950 border border-amber-400/30 text-[9px] font-mono font-bold flex items-center gap-0.5 transition-all cursor-pointer"
-                        title="Add service to inquiry cart"
-                      >
-                        <Plus className="w-2 h-2" />
-                        <span>Add</span>
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
+                service={service}
+                quantity={cartItem ? cartItem.quantity : 0}
+                onOpenDetails={handleOpenDetails}
+                onAddToCart={addToCart}
+                onUpdateQuantity={updateQuantity}
+              />
             );
           })}
         </div>
@@ -563,14 +598,16 @@ export const Services: React.FC<ServicesProps> = ({ onSelectServiceForBooking })
 
       {/* Service Details Modal */}
       {selectedService && (
-        <ServiceModal
-          service={selectedService}
-          isOpen={!!selectedService}
-          onClose={() => setSelectedService(null)}
-          onSelectServiceForBooking={(title) => {
-            if (onSelectServiceForBooking) onSelectServiceForBooking(title);
-          }}
-        />
+        <Suspense fallback={null}>
+          <ServiceModal
+            service={selectedService}
+            isOpen={!!selectedService}
+            onClose={() => setSelectedService(null)}
+            onSelectServiceForBooking={(title) => {
+              if (onSelectServiceForBooking) onSelectServiceForBooking(title);
+            }}
+          />
+        </Suspense>
       )}
     </section>
   );

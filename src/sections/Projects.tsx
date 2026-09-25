@@ -1,10 +1,8 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, Suspense } from "react";
 import { projectsData, mobileProjectsData } from "../data/projects";
 import type { ProjectItem } from "../data/projects";
 import { excelDashboards, powerBIDashboards } from "../data/dashboards";
-import { DashboardGalleryModal } from "../components/data/DashboardGalleryModal";
 import { SectionHeading } from "../components/ui/SectionHeading";
-import { ProjectModal } from "./ProjectModal";
 import { PortfolioImage } from "../components/ui/PortfolioImage";
 import { useCursor } from "../context/useCursor";
 import {
@@ -14,6 +12,14 @@ import {
   Sparkles,
   TrendingUp
 } from "lucide-react";
+
+const ProjectModal = React.lazy(() =>
+  import("./ProjectModal").then((m) => ({ default: m.ProjectModal }))
+);
+
+const DashboardGalleryModal = React.lazy(() =>
+  import("../components/data/DashboardGalleryModal").then((m) => ({ default: m.DashboardGalleryModal }))
+);
 
 interface ProjectsProps {
   onDiscussProject?: (brief: string) => void;
@@ -622,24 +628,28 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
 
       {/* Project Detail Modal */}
       {selectedProject && (
-        <ProjectModal
-          project={selectedProject}
-          isOpen={!!selectedProject}
-          onClose={handleCloseProjectModal}
-          onDiscussProject={(brief) => {
-            if (onDiscussProject) onDiscussProject(brief);
-          }}
-        />
+        <Suspense fallback={null}>
+          <ProjectModal
+            project={selectedProject}
+            isOpen={!!selectedProject}
+            onClose={handleCloseProjectModal}
+            onDiscussProject={(brief) => {
+              if (onDiscussProject) onDiscussProject(brief);
+            }}
+          />
+        </Suspense>
       )}
 
       {/* Interactive Dashboard Gallery Modal (Excel & Power BI) */}
       {activeDashboardModal && (
-        <DashboardGalleryModal
-          category={activeDashboardModal}
-          dashboards={activeDashboards}
-          isOpen={activeDashboardModal !== null}
-          onClose={handleCloseDashboardModal}
-        />
+        <Suspense fallback={null}>
+          <DashboardGalleryModal
+            category={activeDashboardModal}
+            dashboards={activeDashboards}
+            isOpen={activeDashboardModal !== null}
+            onClose={handleCloseDashboardModal}
+          />
+        </Suspense>
       )}
     </section>
   );

@@ -14,6 +14,7 @@
     background-color: #07080b;
     color: #f1f5f9;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
   h1, h2, h3, h4, h5, h6, .font-heading {
@@ -58,12 +59,23 @@
 
 .glass-card-hover {
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
-  will-change: transform;
 }
 .glass-card-hover:hover {
   border-color: rgba(245, 158, 11, 0.45);
   box-shadow: 0 0 35px -10px rgba(245, 158, 11, 0.25);
   transform: translateY(-4px);
+}
+
+/* Mobile GPU optimization: reduce heavy blur filters on small screens */
+@media (max-width: 768px) {
+  .glass-panel {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .glass-card {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
 }
 
 /* Subtle Grid Background Pattern */

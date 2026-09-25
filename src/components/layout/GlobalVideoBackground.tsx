@@ -40,19 +40,18 @@ export const GlobalVideoBackground: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-      {/* 4K Tech 02 Video with Direct Hardware GPU Acceleration */}
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true" style={{ contain: "strict" }}>
+      {/* Tech 02 Video with Direct Hardware GPU Acceleration */}
       <video
         ref={videoRef}
         autoPlay
         loop
         muted
         playsInline
-        preload="auto"
+        preload="metadata"
         className="w-full h-full object-cover object-center pointer-events-none"
         style={{
           transform: "translate3d(0, 0, 0)",
-          willChange: "transform",
           backfaceVisibility: "hidden",
           WebkitBackfaceVisibility: "hidden"
         }}

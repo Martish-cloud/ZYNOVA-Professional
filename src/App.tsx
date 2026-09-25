@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { CursorProvider } from "./context/CursorContext";
 import { CustomCursor } from "./components/cursor/CustomCursor";
 import { Navbar } from "./components/layout/Navbar";
@@ -29,22 +29,22 @@ export const App: React.FC = () => {
   const [prefilledBrief, setPrefilledBrief] = useState<string>("");
   const [activeToast, setActiveToast] = useState<ToastMessage | null>(null);
 
-  const handleSelectServiceForBooking = (serviceTitle: string) => {
+  const handleSelectServiceForBooking = useCallback((serviceTitle: string) => {
     setPrefilledService(serviceTitle);
-  };
+  }, []);
 
-  const handleDiscussProject = (brief: string) => {
+  const handleDiscussProject = useCallback((brief: string) => {
     setPrefilledBrief(brief);
-  };
+  }, []);
 
-  const showToast = (title: string, description: string, type: "success" | "error" = "success") => {
+  const showToast = useCallback((title: string, description: string, type: "success" | "error" = "success") => {
     setActiveToast({
       id: Date.now().toString(),
       type,
       title,
       description
     });
-  };
+  }, []);
 
   return (
     <CursorProvider>
