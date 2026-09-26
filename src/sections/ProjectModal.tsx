@@ -108,7 +108,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                   rel="noopener noreferrer"
                   className="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-mono font-bold text-xs flex items-center gap-1.5 hover:brightness-105 transition-all shadow-[0_0_15px_rgba(245,158,11,0.3)]"
                 >
-                  <span>VISIT LIVE WEBSITE</span>
+                  <span>VISIT WEBSITE</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               ) : (
@@ -232,7 +232,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                 className="w-full sm:w-auto !py-2.5 !px-5 text-xs font-bold font-mono !rounded-xl"
                 cursorLabel="VISIT"
               >
-                <span>VISIT LIVE WEBSITE</span>
+                <span>VISIT WEBSITE</span>
                 <ExternalLink className="w-3.5 h-3.5 text-slate-950" />
               </MagneticButton>
             ) : (

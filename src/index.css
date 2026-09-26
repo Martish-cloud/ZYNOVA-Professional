@@ -306,3 +306,16 @@
     transform: none !important;
   }
 }
+
+/* Hardware Compositing & Rendering Isolation */
+.gpu-layer {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Project Card & Section Containment for High-FPS Scrolling */
+.contain-content {
+  contain: content;
+}
+

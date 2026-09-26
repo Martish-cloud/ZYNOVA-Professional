@@ -234,13 +234,13 @@ export const projectsData: ProjectItem[] = [
     id: "bookverse",
     title: "BookVerse",
     subtitle: "Book Store / E-commerce",
-    category: "Web",
-    filterCategory: "web",
-    shortDesc: "Online bookstore with catalogue browsing, search, shopping cart and checkout.",
-    overview: "BookVerse recreates the tactile joy of exploring an independent bookstore in a digital space, highlighting author spotlights, sample chapters, and reading shelves.",
+    category: "Book Store / E-commerce",
+    filterCategory: "ecommerce",
+    shortDesc: "A modern online bookstore featuring curated books, organized categories, and a user-friendly browsing experience.",
+    overview: "BookVerse is a modern online bookstore featuring curated books, organized categories, author spotlights, sample chapter previews, dynamic reading shelves, and a user-friendly shopping experience.",
     challenge: "Balancing editorial typography with efficient e-commerce mechanics and digital excerpt readers without visual noise.",
-    solution: "Designed an elegant serif-enhanced reading typography system with an in-browser sample previewer and custom recommendation engine.",
-    technologies: ["React.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    solution: "Designed an elegant serif-enhanced reading typography system with an in-browser sample previewer, shopping cart drawer, and custom recommendation engine.",
+    technologies: ["React.js", "TypeScript", "Tailwind CSS", "Modern UI/UX", "Cloudflare"],
     keyFeatures: [
       "Extensive literary book catalogue",
       "Genre, fiction & non-fiction categories",
@@ -262,7 +262,7 @@ export const projectsData: ProjectItem[] = [
       premiumPrice: "$780 – $1,020",
       customPrice: "Up to $1,200+"
     },
-    demoUrl: ""
+    demoUrl: "https://bookverse.zynovaprofessional.workers.dev/"
   },
   {
     id: "homex",
@@ -373,13 +373,13 @@ export const projectsData: ProjectItem[] = [
     id: "mediwell",
     title: "MediWell",
     subtitle: "Healthcare Platform",
-    category: "Business",
+    category: "Healthcare Platform",
     filterCategory: "business",
-    shortDesc: "Healthcare service website with doctor profiles, services and appointment functionality.",
-    overview: "MediWell streamlines digital patient engagement for clinical practices, offering accessible appointment inquiries, department information, and doctor directories. Note: MediWell is a healthcare digital services platform and does not make medical claims or act as a medical device.",
+    shortDesc: "A modern healthcare platform designed to help users explore healthcare services, medical information, and doctor-related features through an intuitive interface.",
+    overview: "MediWell is a modern healthcare platform designed to help users explore healthcare services, medical information, specialist doctor credentials, and appointment inquiry features through an intuitive, accessible digital interface.",
     challenge: "Designing an accessible, dignified interface for visitors while organizing specialist profiles and department inquiries with clarity.",
     solution: "Implemented high-contrast accessible typography, department breakdown directories, and a streamlined doctor appointment consultation request module.",
-    technologies: ["React.js", "TypeScript", "Tailwind CSS", "Lucide Icons"],
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "React.js", "Vercel"],
     keyFeatures: [
       "Clinical & healthcare services overview",
       "Specialist doctor profiles & credentials",
@@ -400,7 +400,7 @@ export const projectsData: ProjectItem[] = [
       premiumPrice: "$900 – $1,320",
       customPrice: "Up to $1,800+"
     },
-    demoUrl: ""
+    demoUrl: "https://medi-well-ten.vercel.app/"
   },
   {
     id: "freshmart",

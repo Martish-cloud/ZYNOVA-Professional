@@ -174,6 +174,8 @@ export const CustomCursor: React.FC = () => {
       ringClasses = "border border-amber-400/40 bg-amber-500/5";
   }
 
+  if (isTouchDevice) return null;
+
   return (
     <div 
       className={`fixed inset-0 pointer-events-none z-99999 transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}

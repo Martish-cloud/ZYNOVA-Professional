@@ -41,14 +41,10 @@ export function useInViewAnimation<T extends HTMLElement = HTMLDivElement>(
 
     let isDisposed = false;
 
-    // Fail-safe visibility timeout: guarantees text is never permanently stuck hidden
-    const failSafeTimer = setTimeout(() => {
-      if (!isDisposed && node) {
-        const rect = node.getBoundingClientRect();
-        // If element is already anywhere in the viewport, force visible
-        if (rect.top < window.innerHeight + 100 && rect.bottom > -100) {
-          setIsInView(true);
-        }
+    // Fail-safe visibility timeout: guarantees text is never permanently stuck hidden without triggering layout thrashing
+    let failSafeTimer: ReturnType<typeof setTimeout> | null = setTimeout(() => {
+      if (!isDisposed) {
+        setIsInView(true);
       }
     }, failSafeMs);
 
@@ -57,6 +53,10 @@ export function useInViewAnimation<T extends HTMLElement = HTMLDivElement>(
         if (isDisposed) return;
 
         if (entry.isIntersecting) {
+          if (failSafeTimer) {
+            clearTimeout(failSafeTimer);
+            failSafeTimer = null;
+          }
           setIsInView(true);
         } else if (retrigger) {
           // When scrolled out of the trigger area, reset so it can re-trigger cleanly upon return
@@ -73,7 +73,7 @@ export function useInViewAnimation<T extends HTMLElement = HTMLDivElement>(
 
     return () => {
       isDisposed = true;
-      clearTimeout(failSafeTimer);
+      if (failSafeTimer) clearTimeout(failSafeTimer);
       observer.disconnect();
     };
   }, [threshold, rootMargin, retrigger, failSafeMs, prefersReducedMotion]);

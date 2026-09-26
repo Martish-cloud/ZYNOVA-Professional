@@ -40,6 +40,7 @@ const ExcelCard = React.memo<{ onSelect: () => void }>(({ onSelect }) => {
       onClick={onSelect}
       onMouseEnter={() => setCursor("project", "VIEW")}
       onMouseLeave={resetCursor}
+      style={{ contain: "content" }}
       className="group relative rounded-xl bg-gradient-to-b from-slate-900/80 via-[#0a0c16] to-[#06070d] border border-emerald-500/25 hover:border-emerald-400/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_30px_-10px_rgba(16,185,129,0.25)] flex flex-col justify-between cursor-pointer overflow-hidden h-full"
     >
       {/* Subtle glow accent */}
@@ -165,6 +166,7 @@ const PowerBICard = React.memo<{ onSelect: () => void }>(({ onSelect }) => {
       onClick={onSelect}
       onMouseEnter={() => setCursor("project", "VIEW")}
       onMouseLeave={resetCursor}
+      style={{ contain: "content" }}
       className="group relative rounded-xl bg-gradient-to-b from-slate-900/80 via-[#0a0c16] to-[#06070d] border border-amber-500/25 hover:border-amber-400/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_30px_-10px_rgba(245,158,11,0.25)] flex flex-col justify-between cursor-pointer overflow-hidden h-full"
     >
       {/* Subtle glow accent */}
@@ -297,6 +299,7 @@ const ProjectCard = React.memo<{
       }}
       onMouseEnter={() => setCursor("project", "VIEW")}
       onMouseLeave={resetCursor}
+      style={{ contain: "content" }}
       className={`group relative rounded-xl bg-gradient-to-b from-slate-900/70 via-slate-900/40 to-slate-950/90 border ${
         project.platform === "iOS"
           ? "border-purple-500/25 hover:border-purple-400/60 hover:shadow-[0_15px_30px_-10px_rgba(168,85,247,0.25)]"
@@ -462,7 +465,7 @@ const ProjectCard = React.memo<{
             }}
             className="font-heading uppercase tracking-wider text-[8.5px] sm:text-[9.5px] font-semibold text-slate-400 group-hover:text-amber-300 transition-colors flex items-center gap-0.5 cursor-pointer truncate"
           >
-            <span>Architecture</span>
+            <span>VIEW ARCHITECTURE</span>
             <ArrowRight className="w-2.5 h-2.5 text-slate-500 group-hover:text-amber-300 shrink-0" />
           </button>
 

@@ -87,14 +87,21 @@ export const FeaturedProjects: React.FC = () => {
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
 
-  // Track window resizing for responsive 3D card layout calculations
+  // Track window resizing for responsive 3D card layout calculations with RAF throttling
   useEffect(() => {
+    let resizeTimer: number | null = null;
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
+      if (resizeTimer) cancelAnimationFrame(resizeTimer);
+      resizeTimer = requestAnimationFrame(() => {
+        setWindowWidth(window.innerWidth);
+      });
     };
 
     window.addEventListener("resize", handleResize, { passive: true });
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      if (resizeTimer) cancelAnimationFrame(resizeTimer);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   // IntersectionObserver to pause auto-rotate when section is not in view
@@ -164,7 +171,7 @@ export const FeaturedProjects: React.FC = () => {
   };
 
   // Card slot calculation (5 positions: center, right, deep right, deep left, left)
-  const getSlotConfig = (index: number) => {
+  const getSlotConfig = useCallback((index: number) => {
     const count = FEATURED_PROJECTS.length;
     const diff = (index - activeIndex + count) % count;
 
@@ -247,7 +254,7 @@ export const FeaturedProjects: React.FC = () => {
         isCenter: false
       };
     }
-  };
+  }, [activeIndex, windowWidth]);
 
   return (
     <section

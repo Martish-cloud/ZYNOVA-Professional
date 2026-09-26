@@ -98,9 +98,9 @@ export const PortfolioImage: React.FC<PortfolioImageProps> = ({
   return (
     <picture className="w-full h-full block">
       {/* Primary modern WebP source for high performance */}
-      <source srcSet={webpSrc} type="image/webp" />
+      {fallbackStage === 0 && <source srcSet={webpSrc} type="image/webp" />}
       {/* Reliable PNG fallback source for older mobile browsers / WebViews */}
-      <source srcSet={pngSrc} type="image/png" />
+      {(fallbackStage === 0 || fallbackStage === 1) && <source srcSet={pngSrc} type="image/png" />}
       <img
         ref={imgRef}
         src={currentSrc}
