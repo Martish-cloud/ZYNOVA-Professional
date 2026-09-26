@@ -6,6 +6,7 @@ import { Hero } from "./sections/Hero";
 import { Stats } from "./sections/Stats";
 import { About } from "./sections/About";
 import { Services } from "./sections/Services";
+import { FeaturedProjects } from "./sections/FeaturedProjects";
 import { TechStack } from "./sections/TechStack";
 import { DataSolutions } from "./sections/DataSolutions";
 import { Projects } from "./sections/Projects";
@@ -78,6 +79,9 @@ export const App: React.FC = () => {
 
           {/* Large Services Section with Modal */}
           <Services onSelectServiceForBooking={handleSelectServiceForBooking} />
+
+          {/* Featured Projects / Signature Work Showcase (3D Layered Floating Cards) */}
+          <FeaturedProjects />
 
           {/* Modern Technology Stack */}
           <TechStack />
