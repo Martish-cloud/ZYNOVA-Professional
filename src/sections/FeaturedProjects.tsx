@@ -44,16 +44,6 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     tech: ["React", "Tailwind CSS", "Cloudflare", "Framer"]
   },
   {
-    id: "r-python",
-    title: "R & Python",
-    category: "Data Science & Automation",
-    description: "Advanced statistical modeling, custom automation pipelines, predictive analytics, and machine learning scripts.",
-    url: "https://k-zynova2.vercel.app/",
-    image: "/projects/amit-halder-portfolio.webp",
-    badge: "Advanced Analytics",
-    tech: ["Python", "R", "Pandas", "Automation"]
-  },
-  {
     id: "aaranya-silks",
     title: "Aaranya Silks",
     category: "Luxury Fashion / Saree E-commerce",
