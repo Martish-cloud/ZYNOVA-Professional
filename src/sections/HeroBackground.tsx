@@ -1,44 +1,130 @@
 import React, { useEffect, useRef } from "react";
 
-interface Point3D {
-  x: number;
-  y: number;
-  z: number;
+// --- Matrix3 Helper Type & Math ---
+interface Matrix3 {
+  m00: number; m01: number; m02: number;
+  m10: number; m11: number; m12: number;
+  m20: number; m21: number; m22: number;
 }
 
-interface ProjectedPoint {
+// Token Symbol Types
+type TokenSymbol =
+  | "ethereum"
+  | "bitcoin"
+  | "solana"
+  | "polygon"
+  | "binance"
+  | "zynova"
+  | "ai-sparkle"
+  | "infinity";
+
+interface TokenConfig {
+  symbol: TokenSymbol;
+  color: string;         // Primary vibrant accent (e.g. #10B981)
+  glowColor: string;     // Luminous halo glow (e.g. #34D399)
+  specularColor: string; // Specular rim reflection (e.g. #A7F3D0)
+  darkBase: string;      // Metallic rim body shade
+  baseRadius: number;
+  thickness: number;
+  // Spatial orbit parameters
+  orbitAngle: number;
+  orbitRadiusX: number;
+  orbitRadiusY: number;
+  baseZ: number;
+  speed: number;
+  // Rotation states & angular velocities
+  rotX: number;
+  rotY: number;
+  rotZ: number;
+  vx: number;
+  vy: number;
+  vz: number;
+  bobPhase: number;
+  bobSpeed: number;
+}
+
+interface LightRod {
   x: number;
   y: number;
-  scale: number;
   z: number;
+  length: number;
+  radius: number;
+  rotX: number;
+  rotY: number;
+  rotZ: number;
+  vx: number;
+  vy: number;
+  color: string;
+  glowColor: string;
+  bobPhase: number;
+}
+
+interface DustMote {
+  x: number;
+  y: number;
+  z: number;
+  vx: number;
+  vy: number;
+  vz: number;
+  radius: number;
+  color: string;
+  alpha: number;
+  pulsePhase: number;
+}
+
+// Rotation matrix constructor (Pitch X, Yaw Y, Roll Z)
+function createRotationMatrix(ax: number, ay: number, az: number): Matrix3 {
+  const cx = Math.cos(ax), sx = Math.sin(ax);
+  const cy = Math.cos(ay), sy = Math.sin(ay);
+  const cz = Math.cos(az), sz = Math.sin(az);
+
+  return {
+    m00: cy * cz,
+    m01: sx * sy * cz - cx * sz,
+    m02: cx * sy * cz + sx * sz,
+    m10: cy * sz,
+    m11: sx * sy * sz + cx * cz,
+    m12: cx * sy * sz - sx * cz,
+    m20: -sy,
+    m21: sx * cy,
+    m22: cx * cy
+  };
 }
 
 export const HeroBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
     let animationFrameId: number;
-    let isMobile = window.innerWidth < 768;
-    let dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.2 : 1.6);
+    let isLoopRunning = false;
+    let isIntersecting = true;
+    let isHidden = typeof document !== "undefined" ? document.hidden : false;
 
     let width = window.innerWidth;
     let height = window.innerHeight;
+    let isMobile = width < 768;
+    let dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.6);
 
     const setCanvasSize = () => {
       if (!canvas) return;
       width = window.innerWidth;
       height = window.innerHeight;
       isMobile = width < 768;
-      dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.2 : 1.6);
+      dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 1.6);
+
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
+
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
     };
@@ -46,435 +132,754 @@ export const HeroBackground: React.FC = () => {
     setCanvasSize();
     window.addEventListener("resize", setCanvasSize, { passive: true });
 
-    // Mouse interactive coordinates
+    // Interactive mouse parallax
     const mouse = {
-      x: width * 0.75,
-      y: height * 0.5,
-      targetX: width * 0.75,
-      targetY: height * 0.5
+      x: 0,
+      y: 0,
+      targetX: 0,
+      targetY: 0
     };
 
-    let isIntersecting = true;
-    let isHidden = typeof document !== "undefined" ? document.hidden : false;
-    let isLoopRunning = false;
-
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isIntersecting) return;
-      mouse.targetX = e.clientX;
-      mouse.targetY = e.clientY;
+      const centerX = width / 2;
+      const centerY = height / 2;
+      mouse.targetX = (e.clientX - centerX) * 0.04;
+      mouse.targetY = (e.clientY - centerY) * 0.04;
     };
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
-    // --- 3D Geometric Crystal Structure (Inspired by High-End Luxury Obsidian & Gold Prism Facets) ---
-    // Defined relative to crystal origin
-    const baseVertices: Point3D[] = [
-      // Central apex & primary specular ridges
-      { x: 0, y: 0, z: 160 },           // 0: Main central crystal peak
-      { x: -80, y: -60, z: 120 },       // 1: Upper-left golden facet peak
-      { x: -140, y: 70, z: 100 },       // 2: Mid-left front point
-      { x: 30, y: 90, z: 130 },         // 3: Lower-front point
-      { x: 120, y: -20, z: 110 },       // 4: Right front point
-
-      // Outer perimeter points
-      { x: -70, y: -240, z: 50 },       // 5: Top-left high apex
-      { x: 90, y: -220, z: 60 },        // 6: Top-right high apex
-      { x: 230, y: -90, z: 50 },        // 7: Far-right upper point
-      { x: 240, y: 110, z: 40 },        // 8: Far-right lower point
-      { x: 80, y: 270, z: 45 },         // 9: Bottom-right point
-      { x: -110, y: 250, z: 30 },       // 10: Bottom-left point
-      { x: -260, y: 130, z: 35 },       // 11: Far-left lower point
-      { x: -280, y: -80, z: 40 },       // 12: Far-left upper point
-      { x: -190, y: -200, z: 20 },      // 13: Top-left outer flank
-
-      // Background depth points (deep shadows & rim light)
-      { x: -150, y: -300, z: -70 },     // 14
-      { x: 160, y: -290, z: -80 },      // 15
-      { x: 310, y: 0, z: -90 },         // 16
-      { x: 200, y: 310, z: -85 },       // 17
-      { x: -180, y: 320, z: -75 },      // 18
-      { x: -340, y: 0, z: -90 }         // 19
+    // --- Master Palette inspired by reference video ---
+    // Emerald Green, Electric Cyan, Imperial Gold, Violet Amethyst, Coral Rose, Lime Mint
+    const PALETTE = [
+      { color: "#10B981", glow: "#34D399", specular: "#A7F3D0", darkBase: "#052016" }, // Emerald
+      { color: "#06B6D4", glow: "#38BDF8", specular: "#BAE6FD", darkBase: "#072031" }, // Cyan
+      { color: "#F59E0B", glow: "#FBBF24", specular: "#FEF08A", darkBase: "#2A1A05" }, // Gold
+      { color: "#8B5CF6", glow: "#A855F7", specular: "#E9D5FF", darkBase: "#1D0F38" }, // Violet
+      { color: "#F43F5E", glow: "#FB7185", specular: "#FECDD3", darkBase: "#300817" }, // Rose / Magenta
+      { color: "#10E7A0", glow: "#6EE7B7", specular: "#D1FAE5", darkBase: "#062A1F" }, // Mint Lime
+      { color: "#3B82F6", glow: "#60A5FA", specular: "#BFDBFE", darkBase: "#0A1D3D" }, // Royal Blue
+      { color: "#EC4899", glow: "#F472B6", specular: "#FBCFE8", darkBase: "#2E0A21" }  // Hot Pink
     ];
 
-    // Triangular facets forming the crystal mesh
-    const faces: number[][] = [
-      // Central prominent facets
-      [0, 1, 4],
-      [1, 2, 0],
-      [0, 2, 3],
-      [0, 3, 4],
-      
-      // Upper crown
-      [1, 5, 6],
-      [1, 6, 4],
-      [5, 1, 13],
-      [13, 1, 12],
-      [12, 1, 2],
-
-      // Right flank
-      [4, 6, 7],
-      [4, 7, 8],
-      [4, 8, 3],
-      [3, 8, 9],
-
-      // Lower base
-      [3, 9, 10],
-      [2, 3, 10],
-      [2, 10, 11],
-      [12, 2, 11],
-
-      // Background depth facets (obsidian crystal body)
-      [5, 14, 15],
-      [5, 15, 6],
-      [6, 15, 16],
-      [6, 16, 7],
-      [7, 16, 8],
-      [8, 16, 17],
-      [8, 17, 9],
-      [9, 17, 18],
-      [9, 18, 10],
-      [10, 18, 11],
-      [11, 18, 19],
-      [11, 19, 12],
-      [12, 19, 13],
-      [13, 19, 14],
-      [13, 14, 5]
+    const SYMBOLS: TokenSymbol[] = [
+      "ethereum",
+      "bitcoin",
+      "solana",
+      "polygon",
+      "binance",
+      "zynova",
+      "ai-sparkle",
+      "infinity"
     ];
 
-    // Floating golden dust particles / embers
-    const particles = Array.from({ length: 45 }, () => ({
-      x: (Math.random() * 0.7 + 0.3) * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: -Math.random() * 0.4 - 0.1,
-      size: Math.random() * 2 + 0.8,
-      alpha: Math.random() * 0.7 + 0.2,
-      pulse: Math.random() * Math.PI * 2,
-      color: Math.random() > 0.3 ? "#D4AF37" : "#F4E4BC"
-    }));
+    // --- Initialize 3D Floating Coins (Tokens) ---
+    // Token count: Desktop 13, Mobile 7
+    const tokenCount = isMobile ? 7 : 13;
 
-    // Pre-allocated buffers to prevent GC pauses
-    const projected: ProjectedPoint[] = baseVertices.map(() => ({
-      x: 0,
-      y: 0,
-      scale: 0,
-      z: 0
-    }));
+    // Distribute tokens in an elliptical perimeter halo around center
+    const tokens: TokenConfig[] = Array.from({ length: tokenCount }, (_, i) => {
+      const pal = PALETTE[i % PALETTE.length];
+      const sym = SYMBOLS[i % SYMBOLS.length];
 
-    const sortedFaces = faces.map((indices) => ({
-      indices,
-      avgZ: 0
-    }));
+      // Normalized angle around the ellipse
+      const angle = (i / tokenCount) * Math.PI * 2 + (Math.random() * 0.3 - 0.15);
 
-    // Rotation angles with damping
-    let rotX = 0;
-    let rotY = 0;
-    let targetRotX = 0;
-    let targetRotY = 0;
-    let time = 0;
+      // Orbital ellipse radii: keeps tokens safely outside center headline
+      const rx = width * (isMobile ? 0.44 : 0.42) + (Math.random() * 60 - 30);
+      const ry = height * (isMobile ? 0.38 : 0.36) + (Math.random() * 60 - 30);
+
+      const rad = isMobile ? 26 + (i % 3) * 6 : 38 + (i % 4) * 8;
+      const thick = isMobile ? 8 : 12;
+
+      return {
+        symbol: sym,
+        color: pal.color,
+        glowColor: pal.glow,
+        specularColor: pal.specular,
+        darkBase: pal.darkBase,
+        baseRadius: rad,
+        thickness: thick,
+        orbitAngle: angle,
+        orbitRadiusX: rx,
+        orbitRadiusY: ry,
+        baseZ: (i % 5 - 2) * 50,
+        speed: (0.04 + (i % 4) * 0.015) * (i % 2 === 0 ? 1 : -1) * 0.5,
+        rotX: Math.random() * Math.PI * 2,
+        rotY: Math.random() * Math.PI * 2,
+        rotZ: Math.random() * Math.PI * 2,
+        vx: 0.18 + (i % 3) * 0.12,
+        vy: 0.28 + (i % 3) * 0.15,
+        vz: 0.15 + (i % 2) * 0.1,
+        bobPhase: Math.random() * Math.PI * 2,
+        bobSpeed: 0.6 + Math.random() * 0.5
+      };
+    });
+
+    // --- Initialize Floating 3D Luminous Rods (Light Cylinders from Video 00:05) ---
+    const rodCount = isMobile ? 2 : 4;
+    const lightRods: LightRod[] = Array.from({ length: rodCount }, (_, i) => {
+      const pal = PALETTE[(i * 2 + 1) % PALETTE.length];
+      const angle = ((i + 0.5) / rodCount) * Math.PI * 2;
+      return {
+        x: Math.cos(angle) * (width * 0.48),
+        y: Math.sin(angle) * (height * 0.42),
+        z: -80 + i * 40,
+        length: isMobile ? 80 : 130 + i * 20,
+        radius: isMobile ? 3 : 5,
+        rotX: Math.random() * Math.PI,
+        rotY: Math.random() * Math.PI,
+        rotZ: Math.random() * Math.PI,
+        vx: 0.2 + i * 0.1,
+        vy: 0.15 + i * 0.08,
+        color: pal.color,
+        glowColor: pal.glow,
+        bobPhase: Math.random() * Math.PI * 2
+      };
+    });
+
+    // --- Initialize Ambient Specular Dust / Motes ---
+    const moteCount = isMobile ? 22 : 42;
+    const dustMotes: DustMote[] = Array.from({ length: moteCount }, () => {
+      const pal = PALETTE[Math.floor(Math.random() * PALETTE.length)];
+      return {
+        x: (Math.random() - 0.5) * width * 1.3,
+        y: (Math.random() - 0.5) * height * 1.3,
+        z: (Math.random() - 0.5) * 400,
+        vx: (Math.random() - 0.5) * 12,
+        vy: -15 - Math.random() * 15,
+        vz: (Math.random() - 0.5) * 10,
+        radius: Math.random() * 1.6 + 0.6,
+        color: pal.glow,
+        alpha: Math.random() * 0.5 + 0.2,
+        pulsePhase: Math.random() * Math.PI * 2
+      };
+    });
+
+    // --- Draw Vector Emblem/Symbol inside rotated 2D context ---
+    const drawTokenSymbol = (
+      c: CanvasRenderingContext2D,
+      symbol: TokenSymbol,
+      r: number,
+      accent: string,
+      specular: string
+    ) => {
+      const s = r * 0.44;
+      c.save();
+      c.fillStyle = specular;
+      c.strokeStyle = accent;
+      c.lineWidth = Math.max(1.2, r * 0.04);
+      c.lineCap = "round";
+      c.lineJoin = "round";
+
+      switch (symbol) {
+        case "ethereum": {
+          // Top pyramid
+          c.beginPath();
+          c.moveTo(0, -s);
+          c.lineTo(s * 0.65, -s * 0.08);
+          c.lineTo(0, s * 0.32);
+          c.lineTo(-s * 0.65, -s * 0.08);
+          c.closePath();
+          c.fillStyle = specular;
+          c.globalAlpha = 0.9;
+          c.fill();
+          c.stroke();
+
+          // Left facet shade
+          c.beginPath();
+          c.moveTo(0, -s);
+          c.lineTo(0, s * 0.32);
+          c.lineTo(-s * 0.65, -s * 0.08);
+          c.closePath();
+          c.fillStyle = accent;
+          c.globalAlpha = 0.5;
+          c.fill();
+
+          // Bottom inverted pyramid
+          c.beginPath();
+          c.moveTo(0, s * 0.44);
+          c.lineTo(s * 0.65, s * 0.08);
+          c.lineTo(0, s);
+          c.lineTo(-s * 0.65, s * 0.08);
+          c.closePath();
+          c.fillStyle = specular;
+          c.globalAlpha = 0.85;
+          c.fill();
+          c.stroke();
+          break;
+        }
+
+        case "bitcoin": {
+          c.font = `bold ${Math.round(s * 1.55)}px sans-serif`;
+          c.textAlign = "center";
+          c.textBaseline = "middle";
+          c.fillStyle = specular;
+          c.globalAlpha = 0.95;
+          c.shadowColor = accent;
+          c.shadowBlur = 8;
+          c.fillText("₿", 0, s * 0.05);
+          break;
+        }
+
+        case "solana": {
+          // 3 parallel horizontal sheared bars
+          const barH = s * 0.32;
+          const barW = s * 1.25;
+          const shear = s * 0.28;
+          const ys = [-s * 0.62, 0, s * 0.62];
+
+          ys.forEach((y, idx) => {
+            c.beginPath();
+            if (idx === 1) {
+              // Reversed middle bar
+              c.moveTo(-barW / 2 + shear, y - barH / 2);
+              c.lineTo(barW / 2, y - barH / 2);
+              c.lineTo(barW / 2 - shear, y + barH / 2);
+              c.lineTo(-barW / 2, y + barH / 2);
+            } else {
+              c.moveTo(-barW / 2, y - barH / 2);
+              c.lineTo(barW / 2 - shear, y - barH / 2);
+              c.lineTo(barW / 2, y + barH / 2);
+              c.lineTo(-barW / 2 + shear, y + barH / 2);
+            }
+            c.closePath();
+            c.fillStyle = idx === 1 ? specular : accent;
+            c.globalAlpha = 0.9;
+            c.fill();
+          });
+          break;
+        }
+
+        case "polygon": {
+          // Polygon interconnected nodes
+          c.beginPath();
+          for (let k = 0; k < 6; k++) {
+            const th = (k / 6) * Math.PI * 2 - Math.PI / 6;
+            const px = Math.cos(th) * s * 0.9;
+            const py = Math.sin(th) * s * 0.9;
+            if (k === 0) c.moveTo(px, py);
+            else c.lineTo(px, py);
+          }
+          c.closePath();
+          c.lineWidth = Math.max(1.5, r * 0.06);
+          c.strokeStyle = specular;
+          c.stroke();
+
+          // Center node
+          c.beginPath();
+          c.arc(0, 0, s * 0.26, 0, Math.PI * 2);
+          c.fillStyle = accent;
+          c.fill();
+          break;
+        }
+
+        case "binance": {
+          // Rotated central diamond
+          c.save();
+          c.rotate(Math.PI / 4);
+          const dSize = s * 0.6;
+          c.strokeRect(-dSize / 2, -dSize / 2, dSize, dSize);
+
+          // 4 outer corner triangles
+          const off = s * 0.68;
+          const tri = s * 0.22;
+          const pts = [
+            [0, -off],
+            [off, 0],
+            [0, off],
+            [-off, 0]
+          ];
+          pts.forEach(([ox, oy]) => {
+            c.beginPath();
+            c.arc(ox, oy, tri, 0, Math.PI * 2);
+            c.fillStyle = specular;
+            c.fill();
+          });
+          c.restore();
+          break;
+        }
+
+        case "zynova": {
+          // Luxury geometric Z monogram
+          c.beginPath();
+          c.moveTo(-s * 0.75, -s * 0.7);
+          c.lineTo(s * 0.75, -s * 0.7);
+          c.lineTo(-s * 0.65, s * 0.7);
+          c.lineTo(s * 0.75, s * 0.7);
+          c.lineWidth = Math.max(2.5, r * 0.1);
+          c.strokeStyle = specular;
+          c.shadowColor = accent;
+          c.shadowBlur = 10;
+          c.stroke();
+          break;
+        }
+
+        case "ai-sparkle": {
+          // 4-point star node
+          c.beginPath();
+          c.moveTo(0, -s);
+          c.quadraticCurveTo(0, 0, s, 0);
+          c.quadraticCurveTo(0, 0, 0, s);
+          c.quadraticCurveTo(0, 0, -s, 0);
+          c.quadraticCurveTo(0, 0, 0, -s);
+          c.closePath();
+          c.fillStyle = specular;
+          c.fill();
+          c.strokeStyle = accent;
+          c.stroke();
+
+          // Center micro gem
+          c.beginPath();
+          c.arc(0, 0, s * 0.2, 0, Math.PI * 2);
+          c.fillStyle = "#ffffff";
+          c.fill();
+          break;
+        }
+
+        case "infinity": {
+          // Figure 8 infinity loop
+          c.beginPath();
+          const iw = s * 0.65;
+          c.arc(-iw, 0, s * 0.38, 0, Math.PI * 2);
+          c.arc(iw, 0, s * 0.38, 0, Math.PI * 2);
+          c.lineWidth = Math.max(2, r * 0.08);
+          c.strokeStyle = specular;
+          c.stroke();
+          break;
+        }
+      }
+
+      c.restore();
+    };
+
+    // --- Main Render Loop with Delta Time ---
+    let lastTime = performance.now();
+
+    const render = (now: number) => {
+      if (!isLoopRunning) return;
+
+      const dt = Math.min((now - lastTime) / 1000, 0.05);
+      lastTime = now;
+
+      // Smooth mouse lerp
+      mouse.x += (mouse.targetX - mouse.x) * 0.06;
+      mouse.y += (mouse.targetY - mouse.y) * 0.06;
+
+      // Clear Canvas
+      ctx.clearRect(0, 0, width, height);
+
+      const centerX = width / 2 + mouse.x;
+      const centerY = height / 2 + mouse.y;
+      const focalLength = 750;
+
+      // Safe exclusion ellipse radius around hero headline
+      const safeRadiusX = Math.min(width * 0.32, 400);
+      const safeRadiusY = Math.min(height * 0.32, 300);
+
+      // Collect renderable items for depth sorting (Painter's Algorithm)
+      type RenderItem =
+        | { type: "token"; depth: number; index: number }
+        | { type: "rod"; depth: number; index: number }
+        | { type: "mote"; depth: number; index: number };
+
+      const renderQueue: RenderItem[] = [];
+
+      // 1. Update Tokens
+      for (let i = 0; i < tokens.length; i++) {
+        const t = tokens[i];
+        t.orbitAngle += t.speed * dt;
+        t.rotX += t.vx * dt;
+        t.rotY += t.vy * dt;
+        t.rotZ += t.vz * dt;
+        t.bobPhase += t.bobSpeed * dt;
+
+        // Position on 3D orbit
+        let px = Math.cos(t.orbitAngle) * t.orbitRadiusX;
+        let py = Math.sin(t.orbitAngle) * t.orbitRadiusY + Math.sin(t.bobPhase) * 16;
+        let pz = t.baseZ + Math.cos(t.bobPhase * 0.8) * 35;
+
+        // Soft repulsion from center headline area
+        const distNorm = Math.pow(px / safeRadiusX, 2) + Math.pow(py / safeRadiusY, 2);
+        if (distNorm < 1.0) {
+          const push = (1.0 - distNorm) * 80;
+          const ang = Math.atan2(py, px);
+          px += Math.cos(ang) * push;
+          py += Math.sin(ang) * push;
+        }
+
+        renderQueue.push({ type: "token", depth: pz, index: i });
+      }
+
+      // 2. Update Light Rods
+      for (let i = 0; i < lightRods.length; i++) {
+        const rod = lightRods[i];
+        rod.rotX += rod.vx * dt;
+        rod.rotY += rod.vy * dt;
+        rod.bobPhase += dt * 0.5;
+        renderQueue.push({ type: "rod", depth: rod.z, index: i });
+      }
+
+      // 3. Update Dust Motes
+      for (let i = 0; i < dustMotes.length; i++) {
+        const m = dustMotes[i];
+        m.x += m.vx * dt;
+        m.y += m.vy * dt;
+        m.z += m.vz * dt;
+        m.pulsePhase += dt * 2;
+
+        // Wrap around boundaries
+        if (m.y < -height * 0.7) m.y = height * 0.7;
+        if (m.x < -width * 0.7) m.x = width * 0.7;
+        if (m.x > width * 0.7) m.x = -width * 0.7;
+
+        renderQueue.push({ type: "mote", depth: m.z, index: i });
+      }
+
+      // Depth sort: back items (lower depth) drawn first, front items on top
+      renderQueue.sort((a, b) => a.depth - b.depth);
+
+      // --- Render Sorted Queue ---
+      for (const item of renderQueue) {
+        if (item.type === "mote") {
+          const m = dustMotes[item.index];
+          const zCam = m.z + focalLength;
+          if (zCam < 20) continue;
+          const scale = focalLength / zCam;
+          const sx = centerX + m.x * scale;
+          const sy = centerY + m.y * scale;
+
+          if (sx < -20 || sx > width + 20 || sy < -20 || sy > height + 20) continue;
+
+          const currentAlpha = Math.max(0.1, m.alpha + Math.sin(m.pulsePhase) * 0.2);
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(sx, sy, Math.max(0.8, m.radius * scale), 0, Math.PI * 2);
+          ctx.fillStyle = m.color;
+          ctx.globalAlpha = currentAlpha;
+          ctx.shadowColor = m.color;
+          ctx.shadowBlur = 6;
+          ctx.fill();
+          ctx.restore();
+        } else if (item.type === "rod") {
+          const rod = lightRods[item.index];
+          const zCam = rod.z + focalLength;
+          if (zCam < 50) continue;
+          const scale = focalLength / zCam;
+
+          const cx = centerX + rod.x * scale;
+          const cy = centerY + rod.y * scale + Math.sin(rod.bobPhase) * 15;
+
+          // Rod orientation vectors in 3D
+          const mat = createRotationMatrix(rod.rotX, rod.rotY, rod.rotZ);
+          const halfL = (rod.length / 2) * scale;
+          const p1x = cx - mat.m00 * halfL;
+          const p1y = cy - mat.m10 * halfL;
+          const p2x = cx + mat.m00 * halfL;
+          const p2y = cy + mat.m10 * halfL;
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(p1x, p1y);
+          ctx.lineTo(p2x, p2y);
+
+          const grad = ctx.createLinearGradient(p1x, p1y, p2x, p2y);
+          grad.addColorStop(0, "rgba(255,255,255,0.9)");
+          grad.addColorStop(0.3, rod.color);
+          grad.addColorStop(0.7, rod.glowColor);
+          grad.addColorStop(1, "rgba(255,255,255,0.1)");
+
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = Math.max(2, rod.radius * scale);
+          ctx.lineCap = "round";
+          ctx.shadowColor = rod.glowColor;
+          ctx.shadowBlur = 14;
+          ctx.stroke();
+          ctx.restore();
+        } else if (item.type === "token") {
+          const t = tokens[item.index];
+
+          // 3D position
+          const px = Math.cos(t.orbitAngle) * t.orbitRadiusX;
+          const py = Math.sin(t.orbitAngle) * t.orbitRadiusY + Math.sin(t.bobPhase) * 16;
+          const pz = t.baseZ + Math.cos(t.bobPhase * 0.8) * 35;
+
+          const zCam = pz + focalLength;
+          if (zCam < 40) continue;
+          const scale = focalLength / zCam;
+
+          const projX = centerX + px * scale;
+          const projY = centerY + py * scale;
+
+          if (
+            projX < -150 ||
+            projX > width + 150 ||
+            projY < -150 ||
+            projY > height + 150
+          ) {
+            continue;
+          }
+
+          const r = t.baseRadius * scale;
+          const thick = t.thickness * scale;
+
+          // Rotation matrix for orientation
+          const mat = createRotationMatrix(t.rotX, t.rotY, t.rotZ);
+
+          // Basis vectors
+          // u: local X, v: local Y, n: normal vector
+          const ux = mat.m00, uy = mat.m10, uz = mat.m20;
+          const vx = mat.m01, vy = mat.m11, vz = mat.m21;
+          const nx = mat.m02, ny = mat.m12, nz = mat.m22;
+
+          // Front face center and back face center in 2D
+          const halfT = thick / 2;
+          const frontX = projX + nx * halfT;
+          const frontY = projY + ny * halfT;
+          const backX = projX - nx * halfT;
+          const backY = projY - ny * halfT;
+
+          // Facing factor: positive means front face is facing camera
+          const isFrontFacing = nz >= 0;
+
+          // --- 1. Soft Ambient Color Halo Behind Token ---
+          ctx.save();
+          const haloGrad = ctx.createRadialGradient(
+            projX, projY, r * 0.2,
+            projX, projY, r * 2.2
+          );
+          haloGrad.addColorStop(0, t.glowColor + "22");
+          haloGrad.addColorStop(0.5, t.color + "11");
+          haloGrad.addColorStop(1, "transparent");
+          ctx.fillStyle = haloGrad;
+          ctx.beginPath();
+          ctx.arc(projX, projY, r * 2.2, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+
+          // --- 2. Render 3D Cylindrical Rim (Edge of the Coin) ---
+          // Sample vertices along the circumference
+          const segments = isMobile ? 18 : 28;
+          const step = (Math.PI * 2) / segments;
+
+          // Light vector pointing from top-left toward scene
+          const lx = -0.4, ly = -0.8, lz = 0.45;
+          const lLen = Math.hypot(lx, ly, lz);
+          const nlx = lx / lLen, nly = ly / lLen, nlz = lz / lLen;
+
+          for (let k = 0; k < segments; k++) {
+            const a1 = k * step;
+            const a2 = (k + 1) * step;
+
+            const c1 = Math.cos(a1), s1 = Math.sin(a1);
+            const c2 = Math.cos(a2), s2 = Math.sin(a2);
+
+            // Unit circle points in local space
+            const ex1 = c1 * ux + s1 * vx;
+            const ey1 = c1 * uy + s1 * vy;
+            const ez1 = c1 * uz + s1 * vz;
+
+            const ex2 = c2 * ux + s2 * vx;
+            const ey2 = c2 * uy + s2 * vy;
+
+            // Average edge normal for this segment
+            const segNx = (ex1 + ex2) * 0.5;
+            const segNy = (ey1 + ey2) * 0.5;
+            const segNz = (ez1 + (c2 * uz + s2 * vz)) * 0.5;
+
+            // Only draw edge quads facing the camera in 2D
+            // In screen space, normal component pointing towards viewer (positive Z)
+            if (segNz < -0.15 && Math.abs(nz) > 0.96) {
+              // Nearly flat facing, hide back edge
+              continue;
+            }
+
+            // Projected 4 corners of edge segment
+            const f1x = frontX + ex1 * r;
+            const f1y = frontY + ey1 * r;
+            const f2x = frontX + ex2 * r;
+            const f2y = frontY + ey2 * r;
+
+            const b1x = backX + ex1 * r;
+            const b1y = backY + ey1 * r;
+            const b2x = backX + ex2 * r;
+            const b2y = backY + ey2 * r;
+
+            // Cross product in 2D to check winding order (backface culling of edge)
+            const edgeWinding = (f2x - f1x) * (b1y - f1y) - (f2y - f1y) * (b1x - f1x);
+            if (edgeWinding <= 0 && Math.abs(nz) > 0.1) continue;
+
+            // Diffuse lighting
+            const dotL = Math.max(0, segNx * nlx + segNy * nly + segNz * nlz);
+            // Specular reflection glint
+            const spec = Math.pow(dotL, 12);
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(f1x, f1y);
+            ctx.lineTo(f2x, f2y);
+            ctx.lineTo(b2x, b2y);
+            ctx.lineTo(b1x, b1y);
+            ctx.closePath();
+
+            // Edge gradient shading
+            const edgeGrad = ctx.createLinearGradient(f1x, f1y, b1x, b1y);
+            edgeGrad.addColorStop(0, t.darkBase);
+            edgeGrad.addColorStop(
+              0.5,
+              dotL > 0.4 ? t.color : "#12151D"
+            );
+            edgeGrad.addColorStop(1, "#0A0C12");
+
+            ctx.fillStyle = edgeGrad;
+            ctx.fill();
+
+            // Bright specular neon streak on upper/reflective edge
+            if (spec > 0.2 || dotL > 0.6) {
+              ctx.strokeStyle = t.specularColor;
+              ctx.globalAlpha = Math.min(1, spec * 1.5 + 0.3);
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+            ctx.restore();
+          }
+
+          // --- 3. Render Coin Face (Front or Back) ---
+          const faceX = isFrontFacing ? frontX : backX;
+          const faceY = isFrontFacing ? frontY : backY;
+
+          ctx.save();
+          // Transform context using projection matrix of the face circle
+          // Local unit vector X maps to (ux, uy), Local Y maps to (vx, vy)
+          ctx.transform(ux, uy, vx, vy, faceX, faceY);
+
+          // Face Disc base
+          ctx.beginPath();
+          ctx.arc(0, 0, r, 0, Math.PI * 2);
+
+          // Metallic Gunmetal & Obsidian face gradient
+          const faceGrad = ctx.createRadialGradient(
+            -r * 0.25, -r * 0.25, r * 0.1,
+            0, 0, r
+          );
+          faceGrad.addColorStop(0, "#222736");
+          faceGrad.addColorStop(0.4, "#131722");
+          faceGrad.addColorStop(0.85, "#0A0D14");
+          faceGrad.addColorStop(1, t.darkBase);
+
+          ctx.fillStyle = faceGrad;
+          ctx.fill();
+
+          // Subtle inner groove ring
+          ctx.beginPath();
+          ctx.arc(0, 0, r * 0.82, 0, Math.PI * 2);
+          ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+          ctx.lineWidth = Math.max(1, r * 0.025);
+          ctx.stroke();
+
+          // Outer luminous neon rim ring
+          ctx.beginPath();
+          ctx.arc(0, 0, r * 0.97, 0, Math.PI * 2);
+          ctx.strokeStyle = t.glowColor;
+          ctx.lineWidth = Math.max(1.5, r * 0.04);
+          ctx.shadowColor = t.color;
+          ctx.shadowBlur = 12;
+          ctx.stroke();
+
+          // Draw the token's embossed vector symbol
+          drawTokenSymbol(ctx, t.symbol, r, t.color, t.specularColor);
+
+          // Specular crescent light reflection across the glass/metallic surface
+          ctx.beginPath();
+          ctx.arc(0, 0, r * 0.94, -Math.PI * 0.7, -Math.PI * 0.1);
+          ctx.strokeStyle = t.specularColor;
+          ctx.lineWidth = Math.max(1.5, r * 0.04);
+          ctx.globalAlpha = 0.8;
+          ctx.shadowColor = t.specularColor;
+          ctx.shadowBlur = 8;
+          ctx.stroke();
+
+          ctx.restore();
+        }
+      }
+
+      // --- 4. Central Headline Readability Pillow & Bottom Fade ---
+      // Radial vignette keeping the center text crystal clear
+      ctx.save();
+      const centerFade = ctx.createRadialGradient(
+        width / 2, height / 2, 80,
+        width / 2, height / 2, Math.max(width, height) * 0.65
+      );
+      centerFade.addColorStop(0, "rgba(5, 6, 9, 0.45)");
+      centerFade.addColorStop(0.5, "rgba(5, 6, 9, 0.2)");
+      centerFade.addColorStop(1, "transparent");
+      ctx.fillStyle = centerFade;
+      ctx.fillRect(0, 0, width, height);
+
+      // Bottom section blend into #0B0B0F
+      const bottomFade = ctx.createLinearGradient(0, height - 120, 0, height);
+      bottomFade.addColorStop(0, "rgba(11, 11, 15, 0)");
+      bottomFade.addColorStop(1, "#0B0B0F");
+      ctx.fillStyle = bottomFade;
+      ctx.fillRect(0, height - 120, width, 120);
+      ctx.restore();
+
+      if (isLoopRunning) {
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+
+    // Check prefers-reduced-motion
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const startLoop = () => {
-      if (!isLoopRunning && isIntersecting && !isHidden) {
-        isLoopRunning = true;
+      if (isLoopRunning) return;
+      isLoopRunning = true;
+      lastTime = performance.now();
+      if (prefersReducedMotion) {
+        // Render single frame for reduced motion
+        render(performance.now());
+        isLoopRunning = false;
+      } else {
         animationFrameId = requestAnimationFrame(render);
       }
     };
 
     const stopLoop = () => {
       isLoopRunning = false;
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
     };
 
-    const observer = new IntersectionObserver(([entry]) => {
-      isIntersecting = entry.isIntersecting;
-      if (isIntersecting) {
-        startLoop();
-      } else {
-        stopLoop();
-      }
-    }, { threshold: 0 });
+    // IntersectionObserver to pause loop when scrolled out of hero view
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isIntersecting = entry.isIntersecting;
+        if (isIntersecting && !isHidden) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      },
+      { threshold: 0.05 }
+    );
 
-    observer.observe(canvas);
+    observer.observe(container);
 
+    // Tab visibility handling
     const handleVisibilityChange = () => {
       isHidden = document.hidden;
-      if (isHidden) {
-        stopLoop();
-      } else {
+      if (!isHidden && isIntersecting) {
         startLoop();
+      } else {
+        stopLoop();
       }
     };
+
     document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    const render = () => {
-      if (!isLoopRunning) return;
-      time += 0.015;
-
-      // Clear with dark obsidian base (#0B0B0F)
-      ctx.fillStyle = "#0B0B0F";
-      ctx.fillRect(0, 0, width, height);
-
-      // Mouse smooth interpolation
-      mouse.x += (mouse.targetX - mouse.x) * 0.04;
-      mouse.y += (mouse.targetY - mouse.y) * 0.04;
-
-      // Subtle dynamic crystal origin (right side of the hero on desktop, centered on mobile)
-      const crystalCenterX = isMobile ? width * 0.5 : width * 0.78;
-      const crystalCenterY = isMobile ? height * 0.35 : height * 0.48;
-
-      // Mouse parallax tilt angles
-      const normalizedMouseX = (mouse.x - width * 0.5) / (width * 0.5);
-      const normalizedMouseY = (mouse.y - height * 0.5) / (height * 0.5);
-
-      targetRotY = normalizedMouseX * 0.22 + Math.sin(time * 0.5) * 0.04;
-      targetRotX = -normalizedMouseY * 0.18 + Math.cos(time * 0.4) * 0.03;
-
-      rotX += (targetRotX - rotX) * 0.05;
-      rotY += (targetRotY - rotY) * 0.05;
-
-      // --- 1. Ambient Volumetric Golden Backlights ---
-      // Large radiant golden bloom centered behind crystal structure
-      const bloomRadius = Math.min(width, height) * 0.75;
-      const coreLightGrad = ctx.createRadialGradient(
-        crystalCenterX,
-        crystalCenterY - 30,
-        10,
-        crystalCenterX,
-        crystalCenterY - 30,
-        bloomRadius
-      );
-      coreLightGrad.addColorStop(0, "rgba(255, 243, 204, 0.25)");
-      coreLightGrad.addColorStop(0.18, "rgba(212, 175, 55, 0.18)");
-      coreLightGrad.addColorStop(0.42, "rgba(180, 130, 25, 0.07)");
-      coreLightGrad.addColorStop(0.75, "rgba(20, 20, 25, 0.03)");
-      coreLightGrad.addColorStop(1, "rgba(11, 11, 15, 0)");
-
-      ctx.fillStyle = coreLightGrad;
-      ctx.fillRect(0, 0, width, height);
-
-      // Light caustic rays fanning out
-      ctx.save();
-      ctx.translate(crystalCenterX, crystalCenterY - 30);
-      const rayCount = 8;
-      for (let r = 0; r < rayCount; r++) {
-        const rayAngle = (r / rayCount) * Math.PI * 2 + time * 0.05;
-        const rayLen = bloomRadius * 0.9;
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(
-          Math.cos(rayAngle - 0.15) * rayLen,
-          Math.sin(rayAngle - 0.15) * rayLen
-        );
-        ctx.lineTo(
-          Math.cos(rayAngle + 0.15) * rayLen,
-          Math.sin(rayAngle + 0.15) * rayLen
-        );
-        ctx.closePath();
-        const rayGrad = ctx.createRadialGradient(0, 0, 10, 0, 0, rayLen);
-        rayGrad.addColorStop(0, "rgba(244, 228, 188, 0.06)");
-        rayGrad.addColorStop(0.5, "rgba(212, 175, 55, 0.02)");
-        rayGrad.addColorStop(1, "rgba(11, 11, 15, 0)");
-        ctx.fillStyle = rayGrad;
-        ctx.fill();
-      }
-      ctx.restore();
-
-      // --- 2. 3D Crystal Projection & Rotation ---
-      const cosX = Math.cos(rotX);
-      const sinX = Math.sin(rotX);
-      const cosY = Math.cos(rotY);
-      const sinY = Math.sin(rotY);
-
-      // Dynamic scale factor based on screen width
-      const crystalScale = isMobile ? Math.min(width, height) * 0.0016 : Math.min(width, height) * 0.0022;
-
-      // Project vertices in-place into preallocated buffer (zero GC)
-      const fov = 750;
-      for (let i = 0; i < baseVertices.length; i++) {
-        const v = baseVertices[i];
-        // Rotate around Y
-        const x1 = v.x * crystalScale * cosY - v.z * crystalScale * sinY;
-        const z1 = v.x * crystalScale * sinY + v.z * crystalScale * cosY;
-
-        // Rotate around X
-        const y2 = v.y * crystalScale * cosX - z1 * sinX;
-        const z2 = v.y * crystalScale * sinX + z1 * cosX;
-
-        // Perspective projection
-        const scale = fov / (fov + z2);
-        projected[i].x = crystalCenterX + x1 * scale;
-        projected[i].y = crystalCenterY + y2 * scale;
-        projected[i].scale = scale;
-        projected[i].z = z2;
-      }
-
-      // --- 3. Render Polygonal Facets (Sorted by Average Z Depth in-place) ---
-      for (let i = 0; i < sortedFaces.length; i++) {
-        const sf = sortedFaces[i];
-        const p0 = projected[sf.indices[0]];
-        const p1 = projected[sf.indices[1]];
-        const p2 = projected[sf.indices[2]];
-        sf.avgZ = (p0.z + p1.z + p2.z) / 3;
-      }
-      sortedFaces.sort((a, b) => a.avgZ - b.avgZ);
-
-      // Light source vector relative to crystal
-      const lightVec = { x: -0.5, y: -0.6, z: 0.65 };
-      const lightMag = Math.sqrt(lightVec.x * lightVec.x + lightVec.y * lightVec.y + lightVec.z * lightVec.z);
-      lightVec.x /= lightMag;
-      lightVec.y /= lightMag;
-      lightVec.z /= lightMag;
-
-      sortedFaces.forEach(({ indices }) => {
-        const p0 = projected[indices[0]];
-        const p1 = projected[indices[1]];
-        const p2 = projected[indices[2]];
-
-        // Cross product for 2D screen winding (cull backfaces)
-        const vAx = p1.x - p0.x;
-        const vAy = p1.y - p0.y;
-        const vBx = p2.x - p0.x;
-        const vBy = p2.y - p0.y;
-        const cross2D = vAx * vBy - vAy * vBx;
-
-        // Draw facet path
-        ctx.beginPath();
-        ctx.moveTo(p0.x, p0.y);
-        ctx.lineTo(p1.x, p1.y);
-        ctx.lineTo(p2.x, p2.y);
-        ctx.closePath();
-
-        // 3D normal vector
-        const orig0 = baseVertices[indices[0]];
-        const orig1 = baseVertices[indices[1]];
-        const orig2 = baseVertices[indices[2]];
-
-        const d1x = orig1.x - orig0.x;
-        const d1y = orig1.y - orig0.y;
-        const d1z = orig1.z - orig0.z;
-
-        const d2x = orig2.x - orig0.x;
-        const d2y = orig2.y - orig0.y;
-        const d2z = orig2.z - orig0.z;
-
-        let nx = d1y * d2z - d1z * d2y;
-        let ny = d1z * d2x - d1x * d2z;
-        let nz = d1x * d2y - d1y * d2x;
-        const nMag = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1;
-        nx /= nMag;
-        ny /= nMag;
-        nz /= nMag;
-
-        // Dot product with light
-        const dot = Math.max(0, nx * lightVec.x + ny * lightVec.y + nz * lightVec.z);
-
-        // Linear gradient across facet from obsidian to gold specular
-        const facetGrad = ctx.createLinearGradient(p0.x, p0.y, (p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
-
-        if (dot > 0.45) {
-          // Intense golden illuminated facet
-          const intensity = (dot - 0.45) / 0.55;
-          facetGrad.addColorStop(0, `rgba(255, 240, 185, ${0.45 + intensity * 0.4})`);
-          facetGrad.addColorStop(0.35, `rgba(212, 175, 55, ${0.35 + intensity * 0.3})`);
-          facetGrad.addColorStop(0.7, "rgba(90, 65, 15, 0.4)");
-          facetGrad.addColorStop(1, "rgba(18, 19, 26, 0.85)");
-        } else if (dot > 0.15) {
-          // Mid-tone obsidian with rich golden warm reflection
-          const intensity = (dot - 0.15) / 0.3;
-          facetGrad.addColorStop(0, `rgba(180, 140, 45, ${0.25 + intensity * 0.2})`);
-          facetGrad.addColorStop(0.4, "rgba(35, 30, 20, 0.6)");
-          facetGrad.addColorStop(1, "rgba(15, 16, 22, 0.92)");
-        } else {
-          // Deep obsidian facet with subtle gold rim ambient
-          facetGrad.addColorStop(0, "rgba(32, 33, 42, 0.92)");
-          facetGrad.addColorStop(0.5, "rgba(20, 21, 28, 0.95)");
-          facetGrad.addColorStop(1, "rgba(12, 13, 18, 0.98)");
-        }
-
-        ctx.fillStyle = facetGrad;
-        ctx.fill();
-
-        // --- Razor-Sharp Glowing Golden Edge Lines ---
-        ctx.lineWidth = cross2D > 0 ? 1.4 : 0.8;
-        ctx.strokeStyle = dot > 0.3 
-          ? "rgba(244, 228, 188, 0.85)" 
-          : "rgba(212, 175, 55, 0.45)";
-        
-        if (dot > 0.3) {
-          ctx.shadowColor = "#D4AF37";
-          ctx.shadowBlur = 8;
-          ctx.stroke();
-          ctx.shadowBlur = 0;
-        } else {
-          ctx.stroke();
-        }
-      });
-
-      // --- 4. Extra Radiant Specular Glow Along Central Ridges ---
-      const keyEdgePairs = [
-        [0, 1], [0, 2], [0, 3], [0, 4],
-        [1, 5], [1, 6], [4, 6], [4, 7], [3, 9]
-      ];
-
-      ctx.save();
-      ctx.shadowColor = "#FFE599";
-      ctx.shadowBlur = 16;
-      ctx.lineWidth = 2.2;
-
-      keyEdgePairs.forEach(([iA, iB]) => {
-        const pA = projected[iA];
-        const pB = projected[iB];
-        const edgeGrad = ctx.createLinearGradient(pA.x, pA.y, pB.x, pB.y);
-        edgeGrad.addColorStop(0, "rgba(255, 248, 220, 0.95)");
-        edgeGrad.addColorStop(0.5, "rgba(212, 175, 55, 0.9)");
-        edgeGrad.addColorStop(1, "rgba(244, 228, 188, 0.7)");
-
-        ctx.strokeStyle = edgeGrad;
-        ctx.beginPath();
-        ctx.moveTo(pA.x, pA.y);
-        ctx.lineTo(pB.x, pB.y);
-        ctx.stroke();
-      });
-      ctx.restore();
-
-      // --- 5. Floating Ambient Golden Dust & Light Motes (Batched shadow) ---
-      const activeParticleCount = isMobile ? 22 : particles.length;
-      ctx.save();
-      ctx.shadowColor = "#D4AF37";
-      ctx.shadowBlur = 6;
-      for (let i = 0; i < activeParticleCount; i++) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.pulse += 0.03;
-
-        // Wrap around screen bounds
-        if (p.y < 0) p.y = height;
-        if (p.x < 0) p.x = width;
-        if (p.x > width) p.x = 0;
-
-        const dynamicAlpha = Math.max(0, p.alpha + Math.sin(p.pulse) * 0.25);
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = dynamicAlpha;
-        ctx.fill();
-      }
-      ctx.restore();
-      ctx.globalAlpha = 1;
-
-      // --- 6. Subtle Vignette & Bottom Section Blending ---
-      const bottomFade = ctx.createLinearGradient(0, height - 140, 0, height);
-      bottomFade.addColorStop(0, "rgba(11, 11, 15, 0)");
-      bottomFade.addColorStop(1, "#0B0B0F");
-      ctx.fillStyle = bottomFade;
-      ctx.fillRect(0, height - 140, width, 140);
-
-      if (isLoopRunning) {
-        animationFrameId = requestAnimationFrame(render);
-      }
-    };
 
     startLoop();
 
@@ -488,18 +893,22 @@ export const HeroBackground: React.FC = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+    <div
+      ref={containerRef}
+      className="absolute inset-0 pointer-events-none overflow-hidden z-0"
+      aria-hidden="true"
+    >
       {/* Translucent Obsidian Tint */}
-      <div className="absolute inset-0 bg-[#050609]/20" />
+      <div className="absolute inset-0 bg-[#050609]/40" />
 
-      {/* Subtle fine geometric noise texture */}
-      <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+      {/* Subtle digital dot matrix texture */}
+      <div className="absolute inset-0 opacity-[0.025] bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:28px_28px] pointer-events-none" />
 
-      {/* Interactive 3D Gold & Obsidian Crystal Prism Canvas */}
+      {/* 3D Floating Tokens, Neon Rims & Specular Beams Canvas */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" />
 
       {/* Soft vignette gradient for headline contrast */}
-      <div className="absolute inset-y-0 left-0 w-full md:w-3/5 bg-gradient-to-r from-[#050609]/70 via-[#050609]/30 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#050609]/20 to-[#0B0B0F]/90 pointer-events-none" />
     </div>
   );
 };

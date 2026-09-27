@@ -63,37 +63,37 @@ export const projectsData: ProjectItem[] = [
     demoUrl: "https://hamhold-jewellery.zynovaprofessional.workers.dev/"
   },
   {
-    id: "fitlife",
-    title: "FitLife",
-    subtitle: "Gym / Fitness Website",
-    category: "UI/UX",
-    filterCategory: "ui-ux",
-    shortDesc: "Modern fitness website for gyms, trainers, memberships and customer enquiries.",
-    overview: "FitLife connects fitness enthusiasts with structured training regimens, membership tiers, trainer profiles, and class scheduling in a high-converting digital experience.",
-    challenge: "Motivating consistent member signups while presenting trainer schedules, amenities, and workout plans with zero clutter.",
-    solution: "Crafted a high-energy, dark luxury fitness showcase with class schedule timetables, trainer bios, and seamless inquiry routing.",
-    technologies: ["React.js", "Tailwind CSS", "Framer Motion", "Lucide Icons"],
+    id: "aaranya-silks",
+    title: "Aaranya Silks",
+    subtitle: "Luxury Ethnic Fashion & Saree E-commerce Platform",
+    category: "Luxury Fashion / Saree E-commerce",
+    filterCategory: "ecommerce",
+    shortDesc: "A premium Indian ethnic fashion and saree e-commerce website featuring elegant collections and a refined online shopping experience.",
+    overview: "A complete luxury Indian ethnic fashion and saree e-commerce website designed and engineered for Aaranya Silks, delivering an editorial digital experience with high-resolution collection lookbooks, bridal saree showcases, mobile responsiveness, and refined shopping presentation.",
+    challenge: "Crafting a bespoke digital luxury experience that captures the delicate weaves, rich textures, and heritage of handcrafted silk sarees while ensuring effortless mobile commerce and rapid page delivery.",
+    solution: "Engineered an editorial luxury layout with gold and crimson accents, bridal lookbook showcases, curated high-resolution saree galleries, and intuitive customer shopping and inquiry funnels.",
+    technologies: ["React.js", "Tailwind CSS", "E-commerce UI", "Cloudflare", "Responsive Design"],
     keyFeatures: [
-      "Gym information & facility highlights",
-      "Membership plans & tier comparison",
-      "Trainer profiles & credentials",
-      "Class schedules & timetables",
-      "Contact & lead enquiry forms",
-      "Client reviews & testimonials",
-      "Photo gallery & visual tour",
-      "Direct WhatsApp chat integration"
+      "Editorial luxury homepage & hero showcase",
+      "Curated silk saree lookbooks & high-resolution visual displays",
+      "Curated collections (Bridal, Kanchipuram, Banarasi & Fine Silks)",
+      "Full responsive design across mobile, tablet & desktop",
+      "High-resolution saree presentation cards & lookbook galleries",
+      "Fast-loading performance with smooth micro-interactions",
+      "Direct WhatsApp customer inquiry & shopping consultation integration"
     ],
-    gradientTheme: "from-rose-950/40 via-red-950/40 to-slate-900/50",
-    badge: "Gym / Fitness Website",
-    image: "/projects/FitLife.webp",
+    gradientTheme: "from-rose-950/40 via-amber-950/30 to-slate-900/50",
+    badge: "Luxury Fashion",
+    image: "/projects/aaranya-silks.webp",
     pricing: {
-      startingPrice: "$150",
-      basicPrice: "$150",
-      standardPrice: "$240 – $360",
-      premiumPrice: "$420 – $600",
-      customPrice: "Up to $720+"
+      startingPrice: "$450",
+      basicPrice: "$450",
+      standardPrice: "$750",
+      premiumPrice: "$1,500",
+      customPrice: "$2,500+",
+      pricingQualification: "Includes bespoke luxury fashion catalog, collection lookbooks, mobile e-commerce, and direct consultation integration."
     },
-    demoUrl: ""
+    demoUrl: "https://aaranya-silks.zynovaprofessional.workers.dev/"
   },
   {
     id: "bizgrow",
@@ -506,6 +506,75 @@ export const projectsData: ProjectItem[] = [
     demoUrl: "https://travelaya.zynovaprofessional.workers.dev"
   }
 ];
+
+// Preserved FitLife project data for external or archive references
+export const fitlifeProject: ProjectItem = {
+  id: "fitlife",
+  title: "FitLife",
+  subtitle: "Gym / Fitness Website",
+  category: "UI/UX",
+  filterCategory: "ui-ux",
+  shortDesc: "Modern fitness website for gyms, trainers, memberships and customer enquiries.",
+  overview: "FitLife connects fitness enthusiasts with structured training regimens, membership tiers, trainer profiles, and class scheduling in a high-converting digital experience.",
+  challenge: "Motivating consistent member signups while presenting trainer schedules, amenities, and workout plans with zero clutter.",
+  solution: "Crafted a high-energy, dark luxury fitness showcase with class schedule timetables, trainer bios, and seamless inquiry routing.",
+  technologies: ["React.js", "Tailwind CSS", "Framer Motion", "Lucide Icons"],
+  keyFeatures: [
+    "Gym information & facility highlights",
+    "Membership plans & tier comparison",
+    "Trainer profiles & credentials",
+    "Class schedules & timetables",
+    "Contact & lead enquiry forms",
+    "Client reviews & testimonials",
+    "Photo gallery & visual tour",
+    "Direct WhatsApp chat integration"
+  ],
+  gradientTheme: "from-rose-950/40 via-red-950/40 to-slate-900/50",
+  badge: "Gym / Fitness Website",
+  image: "/projects/FitLife.webp",
+  pricing: {
+    startingPrice: "$150",
+    basicPrice: "$150",
+    standardPrice: "$240 – $360",
+    premiumPrice: "$420 – $600",
+    customPrice: "Up to $720+"
+  },
+  demoUrl: ""
+};
+
+// R & Python Advanced Analytics project with pricing 10-15% higher than HAMHOLD Jewellery
+export const rPythonProject: ProjectItem = {
+  id: "r-python",
+  title: "R & Python Data Analytics",
+  subtitle: "Advanced Statistical Modeling, Automation & Machine Learning",
+  category: "Data",
+  filterCategory: "data",
+  shortDesc: "End-to-end data science pipelines, statistical modeling, custom R and Python automation, and predictive machine learning architectures.",
+  overview: "Comprehensive data science and automation engineering utilizing Python and R. Specializing in automated data processing, statistical modeling, predictive algorithms, and custom analytical toolkits.",
+  challenge: "Translating complex, high-dimensional business data into automated, reproducible statistical insights with production-grade Python and R scripts.",
+  solution: "Engineered scalable data extraction, automated transformation pipelines, predictive statistical models, and custom interactive analytical reporting engines.",
+  technologies: ["Python", "R", "Pandas", "Scikit-Learn", "Automation", "NumPy"],
+  keyFeatures: [
+    "Custom Python & R data automation scripts and ETL pipelines",
+    "Statistical inference, hypothesis testing, and regression modeling",
+    "Predictive machine learning algorithms and classification models",
+    "Automated PDF and Excel report generation pipelines",
+    "Interactive data visualizations and statistical dashboards",
+    "Clean, modular, and documented source code with environment configs"
+  ],
+  gradientTheme: "from-blue-950/40 via-indigo-950/30 to-slate-900/50",
+  badge: "Advanced Analytics",
+  image: "/projects/amit-halder-portfolio.webp",
+  pricing: {
+    startingPrice: "$500",
+    basicPrice: "$500",
+    standardPrice: "$850",
+    premiumPrice: "$1,700",
+    customPrice: "$2,800+",
+    pricingQualification: "Pricing is 10–15% higher than web projects reflecting specialized mathematical modeling, statistical analysis, and algorithmic engineering."
+  },
+  demoUrl: "https://k-zynova2.vercel.app/"
+};
 
 export const mobileProjectsData: ProjectItem[] = [
   // --- iOS Applications (8) ---

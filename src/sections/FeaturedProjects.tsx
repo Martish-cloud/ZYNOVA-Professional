@@ -35,13 +35,33 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
   },
   {
     id: "hamhold-jewellery",
-    title: "HamHold Jewellery",
+    title: "HAMHOLD Jewellery",
     category: "Luxury E-Commerce",
     description: "A premium jewellery e-commerce experience featuring elegant product presentation and luxury-inspired design.",
     url: "https://hamhold-jewellery.zynovaprofessional.workers.dev/",
     image: "/projects/hamhold-jewellery.webp",
     badge: "Luxury Brand",
     tech: ["React", "Tailwind CSS", "Cloudflare", "Framer"]
+  },
+  {
+    id: "r-python",
+    title: "R & Python",
+    category: "Data Science & Automation",
+    description: "Advanced statistical modeling, custom automation pipelines, predictive analytics, and machine learning scripts.",
+    url: "https://k-zynova2.vercel.app/",
+    image: "/projects/amit-halder-portfolio.webp",
+    badge: "Advanced Analytics",
+    tech: ["Python", "R", "Pandas", "Automation"]
+  },
+  {
+    id: "aaranya-silks",
+    title: "Aaranya Silks",
+    category: "Luxury Fashion / Saree E-commerce",
+    description: "A premium Indian ethnic fashion and saree e-commerce website featuring elegant collections and a refined online shopping experience.",
+    url: "https://aaranya-silks.zynovaprofessional.workers.dev/",
+    image: "/projects/aaranya-silks.webp",
+    badge: "Luxury Fashion",
+    tech: ["React", "Tailwind CSS", "Cloudflare", "E-commerce"]
   },
   {
     id: "freshmart",
@@ -238,8 +258,8 @@ export const FeaturedProjects: React.FC = () => {
           : "translate3d(470px, 35px, -140px) scale(0.76) rotateY(-15deg)",
         isCenter: false
       };
-    } else {
-      // DEEP LEFT (diff === 3)
+    } else if (diff === count - 2) {
+      // DEEP LEFT
       return {
         slot: "deep-left",
         zIndex: 10,
@@ -251,6 +271,19 @@ export const FeaturedProjects: React.FC = () => {
           : isTablet
           ? "translate3d(-330px, 28px, -110px) scale(0.72) rotateY(12deg)"
           : "translate3d(-470px, 35px, -140px) scale(0.76) rotateY(15deg)",
+        isCenter: false
+      };
+    } else {
+      // HIDDEN / BUFFER CARDS (Clean fade in the background)
+      return {
+        slot: "hidden",
+        zIndex: 5,
+        opacity: 0,
+        pointerEvents: "none" as const,
+        animationClass: "",
+        transform: isMobile
+          ? "translate3d(0, 30px, -160px) scale(0.5)"
+          : "translate3d(0, 40px, -200px) scale(0.6)",
         isCenter: false
       };
     }
