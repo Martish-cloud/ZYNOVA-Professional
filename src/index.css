@@ -290,6 +290,94 @@
   animation-play-state: paused;
 }
 
+/* Subtle Staggered Floating Animations for Section Cards */
+@keyframes subtle-float-1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
+@keyframes subtle-float-2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -9px, 0);
+  }
+}
+
+@keyframes subtle-float-3 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -5px, 0);
+  }
+}
+
+@keyframes subtle-float-4 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+.animate-subtle-float-1 {
+  animation: subtle-float-1 5.2s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-subtle-float-2 {
+  animation: subtle-float-2 6.1s ease-in-out infinite;
+  animation-delay: -1.6s;
+  will-change: transform;
+}
+
+.animate-subtle-float-3 {
+  animation: subtle-float-3 5.6s ease-in-out infinite;
+  animation-delay: -3.2s;
+  will-change: transform;
+}
+
+.animate-subtle-float-4 {
+  animation: subtle-float-4 6.5s ease-in-out infinite;
+  animation-delay: -4.8s;
+  will-change: transform;
+}
+
+/* Pause card floating animation on hover for effortless interaction */
+.animate-subtle-float-1:hover,
+.animate-subtle-float-2:hover,
+.animate-subtle-float-3:hover,
+.animate-subtle-float-4:hover {
+  animation-play-state: paused;
+}
+
+/* Automatic Left-to-Right Continuous Project Showcase Loop */
+@keyframes showcase-ltr {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0%, 0, 0);
+  }
+}
+
+.animate-showcase-ltr {
+  animation: showcase-ltr 48s linear infinite;
+  will-change: transform;
+}
+
+.animate-showcase-ltr.is-paused,
+.animate-showcase-ltr:hover {
+  animation-play-state: paused;
+}
+
 /* Accessibility: Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
@@ -300,7 +388,9 @@
   }
   .animate-marquee, .animate-marquee-reverse, .animate-fade-in-out,
   .animate-float-center, .animate-float-left, .animate-float-right,
-  .animate-float-deep-left, .animate-float-deep-right {
+  .animate-float-deep-left, .animate-float-deep-right,
+  .animate-subtle-float-1, .animate-subtle-float-2, .animate-subtle-float-3, .animate-subtle-float-4,
+  .animate-showcase-ltr {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;

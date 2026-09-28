@@ -603,19 +603,29 @@ export const Projects: React.FC<ProjectsProps> = ({ onDiscussProject }) => {
         {/* Unified 5-Column Desktop, 3-Column Tablet, 2-Column Mobile Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-2.5 md:gap-3 xl:gap-3.5 animate-in fade-in duration-300">
           {workItems.map((item, index) => {
+            const floatClass = ["animate-subtle-float-1", "animate-subtle-float-2", "animate-subtle-float-3", "animate-subtle-float-4"][index % 4];
             if (item.type === "excel") {
-              return <ExcelCard key="dashboard-card-excel" onSelect={handleSelectExcel} />;
+              return (
+                <div key="dashboard-card-excel" className={`h-full ${floatClass}`}>
+                  <ExcelCard onSelect={handleSelectExcel} />
+                </div>
+              );
             }
             if (item.type === "powerbi") {
-              return <PowerBICard key="dashboard-card-powerbi" onSelect={handleSelectPowerBI} />;
+              return (
+                <div key="dashboard-card-powerbi" className={`h-full ${floatClass}`}>
+                  <PowerBICard onSelect={handleSelectPowerBI} />
+                </div>
+              );
             }
             return (
-              <ProjectCard
-                key={item.data.id}
-                project={item.data}
-                index={index}
-                onSelect={handleSelectProject}
-              />
+              <div key={item.data.id} className={`h-full ${floatClass}`}>
+                <ProjectCard
+                  project={item.data}
+                  index={index}
+                  onSelect={handleSelectProject}
+                />
+              </div>
             );
           })}
         </div>

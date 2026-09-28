@@ -105,13 +105,15 @@ export const Testimonials: React.FC = () => {
 
         {/* Testimonials 3-Column Responsive Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-10 sm:mb-12">
-          {testimonialsData.map((item) => (
-            <div
-              key={item.id}
-              onMouseEnter={() => setCursor("project", "READ")}
-              onMouseLeave={resetCursor}
-              className="group relative flex flex-col justify-between rounded-2xl bg-gradient-to-b from-slate-900/85 via-[#090b14]/90 to-[#06070d]/95 border border-amber-500/20 hover:border-amber-400/55 p-4.5 sm:p-5 shadow-[0_15px_40px_rgba(0,0,0,0.7)] hover:shadow-[0_20px_50px_rgba(245,158,11,0.14)] transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] overflow-hidden"
-            >
+          {testimonialsData.map((item, index) => {
+            const floatClass = ["animate-subtle-float-1", "animate-subtle-float-2", "animate-subtle-float-3", "animate-subtle-float-4"][index % 4];
+            return (
+              <div key={item.id} className={`h-full ${floatClass}`}>
+                <div
+                  onMouseEnter={() => setCursor("project", "READ")}
+                  onMouseLeave={resetCursor}
+                  className="h-full group relative flex flex-col justify-between rounded-2xl bg-gradient-to-b from-slate-900/85 via-[#090b14]/90 to-[#06070d]/95 border border-amber-500/20 hover:border-amber-400/55 p-4.5 sm:p-5 shadow-[0_15px_40px_rgba(0,0,0,0.7)] hover:shadow-[0_20px_50px_rgba(245,158,11,0.14)] transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] overflow-hidden"
+                >
               {/* Large Subtle Decorative Quotation Watermark */}
               <span
                 aria-hidden="true"
@@ -182,8 +184,10 @@ export const Testimonials: React.FC = () => {
                 </span>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        );
+      })}
+    </div>
 
         {/* Global Market Footprint Trust Indicator */}
         <div className="p-4 sm:p-5 rounded-xl bg-gradient-to-r from-slate-900/80 via-[#0a0c16] to-slate-900/80 border border-amber-500/20 max-w-4xl mx-auto text-center shadow-lg">

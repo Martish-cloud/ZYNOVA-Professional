@@ -56,41 +56,43 @@ export const WhyZynova: React.FC = () => {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-4.5 lg:gap-5">
-          {reasons.map((r) => {
+          {reasons.map((r, index) => {
             const Icon = r.icon;
+            const floatClass = ["animate-subtle-float-1", "animate-subtle-float-2", "animate-subtle-float-3", "animate-subtle-float-4"][index % 4];
             return (
-              <div
-                key={r.number}
-                onMouseEnter={() => setCursor("project", r.title)}
-                onMouseLeave={resetCursor}
-                className="group relative p-5 sm:p-5.5 rounded-xl bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-slate-800/80 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(245,158,11,0.2)] flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3.5 sm:mb-4">
-                    <span className="font-mono text-xs font-bold text-slate-500 group-hover:text-amber-400 transition-colors">
-                      // {r.number}
-                    </span>
-                    <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 group-hover:scale-110 group-hover:border-amber-500/40 transition-transform">
-                      <Icon className={`w-4 h-4 sm:w-4.5 sm:h-4.5 ${r.iconColor}`} />
+              <div key={r.number} className={`h-full ${floatClass}`}>
+                <div
+                  onMouseEnter={() => setCursor("project", r.title)}
+                  onMouseLeave={resetCursor}
+                  className="h-full group relative p-5 sm:p-5.5 rounded-xl bg-gradient-to-b from-slate-900/60 to-slate-950/80 border border-slate-800/80 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-15px_rgba(245,158,11,0.2)] flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-3.5 sm:mb-4">
+                      <span className="font-mono text-xs font-bold text-slate-500 group-hover:text-amber-400 transition-colors">
+                        // {r.number}
+                      </span>
+                      <div className="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700/60 group-hover:scale-110 group-hover:border-amber-500/40 transition-transform">
+                        <Icon className={`w-4 h-4 sm:w-4.5 sm:h-4.5 ${r.iconColor}`} />
+                      </div>
                     </div>
+
+                    <h3 className="text-base sm:text-lg font-bold font-heading text-white mb-1.5 group-hover:text-amber-200 transition-colors">
+                      {r.title}
+                    </h3>
+
+                    <div className="inline-block text-[10.5px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 mb-3 border border-amber-500/30">
+                      {r.highlight}
+                    </div>
+
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      {r.description}
+                    </p>
                   </div>
 
-                  <h3 className="text-base sm:text-lg font-bold font-heading text-white mb-1.5 group-hover:text-amber-200 transition-colors">
-                    {r.title}
-                  </h3>
-
-                  <div className="inline-block text-[10.5px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 mb-3 border border-amber-500/30">
-                    {r.highlight}
+                  <div className="pt-4 mt-4 border-t border-slate-800/60 flex items-center gap-2 text-[10.5px] font-mono text-slate-400">
+                    <Sparkles className="w-3 h-3 text-amber-400" />
+                    <span>Standard on every engagement</span>
                   </div>
-
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    {r.description}
-                  </p>
-                </div>
-
-                <div className="pt-4 mt-4 border-t border-slate-800/60 flex items-center gap-2 text-[10.5px] font-mono text-slate-400">
-                  <Sparkles className="w-3 h-3 text-amber-400" />
-                  <span>Standard on every engagement</span>
                 </div>
               </div>
             );

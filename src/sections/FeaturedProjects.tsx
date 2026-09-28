@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, Suspense, lazy } from "react";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { PortfolioImage } from "../components/ui/PortfolioImage";
+import { projectsData, type ProjectItem } from "../data/projects";
 import {
   ExternalLink,
   ChevronLeft,
@@ -8,8 +9,14 @@ import {
   Sparkles,
   Layers,
   Globe,
-  ArrowUpRight
+  ArrowUpRight,
+  Play,
+  Pause
 } from "lucide-react";
+
+const ProjectModal = lazy(() =>
+  import("./ProjectModal").then((m) => ({ default: m.ProjectModal }))
+);
 
 export interface FeaturedProject {
   id: string;
@@ -85,204 +92,209 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
   }
 ];
 
-export const FeaturedProjects: React.FC = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 1200
+const getProjectModalItem = (featured: FeaturedProject): ProjectItem => {
+  const found = projectsData.find((p) => p.id === featured.id);
+  if (found) return found;
+
+  return {
+    id: featured.id,
+    title: featured.title,
+    subtitle: `${featured.category} • Production Release`,
+    category: featured.category,
+    filterCategory: "web",
+    shortDesc: featured.description,
+    overview: `${featured.title} is an engineered digital platform delivering high performance, responsive workflows, and modern cloud deployment standards.`,
+    challenge: "Delivering modern user experiences with high performance, seamless transitions, and reliable production-grade infrastructure.",
+    solution: "Designed and engineered an intuitive, component-driven architecture with optimized assets, clean code patterns, and sub-second load times.",
+    technologies: featured.tech,
+    keyFeatures: [
+      "Responsive layout optimized across desktop, tablet, and mobile",
+      "Modern full-stack technical architecture and automated builds",
+      "Production-ready deployment with high availability and SSL",
+      "Smooth micro-interactions and accessible component interfaces"
+    ],
+    gradientTheme: "from-amber-950/40 via-yellow-950/30 to-slate-900/50",
+    badge: featured.badge,
+    image: featured.image,
+    pricing: {
+      startingPrice: "$450",
+      standardPrice: "$750",
+      premiumPrice: "$1,500"
+    },
+    demoUrl: featured.url
+  };
+};
+
+interface FeaturedCardProps {
+  project: FeaturedProject;
+  index: number;
+  onOpenArchitecture: () => void;
+  isDuplicate?: boolean;
+}
+
+const FeaturedCard: React.FC<FeaturedCardProps> = ({
+  project,
+  onOpenArchitecture,
+  isDuplicate = false
+}) => {
+  return (
+    <div
+      className="w-[300px] sm:w-[360px] md:w-[395px] shrink-0 group relative rounded-2xl sm:rounded-3xl p-3.5 sm:p-4.5 bg-[#0b0e17]/95 backdrop-blur-xl border border-slate-800/80 hover:border-amber-400/60 transition-all duration-300 shadow-[0_15px_40px_rgba(0,0,0,0.65)] hover:shadow-[0_20px_50px_rgba(245,158,11,0.2)] hover:-translate-y-1.5 flex flex-col justify-between select-none"
+    >
+      {/* Ambient subtle top glow */}
+      <div className="absolute -top-px left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-amber-400/50 to-transparent pointer-events-none" />
+
+      <div>
+        {/* Card Browser-style Top Bar */}
+        <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-white/5">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-red-500/60 inline-block" />
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-500/60 inline-block" />
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60 inline-block" />
+            <span className="text-[10px] text-slate-400 font-mono ml-1.5 truncate max-w-[130px] sm:max-w-[160px]">
+              {project.url.replace(/^https?:\/\//, "")}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1 text-[10px] uppercase font-semibold tracking-wider px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            <Sparkles className="w-2.5 h-2.5" />
+            <span>{project.badge}</span>
+          </div>
+        </div>
+
+        {/* Project Preview Image */}
+        <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden bg-slate-950 border border-white/10 group-hover:border-amber-500/40 transition-colors">
+          <PortfolioImage
+            src={project.image}
+            alt={`${project.title} Preview`}
+            className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+          />
+
+          {/* Image Overlay Gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0b0e17] via-transparent to-transparent opacity-60" />
+
+          {/* Live Status indicator badge */}
+          <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/10 flex items-center gap-1.5 text-[10px] text-slate-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span>Live Production</span>
+          </div>
+        </div>
+
+        {/* Card Content Details */}
+        <div className="pt-3.5 sm:pt-4">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[11px] font-medium tracking-wider uppercase text-amber-400">
+              {project.category}
+            </span>
+            <div className="flex items-center gap-1">
+              {project.tech.slice(0, 2).map((t) => (
+                <span
+                  key={t}
+                  className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <h3 className="font-heading text-base sm:text-lg font-bold text-white mb-1.5 tracking-tight group-hover:text-amber-200 transition-colors flex items-center justify-between">
+            <span>{project.title}</span>
+            <ArrowUpRight className="w-4 h-4 text-amber-400 opacity-80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </h3>
+
+          <p className="text-xs text-slate-300 leading-relaxed mb-4 line-clamp-2">
+            {project.description}
+          </p>
+        </div>
+      </div>
+
+      {/* Action Buttons: Visit Website & View Architecture */}
+      <div className="flex items-center gap-2 pt-2 border-t border-white/5">
+        <a
+          href={project.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          tabIndex={isDuplicate ? -1 : 0}
+          aria-hidden={isDuplicate ? "true" : undefined}
+          className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-bold tracking-wide bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-slate-950 hover:from-amber-300 hover:to-yellow-400 shadow-md shadow-amber-500/20 transition-all duration-200 active:scale-[0.98]"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <Globe className="w-3.5 h-3.5" />
+          <span>VISIT WEBSITE</span>
+          <ExternalLink className="w-3 h-3 ml-0.5 opacity-80" />
+        </a>
+
+        <button
+          type="button"
+          onClick={onOpenArchitecture}
+          tabIndex={isDuplicate ? -1 : 0}
+          aria-hidden={isDuplicate ? "true" : undefined}
+          className="inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-medium text-slate-300 hover:text-amber-300 bg-slate-900/80 hover:bg-slate-850 border border-slate-700/80 hover:border-amber-500/40 transition-all duration-200 active:scale-[0.98]"
+          aria-label={`View architecture details for ${project.title}`}
+        >
+          <Layers className="w-3.5 h-3.5 text-amber-400" />
+          <span className="hidden xs:inline">VIEW ARCHITECTURE</span>
+          <span className="xs:hidden">DETAILS</span>
+        </button>
+      </div>
+    </div>
   );
-  const [isInViewport, setIsInViewport] = useState(true);
+};
 
-  const sectionRef = useRef<HTMLElement>(null);
-  const touchStartX = useRef<number | null>(null);
-  const touchEndX = useRef<number | null>(null);
+interface FeaturedProjectsProps {
+  onDiscussProject?: (projectTitle: string) => void;
+}
 
-  // Track window resizing for responsive 3D card layout calculations with RAF throttling
-  useEffect(() => {
-    let resizeTimer: number | null = null;
-    const handleResize = () => {
-      if (resizeTimer) cancelAnimationFrame(resizeTimer);
-      resizeTimer = requestAnimationFrame(() => {
-        setWindowWidth(window.innerWidth);
-      });
-    };
+export const FeaturedProjects: React.FC<FeaturedProjectsProps> = ({ onDiscussProject }) => {
+  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isTouchPaused, setIsTouchPaused] = useState(false);
+  const [isManuallyPaused, setIsManuallyPaused] = useState(false);
+  const [activeProjectIndex, setActiveProjectIndex] = useState(0);
 
-    window.addEventListener("resize", handleResize, { passive: true });
-    return () => {
-      if (resizeTimer) cancelAnimationFrame(resizeTimer);
-      window.removeEventListener("resize", handleResize);
-    };
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollTrackRef = useRef<HTMLDivElement>(null);
+
+  const handleOpenModal = useCallback((project: FeaturedProject) => {
+    setSelectedProject(getProjectModalItem(project));
   }, []);
 
-  // IntersectionObserver to pause auto-rotate when section is not in view
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el || typeof IntersectionObserver === "undefined") return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInViewport(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
+  const handleCloseModal = useCallback(() => {
+    setSelectedProject(null);
   }, []);
 
-  // Auto-rotation timer: pauses on hover, when out of view, or when reduced motion is preferred
-  useEffect(() => {
-    if (isHovered || !isInViewport) return;
+  const handleDiscuss = useCallback(
+    (brief: string) => {
+      if (onDiscussProject) {
+        onDiscussProject(brief);
+      } else {
+        const bookSection = document.getElementById("book-call");
+        if (bookSection) {
+          bookSection.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    },
+    [onDiscussProject]
+  );
 
-    // Check if user prefers reduced motion
-    const prefersReducedMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (prefersReducedMotion) return;
-
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % FEATURED_PROJECTS.length);
-    }, 6000);
-
-    return () => clearInterval(interval);
-  }, [isHovered, isInViewport]);
-
-  const handlePrev = useCallback(() => {
-    setActiveIndex((prev) => (prev - 1 + FEATURED_PROJECTS.length) % FEATURED_PROJECTS.length);
-  }, []);
-
-  const handleNext = useCallback(() => {
-    setActiveIndex((prev) => (prev + 1) % FEATURED_PROJECTS.length);
-  }, []);
-
-  // Touch swipe support for mobile
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.touches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    if (touchStartX.current === null || touchEndX.current === null) return;
-    const diffX = touchStartX.current - touchEndX.current;
-    const threshold = 40; // minimum swipe distance
-
-    if (diffX > threshold) {
-      handleNext();
-    } else if (diffX < -threshold) {
-      handlePrev();
-    }
-
-    touchStartX.current = null;
-    touchEndX.current = null;
-  };
-
-  // Card slot calculation (5 positions: center, right, deep right, deep left, left)
-  const getSlotConfig = useCallback((index: number) => {
-    const count = FEATURED_PROJECTS.length;
-    const diff = (index - activeIndex + count) % count;
-
-    const isMobile = windowWidth < 640;
-    const isTablet = windowWidth >= 640 && windowWidth < 1024;
-
-    if (diff === 0) {
-      // CENTER (Active foreground card)
-      return {
-        slot: "center",
-        zIndex: 30,
-        opacity: 1,
-        pointerEvents: "auto" as const,
-        animationClass: "animate-float-center",
-        transform: isMobile
-          ? "translate3d(0, 0, 30px) scale(1)"
-          : isTablet
-          ? "translate3d(0, 0, 40px) scale(1)"
-          : "translate3d(0, 0, 50px) scale(1)",
-        isCenter: true
-      };
-    } else if (diff === 1) {
-      // RIGHT (Immediate right flanking card)
-      return {
-        slot: "right",
-        zIndex: 20,
-        opacity: isMobile ? 0.45 : 0.85,
-        pointerEvents: "auto" as const,
-        animationClass: "animate-float-right",
-        transform: isMobile
-          ? "translate3d(85px, 12px, -30px) scale(0.82) rotateY(-4deg)"
-          : isTablet
-          ? "translate3d(200px, 16px, -50px) scale(0.86) rotateY(-8deg)"
-          : "translate3d(280px, 18px, -60px) scale(0.88) rotateY(-9deg)",
-        isCenter: false
-      };
-    } else if (diff === count - 1) {
-      // LEFT (Immediate left flanking card)
-      return {
-        slot: "left",
-        zIndex: 20,
-        opacity: isMobile ? 0.45 : 0.85,
-        pointerEvents: "auto" as const,
-        animationClass: "animate-float-left",
-        transform: isMobile
-          ? "translate3d(-85px, 12px, -30px) scale(0.82) rotateY(4deg)"
-          : isTablet
-          ? "translate3d(-200px, 16px, -50px) scale(0.86) rotateY(8deg)"
-          : "translate3d(-280px, 18px, -60px) scale(0.88) rotateY(9deg)",
-        isCenter: false
-      };
-    } else if (diff === 2) {
-      // DEEP RIGHT
-      return {
-        slot: "deep-right",
-        zIndex: 10,
-        opacity: isMobile ? 0 : isTablet ? 0.35 : 0.55,
-        pointerEvents: isMobile ? ("none" as const) : ("auto" as const),
-        animationClass: "animate-float-deep-right",
-        transform: isMobile
-          ? "translate3d(140px, 25px, -100px) scale(0.65)"
-          : isTablet
-          ? "translate3d(330px, 28px, -110px) scale(0.72) rotateY(-12deg)"
-          : "translate3d(470px, 35px, -140px) scale(0.76) rotateY(-15deg)",
-        isCenter: false
-      };
-    } else if (diff === count - 2) {
-      // DEEP LEFT
-      return {
-        slot: "deep-left",
-        zIndex: 10,
-        opacity: isMobile ? 0 : isTablet ? 0.35 : 0.55,
-        pointerEvents: isMobile ? ("none" as const) : ("auto" as const),
-        animationClass: "animate-float-deep-left",
-        transform: isMobile
-          ? "translate3d(-140px, 25px, -100px) scale(0.65)"
-          : isTablet
-          ? "translate3d(-330px, 28px, -110px) scale(0.72) rotateY(12deg)"
-          : "translate3d(-470px, 35px, -140px) scale(0.76) rotateY(15deg)",
-        isCenter: false
-      };
+  // Manual nudge with Prev/Next buttons
+  const handleNudge = (direction: "left" | "right") => {
+    if (direction === "left") {
+      setActiveProjectIndex((prev) => (prev - 1 + FEATURED_PROJECTS.length) % FEATURED_PROJECTS.length);
     } else {
-      // HIDDEN / BUFFER CARDS (Clean fade in the background)
-      return {
-        slot: "hidden",
-        zIndex: 5,
-        opacity: 0,
-        pointerEvents: "none" as const,
-        animationClass: "",
-        transform: isMobile
-          ? "translate3d(0, 30px, -160px) scale(0.5)"
-          : "translate3d(0, 40px, -200px) scale(0.6)",
-        isCenter: false
-      };
+      setActiveProjectIndex((prev) => (prev + 1) % FEATURED_PROJECTS.length);
     }
-  }, [activeIndex, windowWidth]);
+    // Temporarily pause animation on manual navigation to let user inspect
+    setIsTouchPaused(true);
+    setTimeout(() => setIsTouchPaused(false), 4000);
+  };
+
+  const isPaused = isHovered || isTouchPaused || isManuallyPaused;
 
   return (
     <section
       id="featured-projects"
-      ref={sectionRef}
       className="py-14 sm:py-20 md:py-24 relative z-10 bg-transparent border-t border-amber-500/10 overflow-hidden"
       aria-label="Featured Projects Showcase"
     >
@@ -301,21 +313,28 @@ export const FeaturedProjects: React.FC = () => {
         />
 
         {/* Project Selector Pills */}
-        <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 mb-8 sm:mb-12 flex-wrap">
+        <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 mb-8 sm:mb-10 flex-wrap">
           {FEATURED_PROJECTS.map((proj, idx) => {
-            const isActive = idx === activeIndex;
+            const isActive = idx === activeProjectIndex;
             return (
               <button
                 key={proj.id}
-                onClick={() => setActiveIndex(idx)}
+                onClick={() => {
+                  setActiveProjectIndex(idx);
+                  handleOpenModal(proj);
+                }}
                 className={`group relative px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 flex items-center gap-1.5 ${
                   isActive
                     ? "bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.25)]"
                     : "bg-slate-900/60 text-slate-400 border border-slate-800/80 hover:text-slate-200 hover:border-slate-700 hover:bg-slate-850"
                 }`}
-                aria-label={`View ${proj.title}`}
+                aria-label={`View ${proj.title} architecture`}
               >
-                <span className={`text-[10px] sm:text-xs font-mono font-semibold ${isActive ? "text-amber-400" : "text-slate-500 group-hover:text-slate-400"}`}>
+                <span
+                  className={`text-[10px] sm:text-xs font-mono font-semibold ${
+                    isActive ? "text-amber-400" : "text-slate-500 group-hover:text-slate-400"
+                  }`}
+                >
                   0{idx + 1}
                 </span>
                 <span>{proj.title}</span>
@@ -326,188 +345,133 @@ export const FeaturedProjects: React.FC = () => {
             );
           })}
         </div>
+      </div>
 
-        {/* 3D Floating Stage Container */}
+      {/* Full-width Automatic Left-to-Right Moving Showcase Container */}
+      <div
+        ref={containerRef}
+        className="relative w-full overflow-hidden py-4 select-none"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onTouchStart={() => setIsTouchPaused(true)}
+        onTouchEnd={() => {
+          setTimeout(() => setIsTouchPaused(false), 3000);
+        }}
+      >
+        {/* Soft Left and Right Edge Gradient Vignettes */}
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-8 sm:w-20 md:w-28 bg-gradient-to-r from-[#030712] via-[#030712]/80 to-transparent z-20" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-8 sm:w-20 md:w-28 bg-gradient-to-l from-[#030712] via-[#030712]/80 to-transparent z-20" />
+
+        {/* Moving Dual-Track Flex Row */}
         <div
-          className="relative w-full h-[510px] sm:h-[550px] md:h-[590px] flex items-center justify-center"
-          style={{ perspective: "1200px" }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+          ref={scrollTrackRef}
+          className={`flex items-stretch w-max animate-showcase-ltr ${
+            isPaused ? "is-paused" : ""
+          }`}
+          style={{ animationDuration: "50s" }}
         >
-          {FEATURED_PROJECTS.map((project, idx) => {
-            const config = getSlotConfig(idx);
-
-            return (
-              <div
-                key={project.id}
-                className="absolute transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                style={{
-                  zIndex: config.zIndex,
-                  opacity: config.opacity,
-                  transform: config.transform,
-                  pointerEvents: config.pointerEvents,
-                  transformStyle: "preserve-3d",
-                  willChange: "transform, opacity"
-                }}
-                onClick={() => {
-                  if (!config.isCenter) {
-                    setActiveIndex(idx);
-                  }
-                }}
-              >
-                {/* Inner floating bobbing container (decoupled from 3D positioning) */}
-                <div
-                  className={`w-[305px] sm:w-[370px] md:w-[410px] ${config.animationClass} transition-shadow duration-300`}
-                >
-                  <div
-                    className={`relative rounded-2xl sm:rounded-3xl p-3.5 sm:p-4.5 bg-[#0b0e17]/95 backdrop-blur-xl border transition-all duration-300 shadow-2xl group ${
-                      config.isCenter
-                        ? "border-amber-500/50 shadow-[0_15px_45px_-10px_rgba(245,158,11,0.22)] ring-1 ring-amber-500/20"
-                        : "border-slate-800/80 hover:border-amber-500/30 cursor-pointer shadow-black/60"
-                    }`}
-                  >
-                    {/* Ambient subtle top glow */}
-                    <div className="absolute -top-px left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-amber-400/50 to-transparent" />
-
-                    {/* Card Browser-style Top Bar */}
-                    <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-white/5">
-                      <div className="flex items-center gap-1.5">
-                        <span className="w-2.5 h-2.5 rounded-full bg-red-500/60 inline-block" />
-                        <span className="w-2.5 h-2.5 rounded-full bg-amber-500/60 inline-block" />
-                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60 inline-block" />
-                        <span className="text-[10px] text-slate-400 font-mono ml-1.5 truncate max-w-[140px] sm:max-w-[180px]">
-                          {project.url.replace(/^https?:\/\//, "")}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-1 text-[10px] uppercase font-semibold tracking-wider px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                        <Sparkles className="w-2.5 h-2.5" />
-                        <span>{project.badge}</span>
-                      </div>
-                    </div>
-
-                    {/* Project Preview Image */}
-                    <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden bg-slate-950 border border-white/10 group-hover:border-amber-500/40 transition-colors">
-                      <PortfolioImage
-                        src={project.image}
-                        alt={`${project.title} Preview`}
-                        className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                      />
-
-                      {/* Image Overlay Gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0b0e17] via-transparent to-transparent opacity-60" />
-
-                      {/* Live Status indicator badge */}
-                      <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md border border-white/10 flex items-center gap-1.5 text-[10px] text-slate-200">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        <span>Live Production</span>
-                      </div>
-                    </div>
-
-                    {/* Card Content Details */}
-                    <div className="pt-3.5 sm:pt-4">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-[11px] font-medium tracking-wider uppercase text-amber-400">
-                          {project.category}
-                        </span>
-                        <div className="flex items-center gap-1">
-                          {project.tech.slice(0, 2).map((t) => (
-                            <span
-                              key={t}
-                              className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-400 border border-slate-700/50"
-                            >
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      <h3 className="font-heading text-base sm:text-lg font-bold text-white mb-1.5 tracking-tight group-hover:text-amber-200 transition-colors flex items-center justify-between">
-                        <span>{project.title}</span>
-                        {config.isCenter && (
-                          <ArrowUpRight className="w-4 h-4 text-amber-400 opacity-80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                        )}
-                      </h3>
-
-                      <p className="text-xs text-slate-300 leading-relaxed mb-4 line-clamp-2">
-                        {project.description}
-                      </p>
-
-                      {/* Card Action Link / Button */}
-                      {config.isCenter ? (
-                        <a
-                          href={project.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold tracking-wide bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-slate-950 hover:from-amber-300 hover:to-yellow-400 shadow-lg shadow-amber-500/25 transition-all duration-300 active:scale-[0.98]"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <Globe className="w-3.5 h-3.5" />
-                          <span>VISIT WEBSITE</span>
-                          <ExternalLink className="w-3.5 h-3.5 ml-0.5" />
-                        </a>
-                      ) : (
-                        <button
-                          onClick={() => setActiveIndex(idx)}
-                          className="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-medium text-slate-400 hover:text-amber-300 bg-slate-900/60 hover:bg-slate-850 border border-slate-800 hover:border-amber-500/30 transition-all"
-                          aria-label={`Focus ${project.title}`}
-                        >
-                          <Layers className="w-3.5 h-3.5" />
-                          <span>Click to View Project</span>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-
-          {/* Left Arrow Button */}
-          <button
-            onClick={handlePrev}
-            className="absolute left-2 sm:left-4 lg:left-8 z-40 p-2.5 sm:p-3 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/80 hover:border-amber-500 text-slate-300 hover:text-amber-400 shadow-xl transition-all hover:scale-110 active:scale-95 group"
-            aria-label="Previous Project"
-          >
-            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-0.5 transition-transform" />
-          </button>
-
-          {/* Right Arrow Button */}
-          <button
-            onClick={handleNext}
-            className="absolute right-2 sm:right-4 lg:right-8 z-40 p-2.5 sm:p-3 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/80 hover:border-amber-500 text-slate-300 hover:text-amber-400 shadow-xl transition-all hover:scale-110 active:scale-95 group"
-            aria-label="Next Project"
-          >
-            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-0.5 transition-transform" />
-          </button>
-        </div>
-
-        {/* Bottom Pagination Dots & Active Project Info Banner */}
-        <div className="mt-4 sm:mt-6 flex flex-col items-center gap-3">
-          <div className="flex items-center gap-2">
-            {FEATURED_PROJECTS.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveIndex(idx)}
-                className={`transition-all duration-300 rounded-full ${
-                  idx === activeIndex
-                    ? "w-8 h-2 bg-gradient-to-r from-amber-400 to-yellow-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]"
-                    : "w-2 h-2 bg-slate-700 hover:bg-slate-500"
-                }`}
-                aria-label={`Go to slide ${idx + 1}`}
+          {/* Track Set A (Primary Focusable Interactive Cards) */}
+          <div className="flex items-stretch gap-4 sm:gap-6 pr-4 sm:pr-6 shrink-0">
+            {FEATURED_PROJECTS.map((project, idx) => (
+              <FeaturedCard
+                key={`set-a-${project.id}`}
+                project={project}
+                index={idx}
+                onOpenArchitecture={() => handleOpenModal(project)}
+                isDuplicate={false}
               />
             ))}
           </div>
 
-          <p className="text-[11px] sm:text-xs text-slate-400 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400/80" />
-            <span>Click any background card or use arrows / swipe to navigate</span>
-          </p>
+          {/* Track Set B (Seamless Infinite Loop Duplicate - hidden from screen-readers) */}
+          <div
+            aria-hidden="true"
+            className="flex items-stretch gap-4 sm:gap-6 pr-4 sm:pr-6 shrink-0"
+          >
+            {FEATURED_PROJECTS.map((project, idx) => (
+              <FeaturedCard
+                key={`set-b-${project.id}`}
+                project={project}
+                index={idx}
+                onOpenArchitecture={() => handleOpenModal(project)}
+                isDuplicate={true}
+              />
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* Showcase Control Bar & Instructions */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 sm:mt-8">
+        <div className="flex flex-wrap items-center justify-between gap-4 p-3.5 sm:p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 backdrop-blur-sm">
+          {/* Navigation Controls: Left, Pause/Play, Right */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => handleNudge("left")}
+              className="p-2 sm:p-2.5 rounded-lg bg-slate-800/80 hover:bg-slate-750 text-slate-300 hover:text-amber-400 border border-slate-700/80 transition-all hover:scale-105 active:scale-95"
+              aria-label="Previous Project"
+              title="Previous Project"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={() => setIsManuallyPaused((prev) => !prev)}
+              className="px-3 py-2 sm:py-2.5 rounded-lg bg-slate-800/80 hover:bg-slate-750 text-slate-300 hover:text-amber-400 border border-slate-700/80 transition-all flex items-center gap-1.5 text-xs font-mono"
+              aria-label={isManuallyPaused ? "Resume auto motion" : "Pause auto motion"}
+              title={isManuallyPaused ? "Resume auto motion" : "Pause auto motion"}
+            >
+              {isManuallyPaused ? (
+                <>
+                  <Play className="w-3.5 h-3.5 text-emerald-400 fill-emerald-400" />
+                  <span>PLAY</span>
+                </>
+              ) : (
+                <>
+                  <Pause className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                  <span>PAUSE</span>
+                </>
+              )}
+            </button>
+
+            <button
+              onClick={() => handleNudge("right")}
+              className="p-2 sm:p-2.5 rounded-lg bg-slate-800/80 hover:bg-slate-750 text-slate-300 hover:text-amber-400 border border-slate-700/80 transition-all hover:scale-105 active:scale-95"
+              aria-label="Next Project"
+              title="Next Project"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Quick Helper Badge */}
+          <p className="text-[11px] sm:text-xs text-slate-400 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400/80" />
+            <span>Hover or tap any card to pause • Continuous left-to-right showcase</span>
+          </p>
+
+          {/* Direct CTA */}
+          <button
+            onClick={() => handleOpenModal(FEATURED_PROJECTS[activeProjectIndex])}
+            className="text-xs font-medium text-amber-400 hover:text-amber-300 flex items-center gap-1 transition-colors"
+          >
+            <span>View Architecture details</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Project Architecture & Details Modal */}
+      {selectedProject && (
+        <Suspense fallback={null}>
+          <ProjectModal
+            project={selectedProject}
+            isOpen={!!selectedProject}
+            onClose={handleCloseModal}
+            onDiscussProject={handleDiscuss}
+          />
+        </Suspense>
+      )}
     </section>
   );
 };
