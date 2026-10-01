@@ -63,28 +63,41 @@ export const Stats: React.FC = () => {
             return (
               <div
                 key={idx}
-                className={`group relative p-4.5 sm:p-5 rounded-2xl bg-slate-900/40 border border-slate-800/80 ${stat.borderGlow} transition-all duration-300 hover:bg-slate-900/70 hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)]`}
+                className="relative p-[1.5px] rounded-2xl overflow-hidden bg-slate-800/80 transition-all duration-300 hover:shadow-[0_12px_32px_-8px_rgba(245,158,11,0.25)] group hover:-translate-y-1"
               >
-                <div className="flex items-center justify-between mb-3">
-                  <div className="p-2 rounded-xl bg-slate-800/70 border border-slate-700/50 group-hover:scale-110 transition-transform">
-                    <Icon className={`w-4.5 h-4.5 ${stat.color}`} />
+                {/* Continuous Animated Shimmer Stroke along Outer Border */}
+                <div
+                  className="absolute -inset-[150%] animate-border-beam-spin pointer-events-none opacity-75 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{
+                    background:
+                      "conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 280deg, rgba(245, 158, 11, 0.2) 310deg, rgba(251, 191, 36, 0.85) 345deg, rgba(255, 255, 255, 0.95) 355deg, rgba(245, 158, 11, 0.85) 358deg, transparent 360deg)",
+                    animationDelay: `${-idx * 2.25}s`
+                  }}
+                />
+
+                {/* Card Interior */}
+                <div className="relative z-10 p-4.5 sm:p-5 rounded-[calc(1rem-1.5px)] bg-gradient-to-b from-slate-900/90 to-[#070a12]/95 h-full flex flex-col justify-between">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="p-2 rounded-xl bg-slate-800/70 border border-slate-700/50 group-hover:scale-110 transition-transform">
+                      <Icon className={`w-4.5 h-4.5 ${stat.color}`} />
+                    </div>
+                    <span className="font-mono text-[9px] uppercase text-slate-500 tracking-widest">
+                      METRIC // 0{idx + 1}
+                    </span>
                   </div>
-                  <span className="font-mono text-[9px] uppercase text-slate-500 tracking-widest">
-                    METRIC // 0{idx + 1}
-                  </span>
-                </div>
 
-                <div className={`text-2xl sm:text-3xl font-extrabold font-heading text-white tracking-tight mb-1`}>
-                  {stat.value}
-                </div>
+                  <div className="text-2xl sm:text-3xl font-extrabold font-heading text-white tracking-tight mb-1">
+                    {stat.value}
+                  </div>
 
-                <div className="text-xs sm:text-sm font-semibold text-slate-200 mb-0.5">
-                  {stat.label}
-                </div>
+                  <div className="text-xs sm:text-sm font-semibold text-slate-200 mb-0.5">
+                    {stat.label}
+                  </div>
 
-                <p className="text-[11px] sm:text-xs text-slate-400 leading-snug">
-                  {stat.subtext}
-                </p>
+                  <p className="text-[11px] sm:text-xs text-slate-400 leading-snug">
+                    {stat.subtext}
+                  </p>
+                </div>
               </div>
             );
           })}

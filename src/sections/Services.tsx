@@ -77,16 +77,30 @@ const ServiceCard = React.memo<ServiceCardProps>(({
   onUpdateQuantity
 }) => {
   const { setCursor, resetCursor } = useCursor();
+  const serviceNum = parseInt(service.number, 10) || 1;
+  const shimmerDelay = `${-(serviceNum * 1.5)}s`;
 
   return (
     <div
       onClick={() => onOpenDetails(service)}
       onMouseEnter={() => setCursor("project", "EXPAND")}
       onMouseLeave={resetCursor}
-      className="group relative p-2 sm:p-2.5 md:p-3 rounded-xl bg-gradient-to-b from-slate-900/70 via-slate-900/40 to-slate-950/90 border border-slate-800/80 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_-10px_rgba(245,158,11,0.2)] flex flex-col justify-between cursor-pointer overflow-hidden"
+      className="group relative p-[1px] rounded-xl overflow-hidden bg-slate-800/80 hover:shadow-[0_12px_28px_-10px_rgba(245,158,11,0.25)] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col justify-between"
     >
-      {/* Subtle top-corner accent gradient */}
-      <div className="absolute top-0 right-0 w-20 h-20 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/15 transition-colors pointer-events-none" />
+      {/* Continuous Animated Shimmer Stroke along Outer Border */}
+      <div
+        className="absolute -inset-[150%] animate-border-beam-spin pointer-events-none opacity-60 group-hover:opacity-100 transition-opacity duration-300"
+        style={{
+          background:
+            "conic-gradient(from 0deg at 50% 50%, transparent 0deg, transparent 290deg, rgba(245, 158, 11, 0.2) 320deg, rgba(251, 191, 36, 0.85) 345deg, rgba(255, 255, 255, 0.95) 355deg, rgba(245, 158, 11, 0.85) 358deg, transparent 360deg)",
+          animationDelay: shimmerDelay
+        }}
+      />
+
+      {/* Inner Card Content */}
+      <div className="relative z-10 p-2 sm:p-2.5 md:p-3 rounded-[calc(0.75rem-1px)] bg-gradient-to-b from-slate-900/90 via-slate-900/60 to-slate-950/95 h-full flex flex-col justify-between overflow-hidden">
+        {/* Subtle top-corner accent gradient */}
+        <div className="absolute top-0 right-0 w-20 h-20 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/15 transition-colors pointer-events-none" />
 
       <div>
         {/* Header with Number and Icon */}
@@ -201,6 +215,7 @@ const ServiceCard = React.memo<ServiceCardProps>(({
         </div>
       </div>
     </div>
+  </div>
   );
 });
 

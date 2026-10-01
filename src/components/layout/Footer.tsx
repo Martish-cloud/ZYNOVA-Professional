@@ -82,7 +82,7 @@ export const Footer: React.FC = () => {
                   aria-label={`Email Zynova -Solutions at ${siteConfig.contact.email}`}
                   onMouseEnter={() => setCursor("link")}
                   onMouseLeave={resetCursor}
-                  className="text-slate-200 hover:text-cyan-300 transition-colors hover:underline focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded py-0.5 inline-flex items-center min-h-[44px] sm:min-h-0"
+                  className="footer-contact-link text-slate-200 hover:text-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded py-0.5 inline-flex items-center min-h-[44px] sm:min-h-0"
                 >
                   {siteConfig.contact.email}
                 </a>
@@ -96,7 +96,7 @@ export const Footer: React.FC = () => {
                   aria-label={`Call Zynova -Solutions at ${siteConfig.contact.phone}`}
                   onMouseEnter={() => setCursor("link")}
                   onMouseLeave={resetCursor}
-                  className="text-slate-200 hover:text-cyan-300 transition-colors hover:underline focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded py-0.5 inline-flex items-center min-h-[44px] sm:min-h-0"
+                  className="footer-contact-link text-slate-200 hover:text-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded py-0.5 inline-flex items-center min-h-[44px] sm:min-h-0"
                 >
                   {siteConfig.contact.phone}
                 </a>
@@ -112,7 +112,7 @@ export const Footer: React.FC = () => {
                   aria-label="Join the Zynova -Solutions WhatsApp group"
                   onMouseEnter={() => setCursor("button", "JOIN")}
                   onMouseLeave={resetCursor}
-                  className="text-slate-200 hover:text-cyan-300 transition-colors hover:underline focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded py-0.5 inline-flex items-center min-h-[44px] sm:min-h-0"
+                  className="footer-contact-link text-slate-200 hover:text-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded py-0.5 inline-flex items-center min-h-[44px] sm:min-h-0"
                 >
                   Join our WhatsApp Group &rarr;
                 </a>
@@ -145,7 +145,7 @@ export const Footer: React.FC = () => {
                     href={item.href}
                     onMouseEnter={() => setCursor("link")}
                     onMouseLeave={resetCursor}
-                    className="text-slate-300 hover:text-cyan-300 transition-colors inline-block drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]"
+                    className="footer-interactive-link text-slate-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]"
                   >
                     {item.name}
                   </a>
@@ -167,7 +167,7 @@ export const Footer: React.FC = () => {
                     href={item.href}
                     onMouseEnter={() => setCursor("link")}
                     onMouseLeave={resetCursor}
-                    className="text-slate-300 hover:text-purple-300 transition-colors inline-block drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]"
+                    className="footer-capability-link text-slate-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]"
                   >
                     {item.name}
                   </a>
@@ -196,7 +196,7 @@ export const Footer: React.FC = () => {
                     rel="noreferrer"
                     onMouseEnter={() => setCursor("link")}
                     onMouseLeave={resetCursor}
-                    className="px-2.5 py-1 rounded-md text-xs font-medium bg-slate-900/90 backdrop-blur-sm border border-slate-700/80 hover:border-cyan-400 hover:text-cyan-300 transition-all capitalize shadow-md"
+                    className="footer-hub-badge px-2.5 py-1 rounded-md text-xs font-medium bg-slate-900/90 backdrop-blur-sm border border-slate-700/80 text-slate-300 capitalize shadow-md"
                   >
                     {key}
                   </a>
@@ -215,7 +215,7 @@ export const Footer: React.FC = () => {
                     aria-label={`Email Zynova -Solutions at ${siteConfig.contact.email}`}
                     onMouseEnter={() => setCursor("link")}
                     onMouseLeave={resetCursor}
-                    className="text-cyan-400 hover:text-cyan-300 hover:underline drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] inline-flex items-center min-h-[44px] sm:min-h-0 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded"
+                    className="footer-contact-link text-cyan-400 hover:text-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded inline-flex items-center min-h-[44px] sm:min-h-0"
                   >
                     {siteConfig.contact.email}
                   </a>
@@ -227,7 +227,7 @@ export const Footer: React.FC = () => {
                     aria-label={`Call Zynova -Solutions at ${siteConfig.contact.phone}`}
                     onMouseEnter={() => setCursor("link")}
                     onMouseLeave={resetCursor}
-                    className="text-slate-300 hover:text-cyan-300 hover:underline drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] inline-flex items-center min-h-[44px] sm:min-h-0 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded"
+                    className="footer-contact-link text-slate-300 hover:text-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-400/50 rounded inline-flex items-center min-h-[44px] sm:min-h-0"
                   >
                     {siteConfig.contact.phone}
                   </a>
@@ -246,7 +246,7 @@ export const Footer: React.FC = () => {
                   aria-label="Join the Zynova -Solutions WhatsApp group"
                   onMouseEnter={() => setCursor("button", "JOIN")}
                   onMouseLeave={resetCursor}
-                  className="text-xs text-[#D4AF37] hover:text-[#F4E4BC] hover:underline font-mono drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] inline-flex items-center gap-1.5 py-0.5 min-h-[44px] sm:min-h-0 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]/50 rounded cursor-pointer"
+                  className="footer-contact-link text-xs text-[#D4AF37] hover:text-[#F4E4BC] font-mono drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] inline-flex items-center gap-1.5 py-0.5 min-h-[44px] sm:min-h-0 focus:outline-none focus:ring-1 focus:ring-[#D4AF37]/50 rounded cursor-pointer"
                 >
                   <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />
                   <span>Join our WhatsApp Group &rarr;</span>

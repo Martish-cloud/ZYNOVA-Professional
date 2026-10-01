@@ -51,7 +51,7 @@ export const Industries: React.FC = () => {
               key={ind.name}
               onMouseEnter={() => setCursor("project", ind.name)}
               onMouseLeave={resetCursor}
-              className="group p-4 sm:p-4.5 rounded-xl bg-slate-900/40 border border-slate-800/80 hover:border-amber-400/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_15px_30px_-10px_rgba(245,158,11,0.2)] flex flex-col justify-between"
+              className="group p-4 sm:p-4.5 rounded-xl bg-slate-900/40 border border-slate-800/80 hover:border-amber-400/60 hover:bg-slate-900/75 transition-all duration-300 ease-out hover:-translate-y-2 hover:scale-[1.025] hover:shadow-[0_20px_40px_-12px_rgba(245,158,11,0.25)] active:scale-[0.98] active:-translate-y-0.5 flex flex-col justify-between cursor-pointer"
             >
               <div>
                 <div className="flex items-center justify-between mb-3">

@@ -2,6 +2,7 @@ import React, { useState, Suspense } from "react";
 import { siteConfig } from "../config/siteConfig";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { useCursor } from "../context/useCursor";
+import { useInViewAnimation } from "../hooks/useInViewAnimation";
 import { ShieldCheck, MapPin, Terminal, Cpu, Clock, CheckCircle2, Sparkles, ExternalLink } from "lucide-react";
 
 const PortfolioShowcaseModal = React.lazy(() =>
@@ -11,6 +12,35 @@ const PortfolioShowcaseModal = React.lazy(() =>
 export const About: React.FC = () => {
   const { setCursor, resetCursor } = useCursor();
   const [isPortfolioModalOpen, setIsPortfolioModalOpen] = useState(false);
+
+  const { ref: commitmentsRef, isInView: isCommitmentsInView } = useInViewAnimation<HTMLDivElement>({
+    threshold: 0.15,
+    rootMargin: "0px 0px -20px 0px",
+    retrigger: true
+  });
+
+  const commitments = [
+    {
+      title: "Full IP Transfer",
+      description: "100% client ownership of repositories, code, design assets, and environments.",
+      iconColor: "text-amber-400"
+    },
+    {
+      title: "Clean Engineering",
+      description: "Modern typed stacks, clean modular architecture, and zero unnecessary bloat.",
+      iconColor: "text-yellow-400"
+    },
+    {
+      title: "Agile Turnaround",
+      description: "Guaranteed responses within 12 hours with transparent development milestones.",
+      iconColor: "text-amber-300"
+    },
+    {
+      title: "Actionable Analytics",
+      description: "Deep mastery of Excel automation and Power BI to transform messy data into clarity.",
+      iconColor: "text-yellow-300"
+    }
+  ];
 
   return (
     <section id="about" className="py-14 sm:py-18 md:py-20 relative z-10 bg-transparent">
@@ -37,39 +67,31 @@ export const About: React.FC = () => {
               Whether building an e-commerce platform from the ground up, engineering enterprise backend APIs, automating error-prone Excel workflows, or delivering high-level Power BI reporting models, our focus is uncompromising quality and long-term scalability.
             </p>
 
-            {/* Core Values / Commitments */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-              <div className="p-3.5 rounded-xl bg-slate-900/50 border border-amber-500/20 flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-white">Full IP Transfer</h4>
-                  <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">100% client ownership of repositories, code, design assets, and environments.</p>
+            {/* Core Values / Commitments with Popup/Floating & Entrance Animations */}
+            <div ref={commitmentsRef} className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              {commitments.map((item, idx) => (
+                <div
+                  key={item.title}
+                  style={{
+                    transitionDelay: `${idx * 120}ms`
+                  }}
+                  className={`p-3.5 rounded-xl bg-slate-900/50 border border-amber-500/20 hover:border-amber-400/60 hover:bg-slate-900/80 flex items-start gap-2.5 transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.025] hover:shadow-[0_16px_32px_-8px_rgba(245,158,11,0.25)] active:scale-[0.98] active:-translate-y-0.5 cursor-pointer ${
+                    isCommitmentsInView
+                      ? "opacity-100 translate-y-0 scale-100"
+                      : "opacity-0 translate-y-6 scale-95"
+                  }`}
+                >
+                  <CheckCircle2 className={`w-4 h-4 ${item.iconColor} shrink-0 mt-0.5 transition-transform duration-300 group-hover:scale-110`} />
+                  <div>
+                    <h4 className="text-xs sm:text-sm font-semibold text-white transition-colors duration-200">
+                      {item.title}
+                    </h4>
+                    <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5 leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-slate-900/50 border border-amber-500/20 flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-white">Clean Engineering</h4>
-                  <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">Modern typed stacks, clean modular architecture, and zero unnecessary bloat.</p>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-slate-900/50 border border-amber-500/20 flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-white">Agile Turnaround</h4>
-                  <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">Guaranteed responses within 12 hours with transparent development milestones.</p>
-                </div>
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-slate-900/50 border border-amber-500/20 flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-yellow-300 shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-xs sm:text-sm font-semibold text-white">Actionable Analytics</h4>
-                  <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">Deep mastery of Excel automation and Power BI to transform messy data into clarity.</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
